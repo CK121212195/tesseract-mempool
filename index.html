@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aether Tesseract // Bitcoin Network Meditations</title>
+  <title>Aether Tesseract // Cosmos & Bitcoin Network Meditations</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
   <style>
     body, html {
@@ -34,7 +34,7 @@
       z-index: 10;
       pointer-events: none;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: space-between;
       padding: 30px;
       box-sizing: border-box;
@@ -47,7 +47,18 @@
       padding: 20px;
       border-radius: 12px;
       pointer-events: auto;
-      max-width: 320px;
+      width: 300px;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    }
+    .left-hud {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .right-hud {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
     h1 {
       font-size: 1.0rem;
@@ -58,6 +69,14 @@
       background: linear-gradient(45deg, #00d2ff, #00ffaa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+    }
+    h2 {
+      font-size: 0.75rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin: 0 0 10px 0;
+      color: #00ffaa;
     }
     .stat {
       font-size: 0.75rem;
@@ -71,6 +90,104 @@
       color: #00ffaa;
       font-family: 'Courier New', monospace;
     }
+    
+    /* 価格コンバーター */
+    .converter-box {
+      margin-top: 15px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 15px;
+    }
+    .converter-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 5px;
+    }
+    .converter-row input {
+      width: 80px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      padding: 5px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+    }
+    .converter-row select {
+      background: rgba(3, 7, 18, 0.85);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 0.7rem;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    #input-fiat {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #00ffaa;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      text-align: right;
+    }
+
+    /* ブロックリスト */
+    #blocks-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 380px;
+      overflow-y: auto;
+    }
+    .block-card {
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid #00d2ff;
+      padding: 8px 12px;
+      border-radius: 0 6px 6px 0;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .block-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-left-color: #00ffaa;
+    }
+    .block-height-title {
+      font-size: 0.75rem;
+      font-family: 'Courier New', monospace;
+      color: #fff;
+      font-weight: bold;
+    }
+    .block-info {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+    .block-miner {
+      color: #00ffaa;
+      font-weight: 300;
+    }
+
+    /* ホログラムHUDトースター */
+    #hologram-toast {
+      display: none;
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      z-index: 100;
+      text-align: center;
+      pointer-events: none;
+      background: rgba(0, 210, 255, 0.06);
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      border-radius: 8px;
+      padding: 12px 25px;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+      transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+    }
+
     #unmute-overlay {
       position: absolute;
       top: 50%;
@@ -90,13 +207,36 @@
       50% { opacity: 0.75; }
     }
     #credit {
-      font-size: 0.65rem;
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.6rem;
       font-weight: 200;
       letter-spacing: 0.25em;
-      color: rgba(255, 255, 255, 0.35);
+      color: rgba(255, 255, 255, 0.25);
+      z-index: 5;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* モバイル対応 */
+    @media (max-width: 900px) {
+      #ui-container {
+        flex-direction: column;
+        overflow-y: auto;
+        gap: 15px;
+        padding: 15px;
+      }
+      .glass-panel {
+        width: 100%;
+        max-width: 100%;
+      }
+      #hologram-toast {
+        top: 40%;
+      }
     }
   </style>
-  <!-- Three.js and OrbitControls -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
@@ -105,60 +245,127 @@
   <div id="canvas-container"></div>
   
   <div id="unmute-overlay">
-    [ Click anywhere to awaken cosmic harmony ]
+    [ Click anywhere to ignite the ambient universe ]
   </div>
 
+  <div id="hologram-toast"></div>
+
   <div id="ui-container">
-    <div class="glass-panel">
-      <h1>Aether Tesseract</h1>
-      <div class="stat">Network: <span id="status">Connecting...</span></div>
-      <div class="stat">Block Height: <span id="block-height">Loading...</span></div>
-      <div class="stat">Tx Count: <span id="tx-count">0</span></div>
-      <div class="stat">Processed BTC: <span id="total-btc">0.0000</span></div>
+    <!-- 左パネル: 概要 ＆ 価格変換 -->
+    <div class="left-hud">
+      <div class="glass-panel">
+        <h1>Aether Tesseract</h1>
+        <div class="stat">Network: <span id="status">Connecting...</span></div>
+        <div class="stat">Block Height: <span id="block-height">Loading...</span></div>
+        <div class="stat">Tx Count: <span id="tx-count">0</span></div>
+        <div class="stat">BTC Price (USD): <span id="price-usd">Loading...</span></div>
+        <div class="stat">BTC Price (JPY): <span id="price-jpy">Loading...</span></div>
+        
+        <!-- コンバーター機能 -->
+        <div class="converter-box">
+          <h2>Price Converter</h2>
+          <div class="converter-row">
+            <input type="number" id="input-btc" value="1" step="0.1" min="0">
+            <span style="font-size:0.65rem; color:rgba(255,255,255,0.4)">BTC ⇄</span>
+            <span id="input-fiat">Calculating...</span>
+            <select id="select-currency">
+              <option value="jpy">JPY</option>
+              <option value="usd">USD</option>
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
-    <div id="credit">
-      REAL-TIME BITCOIN NETWORK VISUALIZATION // TESSERACT × MEMPOOL
+
+    <!-- 右パネル: リアルタイムブロック ＆ プール情報 -->
+    <div class="right-hud">
+      <div class="glass-panel">
+        <h2>Recent Blocks</h2>
+        <div id="blocks-container">
+          <div style="font-size:0.7rem; color:rgba(255,255,255,0.4)">Syncing blockchain...</div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <div id="credit">
+    REAL-TIME VISUALIZER // SOURCE: MEMPOOL.SPACE & COINGECKO
   </div>
 
   <script>
-    // --- 1. WEB AUDIO API (ヒーリングアンビエント音の生成) ---
+    // --- 1. WEB AUDIO API (バイオリン風シンセパッド＆リアルタイムSE) ---
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    // 不協和音にならないAマイナーペンタトニックスケール
-    const scale = [110.00, 146.83, 164.81, 220.00, 293.66, 329.63, 440.00, 587.33, 659.25, 880.00];
-    let droneStarted = false;
+    
+    // アナログシンセパッド用の美しく悲しげなコード進行 (Am -> F -> C -> G)
+    const padChords = [
+      [110.00, 164.81, 220.00, 261.63], // Am
+      [87.31, 130.81, 174.61, 220.00],  // F
+      [65.41, 98.00, 130.81, 164.81],   // C
+      [98.00, 146.83, 196.00, 246.94]    // G
+    ];
+    let chordIndex = 0;
+    let padStarted = false;
 
-    // ドローン低音の開始 (地球のうねり)
-    function startDrone() {
-      if (droneStarted) return;
-      droneStarted = true;
-      const now = audioCtx.currentTime;
-      
-      const osc1 = audioCtx.createOscillator();
-      const osc2 = audioCtx.createOscillator();
-      const filter = audioCtx.createBiquadFilter();
-      const gain = audioCtx.createGain();
+    // ISSの青い地球動画のような、フィルターがゆっくり開閉する壮大なパッド音
+    function playAmbientPad() {
+      if (padStarted || audioCtx.state === 'suspended') return;
+      padStarted = true;
 
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(55, now); // A1
-      osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(110.3, now); // A2 + デチューンで揺らぎ
+      const triggerNextChord = () => {
+        const now = audioCtx.currentTime;
+        const notes = padChords[chordIndex];
+        const duration = 10.0; // 1つの和音を10秒鳴らす
+        const overlap = 2.0;   // 2秒オーバーラップさせて滑らかに繋ぐ
 
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(100, now);
+        notes.forEach(freq => {
+          // SawtoothとTriangleをデチューンして重ね、バイオリンのような「擦れとうねり」を再現
+          const osc1 = audioCtx.createOscillator();
+          const osc2 = audioCtx.createOscillator();
+          const filter = audioCtx.createBiquadFilter();
+          const gainNode = audioCtx.createGain();
 
-      gain.gain.setValueAtTime(0.04, now);
+          osc1.type = 'sawtooth';
+          osc1.frequency.setValueAtTime(freq, now);
+          osc1.detune.setValueAtTime(-10, now);
 
-      osc1.connect(filter);
-      osc2.connect(filter);
-      filter.connect(gain);
-      gain.connect(audioCtx.destination);
+          osc2.type = 'triangle';
+          osc2.frequency.setValueAtTime(freq, now);
+          osc2.detune.setValueAtTime(10, now);
 
-      osc1.start();
-      osc2.start();
+          filter.type = 'lowpass';
+          // 10秒かけてフィルターのカットオフ周波数をゆっくりスウィープ
+          filter.frequency.setValueAtTime(180, now);
+          filter.frequency.exponentialRampToValueAtTime(550, now + 4.5);
+          filter.frequency.exponentialRampToValueAtTime(120, now + duration);
+          filter.Q.setValueAtTime(2.5, now); // 少し倍音を強調
+
+          // 緩やかなフェードイン、フェードアウト
+          gainNode.gain.setValueAtTime(0, now);
+          gainNode.gain.linearRampToValueAtTime(0.012, now + 3.0); // 3秒かけてアタック
+          gainNode.gain.setValueAtTime(0.012, now + duration - overlap);
+          gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+          osc1.connect(filter);
+          osc2.connect(filter);
+          filter.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+
+          osc1.start(now);
+          osc1.stop(now + duration);
+          osc2.start(now);
+          osc2.stop(now + duration);
+        });
+
+        chordIndex = (chordIndex + 1) % padChords.length;
+        // 8秒後に次の和音をフェードイン
+        setTimeout(triggerNextChord, (duration - overlap) * 1000);
+      };
+
+      triggerNextChord();
     }
 
-    // トランザクション受信時のベル音 (金額に応じて高低が変化)
+    // トランザクション受信時のきらめくベル音
+    const scale = [220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99, 880.00];
     function playTxSound(amount) {
       if (audioCtx.state === 'suspended') return;
       const now = audioCtx.currentTime;
@@ -166,18 +373,17 @@
       const filter = audioCtx.createBiquadFilter();
       const gainNode = audioCtx.createGain();
 
-      // 金額が大きいほど低音で余韻を長く、小さいほど高音できらびやかに
       let noteIndex = Math.floor(Math.max(0, Math.min(scale.length - 1, scale.length - 1 - Math.log10(amount * 10 + 1) * 2)));
       if (isNaN(noteIndex)) noteIndex = Math.floor(Math.random() * scale.length);
       const freq = scale[noteIndex];
 
-      osc.type = 'triangle'; 
+      osc.type = 'triangle';
       osc.frequency.setValueAtTime(freq, now);
 
-      const duration = Math.min(6.0, 0.8 + amount * 2.5);
+      const duration = Math.min(5.0, 0.8 + amount * 2.0);
       gainNode.gain.setValueAtTime(0, now);
-      gainNode.gain.linearRampToValueAtTime(0.08, now + 0.08); // 滑らかなアタック
-      gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration); // 長いディケイ
+      gainNode.gain.linearRampToValueAtTime(0.07, now + 0.08);
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
       filter.type = 'lowpass';
       filter.frequency.setValueAtTime(freq * 1.5, now);
@@ -190,11 +396,11 @@
       osc.stop(now + duration);
     }
 
-    // 新規ブロック生成時の荘厳なゴング音
+    // 新規ブロック生成時の壮大なゴング音
     function playBlockSound() {
       if (audioCtx.state === 'suspended') return;
       const now = audioCtx.currentTime;
-      const chords = [110.00, 164.81, 220.00, 329.63]; // A2, E3, A3, E4
+      const chords = [110.00, 164.81, 220.00, 329.63];
 
       chords.forEach(freq => {
         const osc = audioCtx.createOscillator();
@@ -205,39 +411,40 @@
         osc.frequency.setValueAtTime(freq, now);
 
         gainNode.gain.setValueAtTime(0, now);
-        gainNode.gain.linearRampToValueAtTime(0.08, now + 0.5);
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 8.0);
+        gainNode.gain.linearRampToValueAtTime(0.08, now + 0.6);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 8.5);
 
         filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(freq * 2, now);
+        filter.frequency.setValueAtTime(freq * 1.8, now);
 
         osc.connect(filter);
         filter.connect(gainNode);
         gainNode.connect(audioCtx.destination);
 
         osc.start(now);
-        osc.stop(now + 8.0);
+        osc.stop(now + 8.5);
       });
     }
 
-    // 初回クリック時の音声アンミュート
+    // 初回タップ時の活性化
     window.addEventListener('click', () => {
       if (audioCtx.state === 'suspended') {
         audioCtx.resume().then(() => {
-          startDrone();
-          playTxSound(0.05); // フィードバック音
+          playAmbientPad();
+          playTxSound(0.05);
           document.getElementById('unmute-overlay').style.display = 'none';
         });
       }
     });
 
-    // --- 2. THREE.JS VISUALS ---
+
+    // --- 2. THREE.JS VISUALS (宇宙空間と4Dテセラクト) ---
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x030712, 0.035);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0, 0, 5);
+    camera.position.set(0, 0, 5.5);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -248,10 +455,10 @@
     const controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
-    controls.maxDistance = 12;
+    controls.maxDistance = 15;
     controls.minDistance = 2.5;
 
-    // パーティクル用の輝く円テクスチャを動的に生成
+    // パーティクル用 Canvas テクスチャ
     function createGlowTexture() {
       const canvas = document.createElement('canvas');
       canvas.width = 16;
@@ -267,7 +474,7 @@
     }
     const glowTexture = createGlowTexture();
 
-    // -- A. 4次元テセラクト（超立方体）の数学的構築 --
+    // 4Dテセラクトの定義
     const vertices4D = [];
     for (let x of [-1, 1]) {
       for (let y of [-1, 1]) {
@@ -278,7 +485,6 @@
         }
       }
     }
-
     const edges = [];
     for (let i = 0; i < 16; i++) {
       for (let j = i + 1; j < 16; j++) {
@@ -291,11 +497,9 @@
       }
     }
 
-    // 4D回転関数
     function rotate4D(v, xw, yw, zw, xy) {
       let x = v.x, y = v.y, z = v.z, w = v.w;
       let cos, sin, tmp;
-
       // X-W
       cos = Math.cos(xw); sin = Math.sin(xw);
       tmp = x * cos - w * sin; w = x * sin + w * cos; x = tmp;
@@ -308,31 +512,29 @@
       // X-Y
       cos = Math.cos(xy); sin = Math.sin(xy);
       tmp = x * cos - y * sin; y = x * sin + y * cos; x = tmp;
-
       return { x, y, z, w };
     }
 
-    // 4Dから3Dへの透視投影 (カメラのw位置dを設定)
     function project4D(v) {
       const d = 2.1;
       const factor = 1 / (d - v.w);
       return new THREE.Vector3(v.x * factor * 1.3, v.y * factor * 1.3, v.z * factor * 1.3);
     }
 
-    // テセラクトのエッジ（ライン）
+    // 4Dワイヤーフレーム
     const lineGeometry = new THREE.BufferGeometry();
     const linePositions = new Float32Array(edges.length * 2 * 3);
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
     const lineMaterial = new THREE.LineBasicMaterial({
       color: 0x00d2ff,
       transparent: true,
-      opacity: 0.55,
+      opacity: 0.5,
       blending: THREE.AdditiveBlending
     });
     const tesseractLines = new THREE.LineSegments(lineGeometry, lineMaterial);
     scene.add(tesseractLines);
 
-    // テセラクトの頂点（光る点）
+    // 4D頂点
     const pointGeometry = new THREE.BufferGeometry();
     const pointPositions = new Float32Array(16 * 3);
     pointGeometry.setAttribute('position', new THREE.BufferAttribute(pointPositions, 3));
@@ -346,165 +548,183 @@
     const tesseractPoints = new THREE.Points(pointGeometry, pointMaterial);
     scene.add(tesseractPoints);
 
-
-    // -- B. 宇宙から見た「地球」を象徴する中心のワイヤー球体 --
+    // 中心の「地球」
     const earthGroup = new THREE.Group();
     scene.add(earthGroup);
 
-    // 深海を思わせるブルーのワイヤーフレーム球
-    const oceanGeo = new THREE.SphereGeometry(0.38, 18, 18);
-    const oceanMat = new THREE.MeshBasicMaterial({
-      color: 0x0055ff,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.22,
-      blending: THREE.AdditiveBlending
-    });
-    const ocean = new THREE.Mesh(oceanGeo, oceanMat);
+    const ocean = new THREE.Mesh(
+      new THREE.SphereGeometry(0.38, 18, 18),
+      new THREE.MeshBasicMaterial({ color: 0x0055ff, wireframe: true, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending })
+    );
     earthGroup.add(ocean);
 
-    // 雲や大気のゆらぎを思わせる、少し大きいシアンの球体
-    const atmosphereGeo = new THREE.SphereGeometry(0.40, 16, 16);
-    const atmosphereMat = new THREE.MeshBasicMaterial({
-      color: 0x00ffcc,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.12,
-      blending: THREE.AdditiveBlending
-    });
-    const atmosphere = new THREE.Mesh(atmosphereGeo, atmosphereMat);
+    const atmosphere = new THREE.Mesh(
+      new THREE.SphereGeometry(0.40, 16, 16),
+      new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending })
+    );
     earthGroup.add(atmosphere);
 
-
-    // -- C. 宇宙の星空背景（Starfield） --
+    // 背景の星空
     const starCount = 1200;
     const starGeometry = new THREE.BufferGeometry();
     const starPositions = new Float32Array(starCount * 3);
     for (let i = 0; i < starCount * 3; i += 3) {
       const radius = 25 + Math.random() * 30;
-      const u = Math.random();
-      const v = Math.random();
-      const theta = u * 2.0 * Math.PI;
-      const phi = Math.acos(2.0 * v - 1.0);
+      const theta = Math.random() * 2.0 * Math.PI;
+      const phi = Math.acos(2.0 * Math.random() - 1.0);
       starPositions[i] = radius * Math.sin(phi) * Math.cos(theta);
       starPositions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
       starPositions[i + 2] = radius * Math.cos(phi);
     }
     starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-    const starMaterial = new THREE.PointsMaterial({
-      size: 0.08,
-      color: 0xffffff,
-      transparent: true,
-      opacity: 0.45,
-      depthWrite: false
-    });
-    const starField = new THREE.Points(starGeometry, starMaterial);
+    const starField = new THREE.Points(starGeometry, new THREE.PointsMaterial({ size: 0.08, color: 0xffffff, transparent: true, opacity: 0.45, depthWrite: false }));
     scene.add(starField);
 
+    // 軌道衛星ブロックグループ
+    const satelliteGroup = new THREE.Group();
+    scene.add(satelliteGroup);
 
-    // -- D. トランザクション粒子システムの構築 --
+
+    // --- 3. リアルタイムブロック「軌道衛星」システム ---
+    const blockSatellites = [];
+
+    function update3DSatellites(blocks) {
+      // 既存の衛星オブジェクトをクリーンアップ
+      while (satelliteGroup.children.length > 0) {
+        const obj = satelliteGroup.children[0];
+        obj.geometry.dispose();
+        obj.material.dispose();
+        satelliteGroup.remove(obj);
+      }
+      blockSatellites.length = 0;
+
+      blocks.forEach((block, index) => {
+        const orbitRadius = 1.3 + index * 0.45; // 軌道半径
+        const size = 0.08 - index * 0.007; // 古いブロックほど小さくフェードアウト
+
+        const geo = new THREE.BoxGeometry(size, size, size);
+        const mat = new THREE.MeshBasicMaterial({
+          color: index === 0 ? 0x00ffaa : 0x00aaff, // 最新ブロックは緑がかり、古いものはシアン
+          wireframe: true,
+          transparent: true,
+          opacity: 0.8 - index * 0.12,
+          blending: THREE.AdditiveBlending
+        });
+        const mesh = new THREE.Mesh(geo, mat);
+        satelliteGroup.add(mesh);
+
+        blockSatellites.push({
+          mesh: mesh,
+          radius: orbitRadius,
+          angle: Math.random() * Math.PI * 2,
+          speed: 0.001 + (5 - index) * 0.0006, // 最新のブロックほど動きがやや速い
+          tilt: (Math.random() - 0.5) * 0.35, // 軌道の傾き
+          height: block.height,
+          pool: block.extras?.pool?.name || "Unknown Miner",
+          txs: block.tx_count,
+          sizeMb: (block.size / (1024 * 1024)).toFixed(2)
+        });
+      });
+    }
+
+    // ホログラムHUD表示システム
+    let holoTimeout;
+    function showMiningHologram(height, pool, txs, size) {
+      const holo = document.getElementById('hologram-toast');
+      holo.style.display = 'block';
+      holo.innerHTML = `
+        <div style="font-size:0.6rem; color:#00ffaa; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:5px;">HOLO-LINK CONNECTED</div>
+        <div style="font-size:1.0rem; font-weight:bold; color:#fff; letter-spacing:0.1em; margin-bottom:3px;">BLOCK #${height}</div>
+        <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-bottom:2px;">Secured by <span style="color:#00d2ff; font-weight:bold;">${pool}</span></div>
+        <div style="font-size:0.65rem; color:rgba(255,255,255,0.4); font-family:monospace;">Txs: ${txs.toLocaleString()} | Size: ${size} MB</div>
+      `;
+      
+      // アニメーション付きフェードイン
+      holo.style.opacity = '0';
+      holo.style.transform = 'translate(-50%, -50%) scale(0.85)';
+      setTimeout(() => {
+        holo.style.opacity = '1';
+        holo.style.transform = 'translate(-50%, -50%) scale(1)';
+      }, 50);
+
+      clearTimeout(holoTimeout);
+      holoTimeout = setTimeout(() => {
+        holo.style.opacity = '0';
+        holo.style.transform = 'translate(-50%, -50%) scale(0.85)';
+        setTimeout(() => { holo.style.display = 'none'; }, 600);
+      }, 6000);
+    }
+
+
+    // --- 4. トランザクション粒子 ＆ 衝撃波 ---
     const activeTxParticles = [];
-
     function createTxParticle(amount) {
-      // 宇宙の彼方からランダムな球面上の座標
       const radius = 28;
-      const u = Math.random();
-      const v = Math.random();
-      const theta = u * 2.0 * Math.PI;
-      const phi = Math.acos(2.0 * v - 1.0);
+      const theta = Math.random() * 2.0 * Math.PI;
+      const phi = Math.acos(2.0 * Math.random() - 1.0);
       const startPos = new THREE.Vector3(
         radius * Math.sin(phi) * Math.cos(theta),
         radius * Math.sin(phi) * Math.sin(theta),
         radius * Math.cos(phi)
       );
 
-      // BTC金額に応じたスケール（小さな金額でも存在感がでるよう対数ベース）
-      const size = Math.min(0.5, 0.08 + Math.log10(amount + 1) * 0.18);
-      
-      // 金額に応じた色（通常はシアン、大口はエメラルド、超大口はゴールド）
+      const size = Math.min(0.5, 0.08 + Math.log10(amount + 1) * 0.16);
       let color = 0x00d2ff;
-      if (amount > 1.0) {
-        color = 0xffaa00; // Gold
-      } else if (amount > 0.1) {
-        color = 0x00ffaa; // Emerald Cloud
-      }
+      if (amount > 1.0) color = 0xffaa00; // ゴールド
+      else if (amount > 0.1) color = 0x00ffaa; // エメラルド
 
-      const txGeo = new THREE.SphereGeometry(size, 8, 8);
-      const txMat = new THREE.MeshBasicMaterial({
-        color: color,
-        transparent: true,
-        opacity: 0.85,
-        blending: THREE.AdditiveBlending
-      });
-      const mesh = new THREE.Mesh(txGeo, txMat);
+      const mesh = new THREE.Mesh(
+        new THREE.SphereGeometry(size, 8, 8),
+        new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending })
+      );
       mesh.position.copy(startPos);
       scene.add(mesh);
 
-      // 中心へ螺旋（らせん）を描いて吸い込まれていくための情報
       activeTxParticles.push({
         mesh: mesh,
         startPos: startPos.clone(),
         progress: 0,
-        speed: 0.003 + Math.random() * 0.004,
+        speed: 0.0035 + Math.random() * 0.004,
         spiralOffset: Math.random() * Math.PI * 2,
         spiralRadius: 1.5 + Math.random() * 3.5
       });
     }
 
-
-    // -- E. 新規ブロック生成時の衝撃波エフェクト --
     let blockWave = null;
     let cameraShake = 0;
-
     function triggerBlockWave() {
       if (blockWave) {
         scene.remove(blockWave.mesh);
         blockWave.mesh.geometry.dispose();
         blockWave.mesh.material.dispose();
       }
-
-      const waveGeo = new THREE.SphereGeometry(0.4, 24, 24);
-      const waveMat = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.85,
-        blending: THREE.AdditiveBlending
-      });
-      const mesh = new THREE.Mesh(waveGeo, waveMat);
+      const mesh = new THREE.Mesh(
+        new THREE.SphereGeometry(0.4, 24, 24),
+        new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending })
+      );
       scene.add(mesh);
-
-      blockWave = {
-        mesh: mesh,
-        scale: 1,
-        opacity: 0.85
-      };
-
-      cameraShake = 0.8; // 一時的に画面を揺らす
+      blockWave = { mesh, scale: 1, opacity: 0.85 };
+      cameraShake = 0.8;
       playBlockSound();
     }
 
 
-    // --- 3. ANIMATION LOOP ---
+    // --- 5. ANIMATION LOOP ---
     let xw = 0, yw = 0, zw = 0, xy = 0;
     let earthPulseScale = 1.0;
 
     function animate() {
       requestAnimationFrame(animate);
 
-      // 時間経過による4次元角度の緩やかな変化
-      xw += 0.004;
-      yw += 0.006;
-      zw += 0.002;
-      xy += 0.003;
+      // 4Dの優雅な回転角の更新
+      xw += 0.0035; yw += 0.0055; zw += 0.0018; xy += 0.0025;
 
-      // 4D頂点の回転＆3D投影
       const projected = vertices4D.map(v => {
         const rotated = rotate4D(v, xw, yw, zw, xy);
         return project4D(rotated);
       });
 
-      // エッジラインの更新
+      // ワイヤーフレーム描画更新
       let posIndex = 0;
       const linePosAttr = tesseractLines.geometry.attributes.position;
       edges.forEach(edge => {
@@ -515,64 +735,60 @@
       });
       linePosAttr.needsUpdate = true;
 
-      // 頂点ポイントの更新
+      // 頂点ポイント更新
       const pointPosAttr = tesseractPoints.geometry.attributes.position;
-      projected.forEach((v, i) => {
-        pointPosAttr.setXYZ(i, v.x, v.y, v.z);
-      });
+      projected.forEach((v, i) => { pointPosAttr.setXYZ(i, v.x, v.y, v.z); });
       pointPosAttr.needsUpdate = true;
 
-      // 「地球」の自転と軌道パルス
-      ocean.rotation.y += 0.004;
-      atmosphere.rotation.y -= 0.0035;
-      atmosphere.rotation.x += 0.002;
-
-      // 吸入時のパルス処理
+      // 「地球」の穏やかな自転とパルス
+      ocean.rotation.y += 0.003;
+      atmosphere.rotation.y -= 0.0025;
       earthPulseScale += (1.0 - earthPulseScale) * 0.08;
       ocean.scale.set(earthPulseScale, earthPulseScale, earthPulseScale);
       atmosphere.scale.set(earthPulseScale, earthPulseScale, earthPulseScale);
 
-      // 背景星空の極めてゆったりとした公転
-      starField.rotation.y += 0.0003;
+      starField.rotation.y += 0.0002;
 
-      // トランザクション粒子の更新
+      // 衛星軌道の周回
+      blockSatellites.forEach(s => {
+        s.angle += s.speed;
+        s.mesh.position.x = Math.cos(s.angle) * s.radius;
+        s.mesh.position.z = Math.sin(s.angle) * s.radius;
+        s.mesh.position.y = Math.sin(s.angle) * s.radius * s.tilt;
+        s.mesh.rotation.x += 0.005;
+        s.mesh.rotation.y += 0.008;
+      });
+
+      // トランザクション粒子スパイラル移動
       for (let i = activeTxParticles.length - 1; i >= 0; i--) {
         const p = activeTxParticles[i];
         p.progress += p.speed;
 
         if (p.progress >= 1.0) {
-          // 中心（地球）へ吸い込まれた瞬間
           scene.remove(p.mesh);
           p.mesh.geometry.dispose();
           p.mesh.material.dispose();
           activeTxParticles.splice(i, 1);
-          
-          earthPulseScale = 1.15; // 地球を脈動させる
+          earthPulseScale = 1.15;
         } else {
-          // 螺旋吸入移動の数学的な軌道計算
-          const currentR = 28 * (1 - p.progress);
-          const angle = p.progress * 12.0 + p.spiralOffset;
+          const angle = p.progress * 11.0 + p.spiralOffset;
           const spiralX = Math.cos(angle) * p.spiralRadius * (1 - p.progress);
           const spiralY = Math.sin(angle) * p.spiralRadius * (1 - p.progress);
-
           const basePos = new THREE.Vector3().lerpVectors(p.startPos, new THREE.Vector3(0,0,0), p.progress);
           const tangent = new THREE.Vector3(-p.startPos.y, p.startPos.x, 0).normalize();
           const bitangent = new THREE.Vector3().crossVectors(p.startPos, tangent).normalize();
-
           basePos.addScaledVector(tangent, spiralX);
           basePos.addScaledVector(bitangent, spiralY);
-
           p.mesh.position.copy(basePos);
         }
       }
 
-      // 新ブロック衝撃波の伝播アニメーション
+      // 新ブロック衝撃波
       if (blockWave) {
-        blockWave.scale += 0.42;
-        blockWave.opacity -= 0.009;
+        blockWave.scale += 0.38;
+        blockWave.opacity -= 0.008;
         blockWave.mesh.scale.set(blockWave.scale, blockWave.scale, blockWave.scale);
         blockWave.mesh.material.opacity = blockWave.opacity;
-
         if (blockWave.opacity <= 0) {
           scene.remove(blockWave.mesh);
           blockWave.mesh.geometry.dispose();
@@ -581,11 +797,11 @@
         }
       }
 
-      // カメラ揺らし（衝撃波時の微細な揺れ）
+      // カメラシェイク
       if (cameraShake > 0.01) {
-        camera.position.x += (Math.random() - 0.5) * cameraShake * 0.15;
-        camera.position.y += (Math.random() - 0.5) * cameraShake * 0.15;
-        cameraShake *= 0.92;
+        camera.position.x += (Math.random() - 0.5) * cameraShake * 0.12;
+        camera.position.y += (Math.random() - 0.5) * cameraShake * 0.12;
+        cameraShake *= 0.93;
       }
 
       controls.update();
@@ -593,31 +809,88 @@
     }
 
 
-    // --- 4. REAL-TIME DATA (MEMPOOL WEBSOCKET) ---
+    // --- 6. REAL-TIME DATA (MEMPOOL & COINGECKO INTERFACE) ---
+    let btcPrices = { usd: 0, jpy: 0 };
     let ws;
     let txCount = 0;
     let totalBtc = 0;
 
-    // 初期ブロック高の取得
-    function fetchInitialBlockHeight() {
-      fetch('https://mempool.space/api/blocks/tip/height')
+    // 現在価格のフェッチ
+    function fetchPrices() {
+      fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,jpy')
         .then(res => res.json())
-        .then(height => {
-          document.getElementById('block-height').innerText = height;
+        .then(data => {
+          btcPrices.usd = data.bitcoin.usd;
+          btcPrices.jpy = data.bitcoin.jpy;
+          document.getElementById('price-usd').innerText = '$' + btcPrices.usd.toLocaleString();
+          document.getElementById('price-jpy').innerText = '¥' + btcPrices.jpy.toLocaleString();
+          updateConverter();
         })
-        .catch(err => {
-          console.warn("Could not load current block height via Mempool API, waiting for WS.", err);
-        });
+        .catch(err => console.error("Price fetch error:", err));
     }
 
-    // Blockchain.com の WebSocket API を用いたリアルタイムな取引取得
+    // 価格コンバーター計算
+    function updateConverter() {
+      const btcVal = parseFloat(document.getElementById('input-btc').value) || 0;
+      const currency = document.getElementById('select-currency').value;
+      const fiatPrice = btcPrices[currency];
+      if (fiatPrice) {
+        const total = btcVal * fiatPrice;
+        document.getElementById('input-fiat').innerText = currency === 'jpy' 
+          ? '¥' + Math.round(total).toLocaleString() 
+          : '$' + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      }
+    }
+
+    document.getElementById('input-btc').addEventListener('input', updateConverter);
+    document.getElementById('select-currency').addEventListener('change', updateConverter);
+
+
+    // 直近ブロックチェーン情報のロード
+    function fetchRecentBlocks() {
+      fetch('https://mempool.space/api/v1/blocks')
+        .then(res => res.json())
+        .then(blocks => {
+          const container = document.getElementById('blocks-container');
+          container.innerHTML = '';
+
+          blocks.slice(0, 5).forEach((block, index) => {
+            const poolName = block.extras?.pool?.name || "Unknown Miner";
+            const sizeMb = (block.size / (1024 * 1024)).toFixed(2);
+            const txs = block.tx_count;
+
+            const card = document.createElement('div');
+            card.className = 'block-card';
+            if (index === 0) card.style.borderLeftColor = '#00ffaa';
+
+            // リストのブロックカードをクリックするとホログラムHUDが開く
+            card.addEventListener('click', () => {
+              showMiningHologram(block.height, poolName, txs, sizeMb);
+            });
+
+            card.innerHTML = `
+              <div class="block-height-title">#${block.height}</div>
+              <div class="block-info">
+                Mined by: <span class="block-miner">${poolName}</span><br>
+                Txs: <span>${txs.toLocaleString()}</span> | Size: <span>${sizeMb} MB</span>
+              </div>
+            `;
+            container.appendChild(card);
+          });
+
+          // 3D空間上の衛星システムを最新ブロック配列でリビルド
+          update3DSatellites(blocks.slice(0, 5));
+        })
+        .catch(err => console.error("Block API error:", err));
+    }
+
+    // WebSocket 接続 (リアルタイムトランザクション＆新規ブロック)
     function connectWS() {
       ws = new WebSocket('wss://ws.blockchain.info/inv');
 
       ws.onopen = () => {
         document.getElementById('status').innerText = 'Synced';
         document.getElementById('status').style.color = '#00ffaa';
-        // 未確認トランザクションと新規ブロックの購読
         ws.send(JSON.stringify({ "op": "unconfirmed_sub" }));
         ws.send(JSON.stringify({ "op": "blocks_sub" }));
       };
@@ -625,32 +898,33 @@
       ws.onmessage = (event) => {
         const data = JSON.parse(event.data);
 
-        // トランザクション検知
+        // 新しい未確認取引
         if (data.op === 'utx') {
           let satoshis = 0;
           if (data.x && data.x.out) {
-            for (let output of data.x.out) {
-              satoshis += output.value || 0;
-            }
+            for (let output of data.x.out) { satoshis += output.value || 0; }
           }
           const btc = satoshis / 100000000;
-          
           txCount++;
           totalBtc += btc;
 
           document.getElementById('tx-count').innerText = txCount;
           document.getElementById('total-btc').innerText = totalBtc.toFixed(4);
 
-          // ビジュアル効果の生成
           createTxParticle(btc);
-          // ヒーリング音の出力
           playTxSound(btc);
         }
 
-        // 新規ブロック生成検知
+        // 新規ブロック発掘
         if (data.op === 'block') {
           if (data.x && data.x.height) {
             document.getElementById('block-height').innerText = data.x.height;
+            // 採掘プール名がAPIに同期される時間ラグ（3秒）をとって再フェッチ
+            setTimeout(() => {
+              fetchRecentBlocks();
+              // 即座のホログラム表示
+              showMiningHologram(data.x.height, "Network Pool (Syncing...)", "---", "---");
+            }, 3000);
           }
           triggerBlockWave();
         }
@@ -659,16 +933,20 @@
       ws.onclose = () => {
         document.getElementById('status').innerText = 'Reconnecting...';
         document.getElementById('status').style.color = '#ffaa00';
-        setTimeout(connectWS, 5000); // 5秒後に自動再接続
+        setTimeout(connectWS, 5000);
       };
     }
 
-    // 初始化
-    fetchInitialBlockHeight();
+    // 各初期設定の起動
+    fetchPrices();
+    fetchRecentBlocks();
     connectWS();
     animate();
 
-    // 画面リサイズ対応
+    // 30秒周期で価格を更新
+    setInterval(fetchPrices, 30000);
+
+    // ウィンドウリサイズ
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
