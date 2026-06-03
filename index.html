@@ -509,7 +509,7 @@
         <div class="stat">BTC Price (USD): <span id="price-usd">Syncing...</span></div>
         <div class="stat">BTC Price (JPY): <span id="price-jpy">Syncing...</span></div>
         
-        <!-- Aether Projector (デモボタン追加) -->
+        <!-- Aether Projector (有名TXIDのデモボタン配置済み) -->
         <div class="converter-box">
           <h2>Aether Projector</h2>
           <div style="display:flex; gap: 8px;">
@@ -618,7 +618,7 @@
   </div>
 
   <script>
-    // 🔗 実稼働用GASウェブアプリURL（ご提供いただいたもの）
+    // 🔗 実稼働用GASウェブアプリURL（ご指定のもの）
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxzWzboyxNvXWRESUB8pJOxLwB2Mkawh36sgKhUxmkzjSv0OHmxb7AbKKajXtQr01W4/exec";
 
     // --- 1. WEB AUDIO API ---
@@ -1034,7 +1034,7 @@
       ghostSatellite = { mesh, radius: 0.8, angle: Math.random() * Math.PI * 2, speed: 0.003, tilt: 0.25 };
     }
 
-    // 衛星ブロック（実際の容量・MBに比例した可変サイズ設定）
+    // 衛星ブロック（実際の容量に比例した可変サイズ設定）
     function update3DSatellites(blocks) {
       const toRemove = [];
       satelliteGroup.children.forEach(child => {
