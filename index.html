@@ -12,13 +12,13 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #000104;
+      background-color: #010307;
       font-family: 'Montserrat', sans-serif;
       color: #f3f4f6;
       user-select: none;
     }
     
-    /* 1. お洒落で上品なフィルムグレイン（微細シネマノイズ）と星雲グラデーション */
+    /* 1. お洒落で上品なフィルムグレインと、青み・緑みの美しい星雲グラデーション */
     body::before {
       content: "";
       position: absolute;
@@ -26,17 +26,17 @@
       height: 140%;
       top: -20%;
       left: -20%;
-      background: radial-gradient(circle, rgba(14,24,54,0.2) 0%, rgba(0,0,0,0) 70%),
-                  radial-gradient(circle, rgba(54,20,10,0.1) 0%, rgba(0,0,0,0) 75%);
+      background: radial-gradient(circle, rgba(10,34,54,0.3) 0%, rgba(0,0,0,0) 70%),
+                  radial-gradient(circle, rgba(10,54,42,0.12) 0%, rgba(0,0,0,0) 75%);
       z-index: 0;
-      animation: nebula-drift 50s infinite alternate ease-in-out;
+      animation: nebula-drift 45s infinite alternate ease-in-out;
       pointer-events: none;
     }
     body::after {
       content: "";
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0.038; /* 極めてかすかなフィルムノイズ */
+      opacity: 0.035; /* 極めてかすかなフィルムノイズ */
       z-index: 2;
       pointer-events: none;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
@@ -69,7 +69,7 @@
       box-sizing: border-box;
     }
     .glass-panel {
-      background: rgba(0, 1, 4, 0.65);
+      background: rgba(1, 3, 7, 0.6);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       border: 1px solid rgba(255, 255, 255, 0.04);
@@ -77,7 +77,7 @@
       border-radius: 14px;
       pointer-events: auto;
       width: 320px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
     }
     .left-hud, .right-hud {
       display: flex;
@@ -90,7 +90,7 @@
       letter-spacing: 0.35em;
       text-transform: uppercase;
       margin: 0 0 12px 0;
-      background: linear-gradient(45deg, #ffaa00, #ff5500);
+      background: linear-gradient(45deg, #00d2ff, #00ffaa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       transition: all 1.5s ease;
@@ -101,7 +101,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       margin: 0 0 10px 0;
-      color: #ffaa00;
+      color: #00ffaa;
       transition: color 1.5s ease;
     }
     .stat {
@@ -109,11 +109,11 @@
       font-weight: 200;
       letter-spacing: 0.1em;
       margin: 6px 0;
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.60);
     }
     .stat span {
       font-weight: 400;
-      color: #ffaa00;
+      color: #00ffaa;
       font-family: 'Courier New', monospace;
       transition: color 1.5s ease;
     }
@@ -149,7 +149,7 @@
       padding-right: 12px;
     }
     .conv-row input:focus {
-      color: #ffaa00;
+      color: #00ffaa;
     }
     .conv-row .unit {
       font-size: 0.62rem;
@@ -169,7 +169,7 @@
     }
     .block-card {
       background: rgba(255, 255, 255, 0.01);
-      border-left: 3px solid #ffaa00;
+      border-left: 3px solid #00d2ff;
       padding: 8px 12px;
       border-radius: 0 6px 6px 0;
       transition: all 0.25s ease;
@@ -177,7 +177,7 @@
     }
     .block-card:hover {
       background: rgba(255, 255, 255, 0.05);
-      border-left-color: #ff5500;
+      border-left-color: #00ffaa;
     }
     .block-height-title {
       font-size: 0.75rem;
@@ -192,7 +192,7 @@
       line-height: 1.35;
     }
     .block-miner {
-      color: #ffaa00;
+      color: #00ffaa;
       font-weight: 300;
     }
 
@@ -206,17 +206,17 @@
       z-index: 100;
       text-align: center;
       pointer-events: none;
-      background: rgba(255, 170, 0, 0.06);
-      border: 1px solid rgba(255, 170, 0, 0.25);
+      background: rgba(0, 210, 255, 0.06);
+      border: 1px solid rgba(0, 210, 255, 0.25);
       border-radius: 8px;
       padding: 12px 25px;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
+      box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
       transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2);
     }
 
-    /* 𝕏 Share & Lightning Support パネル（画像を忠実に再現） */
+    /* Support & Share パネル */
     .support-panel {
       margin-top: 10px;
     }
@@ -242,7 +242,7 @@
       pointer-events: auto;
     }
     .donate-btn {
-      background: #f5a623; /* 暖かみのあるオレンジ */
+      background: #f5a623; 
       color: #000;
       font-weight: bold;
     }
@@ -323,7 +323,7 @@
       right: 30px;
       pointer-events: auto;
       background: rgba(0, 1, 4, 0.5);
-      border: 1px solid rgba(255, 170, 0, 0.15);
+      border: 1px solid rgba(0, 210, 255, 0.15);
       color: #fff;
       padding: 10px 18px;
       border-radius: 20px;
@@ -342,7 +342,7 @@
     }
     #sound-toggle:hover {
       background: rgba(255,255,255,0.05);
-      border-color: #ffaa00;
+      border-color: #00ffaa;
     }
 
     @media (max-width: 900px) {
@@ -389,7 +389,7 @@
         <div class="stat">BTC Price (USD): <span id="price-usd">Syncing...</span></div>
         <div class="stat">BTC Price (JPY): <span id="price-jpy">Syncing...</span></div>
         
-        <!-- 連動マルチコンバーター -->
+        <!-- マルチコンバーター (フォーカス循環ガード完備) -->
         <div class="converter-box">
           <h2>Multivariate Converter</h2>
           <div class="conv-group">
@@ -421,7 +421,7 @@
         </div>
       </div>
 
-      <!-- Support & Share パネル（Wallet of Satoshi自動起動、X Share完備） -->
+      <!-- Support & Share パネル -->
       <div class="glass-panel support-panel">
         <h2>♥ Support & Share</h2>
         <div class="support-buttons">
@@ -438,12 +438,12 @@
     <div class="right-hud">
       <div class="glass-panel">
         <h2>Next Projected Block</h2>
-        <div id="mempool-block-card" class="block-card" style="border-left-color: #ffaa00; background: rgba(255,170,0,0.03);">
+        <div id="mempool-block-card" class="block-card" style="border-left-color: #00ffaa; background: rgba(0,255,170,0.03);">
           <div class="block-height-title" id="next-block-height">#------</div>
           <div class="block-info">
-            Median Fee: <span id="next-block-fee" style="color: #ffaa00; font-weight: bold;">-- sat/vB</span><br>
+            Median Fee: <span id="next-block-fee" style="color: #00ffaa; font-weight: bold;">-- sat/vB</span><br>
             Estimated Size: <span id="next-block-size">-- MB</span><br>
-            Status: <span style="color: #ffaa00; animation: pulse-text 1.5s infinite ease-in-out;">Constructing...</span>
+            Status: <span style="color: #00ffaa; animation: pulse-text 1.5s infinite ease-in-out;">Constructing...</span>
           </div>
         </div>
       </div>
@@ -462,7 +462,7 @@
   </div>
 
   <script>
-    // --- 1. WEB AUDIO API (宇宙アンバー和音 ＆ ゲイン) ---
+    // --- 1. WEB AUDIO API (バイオリン風シンセパッド＆リアルタイムSE) ---
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const masterGain = audioCtx.createGain();
     masterGain.connect(audioCtx.destination);
@@ -477,12 +477,12 @@
     let chordIndex = 0;
     let padStarted = false;
 
-    // Chroma Harmony: 音和音にシンクロしてアンバー・ゴールド系の深いグラデーション色が変化
+    // Chroma Harmony: コード遷移に連動したコバルト・シアン系カラーテーマ
     const themeColors = [
-      { tesseract: 0xff8800, string: 0xff3300 }, // Am: Amber & Red
-      { tesseract: 0xffaa00, string: 0xff5500 }, // F: Gold & Orange
-      { tesseract: 0xff5500, string: 0xaa0033 }, // C: Sunset Red & Dark Magenta
-      { tesseract: 0xffcc00, string: 0xff8800 }  // G: Honey Yellow & Amber
+      { tesseract: 0x00d2ff, string: 0x7700ff, glow: 'rgba(0,210,255,0.2)' }, // Am
+      { tesseract: 0x00ffaa, string: 0x00d2ff, glow: 'rgba(0,255,170,0.2)' }, // F
+      { tesseract: 0x0088ff, string: 0xaa00ff, glow: 'rgba(0,136,255,0.2)' }, // C
+      { tesseract: 0x00ffcc, string: 0x00d2ff, glow: 'rgba(0,255,204,0.2)' }  // G
     ];
 
     function playAmbientPad() {
@@ -610,7 +610,7 @@
       }
     });
 
-    // 音声トグル
+    // 音声オンオフ
     let soundOn = true;
     const toggleBtn = document.getElementById('sound-toggle');
     toggleBtn.addEventListener('click', (e) => {
@@ -620,7 +620,7 @@
         masterGain.gain.setTargetAtTime(1.0, audioCtx.currentTime, 0.1);
         document.getElementById('sound-icon').innerText = '🔊';
         document.getElementById('sound-text').innerText = 'SOUND: ON';
-        toggleBtn.style.borderColor = 'rgba(255, 170, 0, 0.15)';
+        toggleBtn.style.borderColor = 'rgba(0, 210, 255, 0.15)';
       } else {
         masterGain.gain.setTargetAtTime(0.0, audioCtx.currentTime, 0.1);
         document.getElementById('sound-icon').innerText = '🔇';
@@ -630,10 +630,10 @@
     });
 
 
-    // --- 2. THREE.JS VISUALS (アンバーテセラクト、超弦、多層星野、浮遊ゴールドキューブ) ---
+    // --- 2. THREE.JS VISUALS (シアン・コバルトブルー宇宙) ---
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000104, 0.025); // 深く澄んだ宇宙
+    scene.fog = new THREE.FogExp2(0x010307, 0.025); 
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.set(0, 0, 5.8);
@@ -657,7 +657,7 @@
       const ctx = canvas.getContext('2d');
       const gradient = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
       gradient.addColorStop(0, 'rgba(255,255,255,1)');
-      gradient.addColorStop(0.2, 'rgba(255,170,0,0.8)'); // 暖かみのあるオレンジ発光
+      gradient.addColorStop(0.2, 'rgba(0,180,255,0.8)'); // 暖かみのあるブルー発光
       gradient.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, 16, 16);
@@ -712,7 +712,7 @@
     const lineGeometry = new THREE.BufferGeometry();
     const linePositions = new Float32Array(edges.length * 2 * 3);
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending });
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00d2ff, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending });
     const tesseractLines = new THREE.LineSegments(lineGeometry, lineMaterial);
     scene.add(tesseractLines);
 
@@ -722,10 +722,10 @@
     const tesseractPoints = new THREE.Points(pointGeometry, new THREE.PointsMaterial({ size: 0.28, map: glowTexture, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
     scene.add(tesseractPoints);
 
-    // 地球（中心にそっと置く上品な青ワイヤー）
+    // 地球
     const earthGroup = new THREE.Group();
     scene.add(earthGroup);
-    const ocean = new THREE.Mesh(new THREE.SphereGeometry(0.38, 18, 18), new THREE.MeshBasicMaterial({ color: 0x0044ff, wireframe: true, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending }));
+    const ocean = new THREE.Mesh(new THREE.SphereGeometry(0.38, 18, 18), new THREE.MeshBasicMaterial({ color: 0x0055ff, wireframe: true, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending }));
     earthGroup.add(ocean);
     const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(0.40, 16, 16), new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true, transparent: true, opacity: 0.08, blending: THREE.AdditiveBlending }));
     earthGroup.add(atmosphere);
@@ -733,7 +733,7 @@
     // 重力レンズリング (光輪)
     const gravityRing = new THREE.Mesh(
       new THREE.RingGeometry(1.5, 1.515, 64),
-      new THREE.MeshBasicMaterial({ color: 0xff9900, side: THREE.DoubleSide, transparent: true, opacity: 0.12, blending: THREE.AdditiveBlending })
+      new THREE.MeshBasicMaterial({ color: 0x00aaff, side: THREE.DoubleSide, transparent: true, opacity: 0.12, blending: THREE.AdditiveBlending })
     );
     gravityRing.rotation.x = Math.PI / 3;
     scene.add(gravityRing);
@@ -748,7 +748,7 @@
       }
       const curve = new THREE.CatmullRomCurve3(points);
       const strGeo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(50));
-      const strMat = new THREE.LineBasicMaterial({ color: s % 2 === 0 ? 0xffaa00 : 0xff3300, transparent: true, opacity: 0.06, blending: THREE.AdditiveBlending });
+      const strMat = new THREE.LineBasicMaterial({ color: s % 2 === 0 ? 0x00ffff : 0xaa00ff, transparent: true, opacity: 0.06, blending: THREE.AdditiveBlending });
       const line = new THREE.Line(strGeo, strMat);
       scene.add(line);
       cosmicStrings.push({ 
@@ -764,7 +764,7 @@
     const layerCount = 3;
     const starCounts = [500, 400, 300];
     const starSizes = [0.03, 0.07, 0.15];
-    const starColors = [0xffffff, 0xffeebb, 0xbbddff];
+    const starColors = [0xffffff, 0xbbddff, 0xbbffff];
 
     starCounts.forEach((count, sLayer) => {
       const starPositions = new Float32Array(count * 3);
@@ -792,9 +792,7 @@
       scene.add(stars);
     });
 
-    const starField = new THREE.Group(); // 全体用ラッパー
-
-    // -- 新規：上品な浮遊ゴールドキューブシステム (画像5参考) --
+    // 浮遊シアン立方体システム (画像の構成を青系宇宙に最適化)
     const debrisGroup = new THREE.Group();
     scene.add(debrisGroup);
     const debris = [];
@@ -802,10 +800,10 @@
       const size = 0.05 + Math.random() * 0.08;
       const geo = new THREE.BoxGeometry(size, size, size);
       const mat = new THREE.MeshBasicMaterial({
-        color: 0xffaa00,
+        color: 0x00d2ff, 
         wireframe: true,
         transparent: true,
-        opacity: 0.28,
+        opacity: 0.22,
         blending: THREE.AdditiveBlending
       });
       const mesh = new THREE.Mesh(geo, mat);
@@ -846,7 +844,7 @@
 
       const mesh = new THREE.Mesh(
         new THREE.SphereGeometry(size, 8, 8),
-        new THREE.MeshBasicMaterial({ color: 0xff7700, wireframe: true, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending })
+        new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending })
       );
       satelliteGroup.add(mesh);
       ghostSatellite = { mesh, radius: 0.8, angle: Math.random() * Math.PI * 2, speed: 0.003, tilt: 0.25 };
@@ -875,7 +873,7 @@
 
         const mesh = new THREE.Mesh(
           new THREE.BoxGeometry(size, size, size),
-          new THREE.MeshBasicMaterial({ color: index === 0 ? 0xffaa00 : 0xff5500, wireframe: true, transparent: true, opacity: 0.8 - index * 0.12, blending: THREE.AdditiveBlending })
+          new THREE.MeshBasicMaterial({ color: index === 0 ? 0x00ffaa : 0x00aaff, wireframe: true, transparent: true, opacity: 0.8 - index * 0.12, blending: THREE.AdditiveBlending })
         );
         satelliteGroup.add(mesh);
         blockSatellites.push({ 
@@ -895,9 +893,9 @@
       const holo = document.getElementById('hologram-toast');
       holo.style.display = 'block';
       holo.innerHTML = `
-        <div style="font-size:0.6rem; color:#ffaa00; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:5px;">DIMENSIONAL INTERFACE</div>
+        <div style="font-size:0.6rem; color:#00ffaa; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:5px;">DIMENSIONAL INTERFACE</div>
         <div style="font-size:1.0rem; font-weight:bold; color:#fff; letter-spacing:0.1em; margin-bottom:3px;">SECURED BLOCK #${height}</div>
-        <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-bottom:2px;">Mined by <span style="color:#ff5500; font-weight:bold;">${pool}</span></div>
+        <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-bottom:2px;">Mined by <span style="color:#00d2ff; font-weight:bold;">${pool}</span></div>
         <div style="font-size:0.65rem; color:rgba(255,255,255,0.4); font-family:monospace;">Txs: ${txs.toLocaleString()} | Size: ${vSize} vMB (${pSize} MB)</div>
       `;
       holo.style.opacity = '0';
@@ -921,9 +919,9 @@
       const targetStr = cosmicStrings[strIndex];
       
       const pulseSize = Math.min(0.12, 0.035 + Math.log10(amount + 1) * 0.04);
-      let color = 0xffaa00;
-      if (amount > 1.0) color = 0xff5500; 
-      else if (amount > 0.1) color = 0xffcc00; 
+      let color = 0x00d2ff;
+      if (amount > 1.0) color = 0x00ffaa; 
+      else if (amount > 0.1) color = 0x00ffff; 
 
       const mesh = new THREE.Mesh(
         new THREE.SphereGeometry(pulseSize, 8, 8),
@@ -982,7 +980,7 @@
       projected.forEach((v, i) => { pointPosAttr.setXYZ(i, v.x, v.y, v.z); });
       pointPosAttr.needsUpdate = true;
 
-      // Chroma Harmony: 再生中の和音に合わせてテセラクト・大気全体の色合いをゆっくり線形補完(lerp)
+      // Chroma Harmony: 再生中の和音に合わせてテセラクト全体の色合いをゆっくり線形補完(lerp)
       const targetColor = themeColors[chordIndex];
       lineMaterial.color.lerp(new THREE.Color(targetColor.tesseract), 0.008);
       gravityRing.material.color.lerp(new THREE.Color(targetColor.tesseract), 0.008);
@@ -1097,13 +1095,14 @@
     }
 
 
-    // --- 6. REAL-TIME DATA (COINBASE WEBSOCKET INTEGRATION) ---
-    let btcPrices = { usd: 67000, jpy: 10500000, eur: 61000, cny: 480000 }; 
-    let forexRates = { JPY: 156.0, EUR: 0.92, CNY: 7.24 }; 
+    // --- 6. REAL-TIME DATA (WEBSOCKET INTEGRATION) ---
+    let btcPrices = { usd: 0, jpy: 0, eur: 0, cny: 0 }; 
+    let forexRates = { EUR: 0.92, CNY: 7.24 }; 
     let latestBlockHeight = 0;
-    let ws, coinbaseWS;
+    let ws, binanceWs, bitflyerWs;
     let txCount = 0;
     let totalBtc = 0;
+    let currentFocus = 'sats'; 
 
     const elSats = document.getElementById('conv-sats');
     const elBtc = document.getElementById('conv-btc');
@@ -1116,104 +1115,138 @@
       return parseFloat(val.replace(/,/g, '')) || 0;
     }
 
-    // 相互連動マルチコンバーター
-    function updateConverterFromBTC(btcVal, source) {
-      if (isNaN(btcVal) || btcVal < 0) return;
-      const sats = Math.round(btcVal * 100000000);
-      const usd = btcVal * btcPrices.usd;
-      const jpy = btcVal * btcPrices.jpy;
-      const eur = btcVal * btcPrices.eur;
-      const cny = btcVal * btcPrices.cny;
+    // 相互連動マルチコンバーター（循環バグを完全解消した安心設計）
+    function calculateFrom(type, value) {
+      if (btcPrices.usd === 0 || btcPrices.jpy === 0) return;
+      
+      let btc = 0;
+      if (type === 'sats') btc = value / 100000000;
+      else if (type === 'btc') btc = value;
+      else if (type === 'jpy') btc = value / btcPrices.jpy;
+      else if (type === 'usd') btc = value / btcPrices.usd;
+      else if (type === 'eur') btc = value / btcPrices.eur;
+      else if (type === 'cny') btc = value / btcPrices.cny;
 
-      if (source !== 'sats') elSats.value = sats.toLocaleString();
-      if (source !== 'btc') elBtc.value = btcVal.toFixed(8);
-      if (source !== 'jpy') elJpy.value = Math.round(jpy).toLocaleString();
-      if (source !== 'usd') elUsd.value = usd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      if (source !== 'eur') elEur.value = eur.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      if (source !== 'cny') elCny.value = cny.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      // 現在入力中（フォーカス中）のボックス以外にのみ値を流し込む
+      if (type !== 'sats') {
+        elSats.value = Math.round(btc * 100000000).toLocaleString('en-US', {maximumFractionDigits: 0});
+      }
+      if (type !== 'btc') {
+        elBtc.value = btc.toLocaleString('en-US', {maximumFractionDigits: 8});
+      }
+      if (type !== 'jpy') {
+        elJpy.value = Math.round(btc * btcPrices.jpy).toLocaleString('en-US', {maximumFractionDigits: 0});
+      }
+      if (type !== 'usd') {
+        elUsd.value = (btc * btcPrices.usd).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      }
+      if (type !== 'eur') {
+        elEur.value = (btc * btcPrices.eur).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      }
+      if (type !== 'cny') {
+        elCny.value = (btc * btcPrices.cny).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      }
     }
 
-    // インプット連動
-    elSats.addEventListener('input', () => {
-      const btc = cleanNum(elSats.value) / 100000000;
-      updateConverterFromBTC(btc, 'sats');
-    });
-    elBtc.addEventListener('input', () => {
-      const btc = parseFloat(elBtc.value) || 0;
-      updateConverterFromBTC(btc, 'btc');
-    });
-    elJpy.addEventListener('input', () => {
-      const btc = cleanNum(elJpy.value) / btcPrices.jpy;
-      updateConverterFromBTC(btc, 'jpy');
-    });
-    elUsd.addEventListener('input', () => {
-      const btc = cleanNum(elUsd.value) / btcPrices.usd;
-      updateConverterFromBTC(btc, 'usd');
-    });
-    elEur.addEventListener('input', () => {
-      const btc = cleanNum(elEur.value) / btcPrices.eur;
-      updateConverterFromBTC(btc, 'eur');
-    });
-    elCny.addEventListener('input', () => {
-      const btc = cleanNum(elCny.value) / btcPrices.cny;
-      updateConverterFromBTC(btc, 'cny');
+    // 入力監視とカンマ着脱コントロール
+    const inputTypes = ['sats', 'btc', 'jpy', 'usd', 'eur', 'cny'];
+    inputTypes.forEach(type => {
+      const el = document.getElementById(`conv-${type}`);
+      if (el) {
+        el.addEventListener('focus', (e) => {
+          currentFocus = type;
+          e.target.value = e.target.value.replace(/,/g, '');
+        });
+        
+        el.addEventListener('input', (e) => {
+          currentFocus = type;
+          const val = parseFloat(e.target.value.replace(/,/g, '')) || 0;
+          calculateFrom(type, val);
+        });
+        
+        el.addEventListener('blur', (e) => {
+          const val = parseFloat(e.target.value.replace(/,/g, '')) || 0;
+          if (type === 'sats') {
+            e.target.value = val.toLocaleString('en-US', {maximumFractionDigits: 0});
+          } else if (type === 'btc') {
+            e.target.value = val.toLocaleString('en-US', {maximumFractionDigits: 8});
+          } else if (type === 'jpy') {
+            e.target.value = val.toLocaleString('en-US', {maximumFractionDigits: 0});
+          } else {
+            e.target.value = val.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+          }
+        });
+      }
     });
 
-    function fetchExchangeRate() {
+    // 為替レート取得
+    function fetchExchangeRates() {
       fetch('https://open.er-api.com/v6/latest/USD')
         .then(res => res.json())
         .then(data => {
           if (data.rates) {
-            forexRates.JPY = data.rates.JPY || 156.0;
             forexRates.EUR = data.rates.EUR || 0.92;
             forexRates.CNY = data.rates.CNY || 7.24;
           }
         })
-        .catch(err => console.warn("Forex fallback active.", err));
+        .catch(err => console.warn("Forex load fallback active.", err));
     }
 
-    // Coinbase WebSocket による完全リアルタイム価格カタカタ連動
-    function connectCoinbaseWS() {
-      if (coinbaseWS) {
-        try { coinbaseWS.close(); } catch(e){}
+    // Binance WebSocket 接続 (USDの秒間連動アップデート)
+    function connectBinance() {
+      if (binanceWs) {
+        try { binanceWs.close(); } catch(e){}
       }
-      coinbaseWS = new WebSocket('wss://ws-feed.pro.coinbase.com');
-
-      coinbaseWS.onopen = () => {
-        coinbaseWS.send(JSON.stringify({
-          "type": "subscribe",
-          "channels": [{ "name": "ticker", "product_ids": ["BTC-USD"] }]
-        }));
-      };
-
-      coinbaseWS.onmessage = (event) => {
+      binanceWs = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@ticker');
+      
+      binanceWs.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        if (data.type === 'ticker' && data.price) {
-          const usdPrice = parseFloat(data.price);
-          btcPrices.usd = usdPrice;
-          btcPrices.jpy = usdPrice * forexRates.JPY;
-          btcPrices.eur = usdPrice * forexRates.EUR;
-          btcPrices.cny = usdPrice * forexRates.CNY;
+        const usdPrice = parseFloat(data.c);
+        btcPrices.usd = usdPrice;
+        btcPrices.eur = usdPrice * forexRates.EUR;
+        btcPrices.cny = usdPrice * forexRates.CNY;
+        
+        document.getElementById('price-usd').innerText = `$${btcPrices.usd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        
+        updateConverter();
+      };
+      binanceWs.onclose = () => setTimeout(connectBinance, 5000); 
+    }
 
-          document.getElementById('price-usd').innerText = '$' + btcPrices.usd.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-          document.getElementById('price-jpy').innerText = '¥' + Math.round(btcPrices.jpy).toLocaleString();
-
-          // ユーザーがフォーム未フォーカスの場合のみ、ミリ秒リアルタイム同期
-          if (document.activeElement !== elSats && 
-              document.activeElement !== elBtc && 
-              document.activeElement !== elJpy && 
-              document.activeElement !== elUsd &&
-              document.activeElement !== elEur &&
-              document.activeElement !== elCny) {
-            const curBtcValue = cleanNum(elBtc.value) || 1.0;
-            updateConverterFromBTC(curBtcValue, 'ticker_pulse');
-          }
+    // bitFlyer WebSocket 接続 (JPYの秒間連動アップデート)
+    function connectBitflyer() {
+      if (bitflyerWs) {
+        try { bitflyerWs.close(); } catch(e){}
+      }
+      bitflyerWs = new WebSocket('wss://ws.lightstream.bitflyer.com/json-rpc');
+      
+      bitflyerWs.onopen = () => {
+        bitflyerWs.send(JSON.stringify({ method: "subscribe", params: { channel: "lightning_ticker_BTC_JPY" } }));
+      };
+      
+      bitflyerWs.onmessage = (event) => {
+        const response = JSON.parse(event.data);
+        if (response.params && response.params.message) {
+          btcPrices.jpy = response.params.message.ltp;
+          document.getElementById('price-jpy').innerText = `¥${btcPrices.jpy.toLocaleString()}`;
+          updateConverter();
         }
       };
+      bitflyerWs.onclose = () => setTimeout(connectBitflyer, 5000); 
+    }
 
-      coinbaseWS.onclose = () => {
-        setTimeout(connectCoinbaseWS, 5000);
-      };
+    // リアルタイム価格アップデート連動
+    function updateConverter() {
+      if (btcPrices.usd === 0 || btcPrices.jpy === 0) return;
+      
+      const focusedInput = document.activeElement;
+      const isInputFocused = focusedInput && focusedInput.tagName === 'INPUT' && focusedInput.id.startsWith('conv-');
+      
+      // ユーザーが入力中でない場合のみ、Binanceの板に同期してカタカタ更新
+      if (!isInputFocused) {
+        const curBtcValue = parseFloat(elBtc.value.replace(/,/g, '')) || 1.0;
+        calculateFrom('btc', curBtcValue);
+      }
     }
 
     // 最新高の巻き戻りズレを完全に防ぐ最大値制限ガード
@@ -1227,8 +1260,9 @@
     }
 
     function performInitialSync() {
-      fetchExchangeRate();
+      fetchExchangeRates();
 
+      // CoinGeckoで初期基準価格ロード
       fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,jpy')
         .then(res => res.json())
         .then(data => {
@@ -1239,6 +1273,10 @@
           updateConverterFromBTC(1.0, 'init'); 
         })
         .catch(err => {
+          btcPrices.usd = 67000;
+          btcPrices.jpy = 10500000;
+          btcPrices.eur = 67000 * 0.92;
+          btcPrices.cny = 67000 * 7.24;
           updateConverterFromBTC(1.0, 'init');
         });
 
@@ -1283,10 +1321,15 @@
     }
 
     function updateBlocksList(blocks) {
-      // 最大高の確定
+      if (!blocks || blocks.length === 0) return;
+
+      // 1. 最新高への安全上書きマージ
       let maxH = 0;
       blocks.forEach(b => { if (b.height > maxH) maxH = b.height; });
       setBlockHeight(maxH);
+
+      // 2. 確実にリストの上部が「最新（最大値）」になるようブロック高をソート
+      blocks.sort((a, b) => b.height - a.height);
 
       const container = document.getElementById('blocks-container');
       container.innerHTML = '';
@@ -1299,7 +1342,7 @@
 
         const card = document.createElement('div');
         card.className = 'block-card';
-        if (index === 0) card.style.borderLeftColor = '#ffaa00';
+        if (index === 0) card.style.borderLeftColor = '#00ffaa'; // 最新は美しいエメラルドグリーン
 
         card.addEventListener('click', () => {
           showMiningHologram(block.height, poolName, txs, vSizeMb, pSizeMb);
@@ -1328,7 +1371,7 @@
 
       ws.onopen = () => {
         document.getElementById('status').innerText = 'Synced';
-        document.getElementById('status').style.color = '#ffaa00';
+        document.getElementById('status').style.color = '#00ffaa';
         ws.send(JSON.stringify({ "action": "want", "data": ["blocks", "mempool-blocks", "stats"] }));
       };
 
@@ -1384,13 +1427,29 @@
       window.open(`https://x.com/intent/tweet?text=${text}&url=${url}`, '_blank');
     });
 
+    // 初期起動用連動
+    function updateConverterFromBTC(btcVal, source) {
+      if (isNaN(btcVal) || btcVal < 0) return;
+      const sats = Math.round(btcVal * 100000000);
+      const usd = btcVal * btcPrices.usd;
+      const jpy = btcVal * btcPrices.jpy;
+      const eur = btcVal * btcPrices.eur;
+      const cny = btcVal * btcPrices.cny;
+
+      elSats.value = sats.toLocaleString();
+      elBtc.value = btcVal.toFixed(8);
+      elJpy.value = Math.round(jpy).toLocaleString();
+      elUsd.value = usd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      elEur.value = eur.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      elCny.value = cny.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
     // --- INITIALIZE ---
     performInitialSync();
-    connectCoinbaseWS();
+    connectBinance();
+    connectBitflyer();
     connectWS();
     animate();
-
-    setInterval(fetchExchangeRate, 3600000); // 為替同期
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
