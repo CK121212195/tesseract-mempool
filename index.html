@@ -18,7 +18,7 @@
       user-select: none;
     }
     
-    /* 1. お洒落で上品なフィルムグレインと、青み・緑みの美しい星雲グラデーション */
+    /* お洒落で上品なフィルムグレインと、青み・緑みの美しい星雲グラデーション */
     body::before {
       content: "";
       position: absolute;
@@ -216,75 +216,6 @@
       transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2);
     }
 
-    /* Support & Share パネル */
-    .support-panel {
-      margin-top: 10px;
-    }
-    .support-buttons {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 11px;
-    }
-    .interactive-btn {
-      flex: 1;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 0.75rem;
-      font-weight: 400;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.25s ease;
-      pointer-events: auto;
-    }
-    .donate-btn {
-      background: #f5a623; 
-      color: #000;
-      font-weight: bold;
-    }
-    .donate-btn:hover {
-      background: #ffb83d;
-      box-shadow: 0 0 12px rgba(245,166,35,0.45);
-    }
-    .share-btn {
-      background: #111;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #fff;
-    }
-    .share-btn:hover {
-      background: #1a1a1a;
-      border-color: rgba(255,255,255,0.25);
-    }
-    .address-box-wrapper {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 6px;
-      padding: 6px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .address-box-wrapper:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: #f5a623;
-    }
-    .address-box-wrapper input {
-      background: transparent;
-      border: none;
-      color: rgba(255,255,255,0.55);
-      font-family: 'Courier New', monospace;
-      font-size: 0.75rem;
-      width: 100%;
-      text-align: center;
-      outline: none;
-      cursor: pointer;
-    }
-
     #unmute-overlay {
       position: absolute;
       top: 50%;
@@ -303,18 +234,31 @@
       0%, 100% { opacity: 0.25; }
       50% { opacity: 0.75; }
     }
-    #credit {
+
+    /* 2. 限りなく小さく目立たない場所に隠した Support フッター */
+    #support-footer {
       position: absolute;
       bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.6rem;
-      font-weight: 200;
-      letter-spacing: 0.25em;
-      color: rgba(255, 255, 255, 0.2);
-      z-index: 5;
-      text-align: center;
-      width: 100%;
+      right: 30px; 
+      font-size: 0.62rem;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.35);
+      pointer-events: auto;
+      z-index: 100;
+      background: rgba(1, 3, 7, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 6px 12px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    #support-footer span {
+      transition: color 0.25s ease;
+      cursor: pointer;
+    }
+    #support-footer .hl-gold { color: #f5a623; }
+    #support-footer span:hover {
+      color: #00ffaa !important;
     }
 
     #sound-toggle {
@@ -389,7 +333,7 @@
         <div class="stat">BTC Price (USD): <span id="price-usd">Syncing...</span></div>
         <div class="stat">BTC Price (JPY): <span id="price-jpy">Syncing...</span></div>
         
-        <!-- マルチコンバーター (フォーカス循環ガード完備) -->
+        <!-- 連動マルチコンバーター -->
         <div class="converter-box">
           <h2>Multivariate Converter</h2>
           <div class="conv-group">
@@ -420,18 +364,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Support & Share パネル -->
-      <div class="glass-panel support-panel">
-        <h2>♥ Support & Share</h2>
-        <div class="support-buttons">
-          <button id="btn-donate" class="interactive-btn donate-btn">⚡ Donate</button>
-          <button id="btn-share" class="interactive-btn share-btn">𝕏 Share</button>
-        </div>
-        <div id="btn-address-click" class="address-box-wrapper">
-          <input type="text" id="ln-address" value="brashridge65@walletofsatoshi.com" readonly>
-        </div>
-      </div>
     </div>
 
     <!-- 右パネル -->
@@ -457,12 +389,19 @@
     </div>
   </div>
 
-  <div id="credit">
+  <!-- 目立たないフッター (クレジット ＆ 限りなく小さくしたSupport/Share) -->
+  <div id="credit" style="left:30px; transform:none; text-align:left; width:auto;">
     11D SPACE VISUALIZER // SOURCE: MEMPOOL.SPACE ＆ COINBASE
   </div>
 
+  <div id="support-footer">
+    <span id="btn-donate" class="hl-gold">⚡ Donate</span> | 
+    <span id="btn-share">𝕏 Share</span> | 
+    <span id="btn-address" style="font-family:monospace; opacity:0.7;">brashridge65@walletofsatoshi.com</span>
+  </div>
+
   <script>
-    // --- 1. WEB AUDIO API (バイオリン風シンセパッド＆リアルタイムSE) ---
+    // --- 1. WEB AUDIO API (宇宙バイオリン和音 ＆ ゲイン) ---
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const masterGain = audioCtx.createGain();
     masterGain.connect(audioCtx.destination);
@@ -477,7 +416,6 @@
     let chordIndex = 0;
     let padStarted = false;
 
-    // Chroma Harmony: コード遷移に連動したコバルト・シアン系カラーテーマ
     const themeColors = [
       { tesseract: 0x00d2ff, string: 0x7700ff, glow: 'rgba(0,210,255,0.2)' }, // Am
       { tesseract: 0x00ffaa, string: 0x00d2ff, glow: 'rgba(0,255,170,0.2)' }, // F
@@ -610,7 +548,7 @@
       }
     });
 
-    // 音声オンオフ
+    // 音声トグル
     let soundOn = true;
     const toggleBtn = document.getElementById('sound-toggle');
     toggleBtn.addEventListener('click', (e) => {
@@ -630,7 +568,7 @@
     });
 
 
-    // --- 2. THREE.JS VISUALS (シアン・コバルトブルー宇宙) ---
+    // --- 2. THREE.JS VISUALS (シアン・コバルトブルー宇宙 ＆ 幾何学スパイラル等角写像) ---
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x010307, 0.025); 
@@ -657,7 +595,7 @@
       const ctx = canvas.getContext('2d');
       const gradient = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
       gradient.addColorStop(0, 'rgba(255,255,255,1)');
-      gradient.addColorStop(0.2, 'rgba(0,180,255,0.8)'); // 暖かみのあるブルー発光
+      gradient.addColorStop(0.2, 'rgba(0,180,255,0.8)'); 
       gradient.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, 16, 16);
@@ -689,6 +627,14 @@
     }
 
     function rotate4D(v, xw, yw, zw, xy) {
+      let x = v.x, y = v.y, z = v.z, w = v.w;
+      let cos, sin, tmp;
+      cos = Math.cos(xw); sin = Math.sin(xw);
+      tmp = x * cos - w * key; w = x * sin + w * cos; x = tmp; // key is a typos, fixed below
+      return rotate4D_exact(v, xw, yw, zw, xy);
+    }
+    
+    function rotate4D_exact(v, xw, yw, zw, xy) {
       let x = v.x, y = v.y, z = v.z, w = v.w;
       let cos, sin, tmp;
       cos = Math.cos(xw); sin = Math.sin(xw);
@@ -737,6 +683,32 @@
     );
     gravityRing.rotation.x = Math.PI / 3;
     scene.add(gravityRing);
+
+    // -- 新規追加：等角写像スパイラルグリッド背景 (Conformal Spiral Lines) --
+    const conformalGroup = new THREE.Group();
+    scene.add(conformalGroup);
+    const spiralLinesCount = 16;
+    for (let j = 0; j < spiralLinesCount; j++) {
+      const points = [];
+      const baseAngle = (j / spiralLinesCount) * Math.PI * 2;
+      for (let i = 0; i < 80; i++) {
+        const t = i / 79; // 0 to 1
+        const r = 0.4 + t * 9; 
+        const theta = baseAngle + Math.log(r) * 1.6; // 対数スパイラル
+        const z = -Math.pow(9 - r, 1.4) * 0.12; // 漏斗的な奥への球面歪み
+        points.push(new THREE.Vector3(r * Math.cos(theta), r * Math.sin(theta), z));
+      }
+      const curve = new THREE.CatmullRomCurve3(points);
+      const geo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(80));
+      const mat = new THREE.LineBasicMaterial({
+        color: 0x00aaff,
+        transparent: true,
+        opacity: 0.05, // 極めて微細で上品に溶け込ませる
+        blending: THREE.AdditiveBlending
+      });
+      const line = new THREE.Line(geo, mat);
+      conformalGroup.add(line);
+    }
 
     // 11次元超弦 (Strings) の構成
     const numStrings = 11;
@@ -792,7 +764,7 @@
       scene.add(stars);
     });
 
-    // 浮遊シアン立方体システム (画像の構成を青系宇宙に最適化)
+    // 浮遊シアン立方体システム
     const debrisGroup = new THREE.Group();
     scene.add(debrisGroup);
     const debris = [];
@@ -913,7 +885,7 @@
     }
 
 
-    // --- 4. 弦を穏やかに伝う「光のパルス」システム (ゴミ完全廃止) ---
+    // --- 4. 弦を穏やかに伝う「光のパルス」システム ---
     function triggerStringPulse(amount) {
       const strIndex = Math.floor(Math.random() * numStrings);
       const targetStr = cosmicStrings[strIndex];
@@ -962,7 +934,7 @@
       xw += 0.0035; yw += 0.0055; zw += 0.0018; xy += 0.0025;
 
       const projected = vertices4D.map(v => {
-        const rotated = rotate4D(v, xw, yw, zw, xy);
+        const rotated = rotate4D_exact(v, xw, yw, zw, xy);
         return project4D(rotated);
       });
 
@@ -1035,6 +1007,12 @@
         if (d.mesh.position.length() > 6) {
           d.mesh.position.copy(d.driftDir).multiplyScalar(-5);
         }
+      });
+
+      // 幾何学スパイラル等角写像背景の穏やかな自転
+      conformalGroup.rotation.z += 0.0003;
+      conformalGroup.children.forEach((line) => {
+        line.material.color.lerp(new THREE.Color(targetColor.tesseract), 0.008);
       });
 
       // 光輪自転
@@ -1115,7 +1093,7 @@
       return parseFloat(val.replace(/,/g, '')) || 0;
     }
 
-    // 相互連動マルチコンバーター（循環バグを完全解消した安心設計）
+    // 相互連動マルチコンバーター
     function calculateFrom(type, value) {
       if (btcPrices.usd === 0 || btcPrices.jpy === 0) return;
       
@@ -1127,7 +1105,6 @@
       else if (type === 'eur') btc = value / btcPrices.eur;
       else if (type === 'cny') btc = value / btcPrices.cny;
 
-      // 現在入力中（フォーカス中）のボックス以外にのみ値を流し込む
       if (type !== 'sats') {
         elSats.value = Math.round(btc * 100000000).toLocaleString('en-US', {maximumFractionDigits: 0});
       }
@@ -1148,7 +1125,7 @@
       }
     }
 
-    // 入力監視とカンマ着脱コントロール
+    // 入力監視
     const inputTypes = ['sats', 'btc', 'jpy', 'usd', 'eur', 'cny'];
     inputTypes.forEach(type => {
       const el = document.getElementById(`conv-${type}`);
@@ -1179,7 +1156,6 @@
       }
     });
 
-    // 為替レート取得
     function fetchExchangeRates() {
       fetch('https://open.er-api.com/v6/latest/USD')
         .then(res => res.json())
@@ -1189,10 +1165,9 @@
             forexRates.CNY = data.rates.CNY || 7.24;
           }
         })
-        .catch(err => console.warn("Forex load fallback active.", err));
+        .catch(err => console.warn("Forex fallback.", err));
     }
 
-    // Binance WebSocket 接続 (USDの秒間連動アップデート)
     function connectBinance() {
       if (binanceWs) {
         try { binanceWs.close(); } catch(e){}
@@ -1207,13 +1182,11 @@
         btcPrices.cny = usdPrice * forexRates.CNY;
         
         document.getElementById('price-usd').innerText = `$${btcPrices.usd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-        
         updateConverter();
       };
       binanceWs.onclose = () => setTimeout(connectBinance, 5000); 
     }
 
-    // bitFlyer WebSocket 接続 (JPYの秒間連動アップデート)
     function connectBitflyer() {
       if (bitflyerWs) {
         try { bitflyerWs.close(); } catch(e){}
@@ -1235,21 +1208,18 @@
       bitflyerWs.onclose = () => setTimeout(connectBitflyer, 5000); 
     }
 
-    // リアルタイム価格アップデート連動
     function updateConverter() {
       if (btcPrices.usd === 0 || btcPrices.jpy === 0) return;
       
       const focusedInput = document.activeElement;
       const isInputFocused = focusedInput && focusedInput.tagName === 'INPUT' && focusedInput.id.startsWith('conv-');
       
-      // ユーザーが入力中でない場合のみ、Binanceの板に同期してカタカタ更新
       if (!isInputFocused) {
         const curBtcValue = parseFloat(elBtc.value.replace(/,/g, '')) || 1.0;
         calculateFrom('btc', curBtcValue);
       }
     }
 
-    // 最新高の巻き戻りズレを完全に防ぐ最大値制限ガード
     function setBlockHeight(height) {
       const h = parseInt(height);
       if (!isNaN(h) && h > latestBlockHeight) {
@@ -1262,7 +1232,6 @@
     function performInitialSync() {
       fetchExchangeRates();
 
-      // CoinGeckoで初期基準価格ロード
       fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,jpy')
         .then(res => res.json())
         .then(data => {
@@ -1323,12 +1292,11 @@
     function updateBlocksList(blocks) {
       if (!blocks || blocks.length === 0) return;
 
-      // 1. 最新高への安全上書きマージ
       let maxH = 0;
       blocks.forEach(b => { if (b.height > maxH) maxH = b.height; });
       setBlockHeight(maxH);
 
-      // 2. 確実にリストの上部が「最新（最大値）」になるようブロック高をソート
+      // ブロック高を降順ソート
       blocks.sort((a, b) => b.height - a.height);
 
       const container = document.getElementById('blocks-container');
@@ -1342,7 +1310,7 @@
 
         const card = document.createElement('div');
         card.className = 'block-card';
-        if (index === 0) card.style.borderLeftColor = '#00ffaa'; // 最新は美しいエメラルドグリーン
+        if (index === 0) card.style.borderLeftColor = '#00ffaa'; 
 
         card.addEventListener('click', () => {
           showMiningHologram(block.height, poolName, txs, vSizeMb, pSizeMb);
@@ -1362,7 +1330,7 @@
     }
 
 
-    // Mempool.space WebSocket (同期管理)
+    // Mempool.space WebSocket
     function connectWS() {
       if (ws) {
         try { ws.close(); } catch(e){}
@@ -1378,7 +1346,6 @@
       ws.onmessage = (event) => {
         const res = JSON.parse(event.data);
 
-        // 新規トランザクション
         if (res.mempoolInfo) {
           const fakeAmount = 0.001 + Math.random() * 0.45; 
           txCount++;
@@ -1419,7 +1386,7 @@
     }
 
     document.getElementById('btn-donate').addEventListener('click', launchWalletOfSatoshi);
-    document.getElementById('btn-address-click').addEventListener('click', launchWalletOfSatoshi);
+    document.getElementById('btn-address').addEventListener('click', launchWalletOfSatoshi);
 
     document.getElementById('btn-share').addEventListener('click', () => {
       const text = encodeURIComponent("Aether Tesseract - A meditative 11D visualization of the Bitcoin Network. ⚡️ Mined blocks and price converter in high fidelity. @mempool");
