@@ -12,7 +12,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #020409;
+      background-color: #000104;
       font-family: 'Montserrat', sans-serif;
       color: #f3f4f6;
       user-select: none;
@@ -26,20 +26,20 @@
       height: 140%;
       top: -20%;
       left: -20%;
-      background: radial-gradient(circle, rgba(10,20,44,0.3) 0%, rgba(0,0,0,0) 70%),
-                  radial-gradient(circle, rgba(42,10,54,0.12) 0%, rgba(0,0,0,0) 75%);
+      background: radial-gradient(circle, rgba(14,24,54,0.2) 0%, rgba(0,0,0,0) 70%),
+                  radial-gradient(circle, rgba(54,20,10,0.1) 0%, rgba(0,0,0,0) 75%);
       z-index: 0;
-      animation: nebula-drift 45s infinite alternate ease-in-out;
+      animation: nebula-drift 50s infinite alternate ease-in-out;
       pointer-events: none;
     }
     body::after {
       content: "";
       position: absolute;
       top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0.035; /* 極めてかすかなフィルムノイズ */
+      opacity: 0.038; /* 極めてかすかなフィルムノイズ */
       z-index: 2;
       pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     }
     @keyframes nebula-drift {
       0% { transform: translate(0, 0) scale(1.0); }
@@ -69,7 +69,7 @@
       box-sizing: border-box;
     }
     .glass-panel {
-      background: rgba(2, 4, 9, 0.6);
+      background: rgba(0, 1, 4, 0.65);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
       border: 1px solid rgba(255, 255, 255, 0.04);
@@ -77,7 +77,7 @@
       border-radius: 14px;
       pointer-events: auto;
       width: 320px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
     }
     .left-hud, .right-hud {
       display: flex;
@@ -90,7 +90,7 @@
       letter-spacing: 0.35em;
       text-transform: uppercase;
       margin: 0 0 12px 0;
-      background: linear-gradient(45deg, #00d2ff, #00ffaa);
+      background: linear-gradient(45deg, #ffaa00, #ff5500);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       transition: all 1.5s ease;
@@ -101,7 +101,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       margin: 0 0 10px 0;
-      color: #00ffaa;
+      color: #ffaa00;
       transition: color 1.5s ease;
     }
     .stat {
@@ -113,12 +113,12 @@
     }
     .stat span {
       font-weight: 400;
-      color: #00ffaa;
+      color: #ffaa00;
       font-family: 'Courier New', monospace;
       transition: color 1.5s ease;
     }
     
-    /* マルチコンバーター（美しく整列したデザイン） */
+    /* マルチコンバーター */
     .converter-box {
       margin-top: 15px;
       border-top: 1px solid rgba(255,255,255,0.08);
@@ -149,7 +149,7 @@
       padding-right: 12px;
     }
     .conv-row input:focus {
-      color: #00ffaa;
+      color: #ffaa00;
     }
     .conv-row .unit {
       font-size: 0.62rem;
@@ -169,7 +169,7 @@
     }
     .block-card {
       background: rgba(255, 255, 255, 0.01);
-      border-left: 3px solid #00d2ff;
+      border-left: 3px solid #ffaa00;
       padding: 8px 12px;
       border-radius: 0 6px 6px 0;
       transition: all 0.25s ease;
@@ -177,7 +177,7 @@
     }
     .block-card:hover {
       background: rgba(255, 255, 255, 0.05);
-      border-left-color: #00ffaa;
+      border-left-color: #ff5500;
     }
     .block-height-title {
       font-size: 0.75rem;
@@ -192,7 +192,7 @@
       line-height: 1.35;
     }
     .block-miner {
-      color: #00ffaa;
+      color: #ffaa00;
       font-weight: 300;
     }
 
@@ -206,14 +206,83 @@
       z-index: 100;
       text-align: center;
       pointer-events: none;
-      background: rgba(0, 210, 255, 0.06);
-      border: 1px solid rgba(0, 210, 255, 0.25);
+      background: rgba(255, 170, 0, 0.06);
+      border: 1px solid rgba(255, 170, 0, 0.25);
       border-radius: 8px;
       padding: 12px 25px;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+      box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
       transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+    }
+
+    /* 𝕏 Share & Lightning Support パネル（画像を忠実に再現） */
+    .support-panel {
+      margin-top: 10px;
+    }
+    .support-buttons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 11px;
+    }
+    .interactive-btn {
+      flex: 1;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 400;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      pointer-events: auto;
+    }
+    .donate-btn {
+      background: #f5a623; /* 暖かみのあるオレンジ */
+      color: #000;
+      font-weight: bold;
+    }
+    .donate-btn:hover {
+      background: #ffb83d;
+      box-shadow: 0 0 12px rgba(245,166,35,0.45);
+    }
+    .share-btn {
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+    }
+    .share-btn:hover {
+      background: #1a1a1a;
+      border-color: rgba(255,255,255,0.25);
+    }
+    .address-box-wrapper {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .address-box-wrapper:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: #f5a623;
+    }
+    .address-box-wrapper input {
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.55);
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      width: 100%;
+      text-align: center;
+      outline: none;
+      cursor: pointer;
     }
 
     #unmute-overlay {
@@ -248,14 +317,13 @@
       width: 100%;
     }
 
-    /* サウンドトグルボタン */
     #sound-toggle {
       position: absolute;
       top: 30px;
       right: 30px;
       pointer-events: auto;
-      background: rgba(1, 3, 7, 0.5);
-      border: 1px solid rgba(0, 210, 255, 0.15);
+      background: rgba(0, 1, 4, 0.5);
+      border: 1px solid rgba(255, 170, 0, 0.15);
       color: #fff;
       padding: 10px 18px;
       border-radius: 20px;
@@ -274,7 +342,7 @@
     }
     #sound-toggle:hover {
       background: rgba(255,255,255,0.05);
-      border-color: #00ffaa;
+      border-color: #ffaa00;
     }
 
     @media (max-width: 900px) {
@@ -352,18 +420,30 @@
           </div>
         </div>
       </div>
+
+      <!-- Support & Share パネル（Wallet of Satoshi自動起動、X Share完備） -->
+      <div class="glass-panel support-panel">
+        <h2>♥ Support & Share</h2>
+        <div class="support-buttons">
+          <button id="btn-donate" class="interactive-btn donate-btn">⚡ Donate</button>
+          <button id="btn-share" class="interactive-btn share-btn">𝕏 Share</button>
+        </div>
+        <div id="btn-address-click" class="address-box-wrapper">
+          <input type="text" id="ln-address" value="brashridge65@walletofsatoshi.com" readonly>
+        </div>
+      </div>
     </div>
 
-    <!-- 右パネル: 予測中のブロックと採掘済のブロック -->
+    <!-- 右パネル -->
     <div class="right-hud">
       <div class="glass-panel">
         <h2>Next Projected Block</h2>
-        <div id="mempool-block-card" class="block-card" style="border-left-color: #ff8800; background: rgba(255,136,0,0.03);">
+        <div id="mempool-block-card" class="block-card" style="border-left-color: #ffaa00; background: rgba(255,170,0,0.03);">
           <div class="block-height-title" id="next-block-height">#------</div>
           <div class="block-info">
-            Median Fee: <span id="next-block-fee" style="color: #ff8800; font-weight: bold;">-- sat/vB</span><br>
+            Median Fee: <span id="next-block-fee" style="color: #ffaa00; font-weight: bold;">-- sat/vB</span><br>
             Estimated Size: <span id="next-block-size">-- MB</span><br>
-            Status: <span style="color: #ff8800; animation: pulse-text 1.5s infinite ease-in-out;">Constructing...</span>
+            Status: <span style="color: #ffaa00; animation: pulse-text 1.5s infinite ease-in-out;">Constructing...</span>
           </div>
         </div>
       </div>
@@ -378,11 +458,11 @@
   </div>
 
   <div id="credit">
-    11D SPACE VISUALIZER // SOURCE: MEMPOOL.SPACE ＆ BINANCE
+    11D SPACE VISUALIZER // SOURCE: MEMPOOL.SPACE ＆ COINBASE
   </div>
 
   <script>
-    // --- 1. WEB AUDIO API (宇宙バイオリン和音 ＆ ゲイン) ---
+    // --- 1. WEB AUDIO API (宇宙アンバー和音 ＆ ゲイン) ---
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const masterGain = audioCtx.createGain();
     masterGain.connect(audioCtx.destination);
@@ -397,12 +477,12 @@
     let chordIndex = 0;
     let padStarted = false;
 
-    // Chroma Harmony: 音色の和音コード変化に合わせた空間変色パレット
+    // Chroma Harmony: 音和音にシンクロしてアンバー・ゴールド系の深いグラデーション色が変化
     const themeColors = [
-      { tesseract: 0x00b2ff, string: 0x8800ff, glow: 'rgba(0,178,255,0.2)' }, // Am
-      { tesseract: 0x00ffaa, string: 0x00b2ff, glow: 'rgba(0,255,170,0.2)' }, // F
-      { tesseract: 0xff0099, string: 0xff7700, glow: 'rgba(255,0,153,0.2)' }, // C
-      { tesseract: 0xff9900, string: 0x00ffaa, glow: 'rgba(255,153,0,0.2)' }  // G
+      { tesseract: 0xff8800, string: 0xff3300 }, // Am: Amber & Red
+      { tesseract: 0xffaa00, string: 0xff5500 }, // F: Gold & Orange
+      { tesseract: 0xff5500, string: 0xaa0033 }, // C: Sunset Red & Dark Magenta
+      { tesseract: 0xffcc00, string: 0xff8800 }  // G: Honey Yellow & Amber
     ];
 
     function playAmbientPad() {
@@ -518,7 +598,7 @@
       });
     }
 
-    // アンミュート処理
+    // アンミュート
     window.addEventListener('click', () => {
       if (audioCtx.state === 'suspended') {
         audioCtx.resume().then(() => {
@@ -530,7 +610,7 @@
       }
     });
 
-    // サウンドON/OFF
+    // 音声トグル
     let soundOn = true;
     const toggleBtn = document.getElementById('sound-toggle');
     toggleBtn.addEventListener('click', (e) => {
@@ -540,7 +620,7 @@
         masterGain.gain.setTargetAtTime(1.0, audioCtx.currentTime, 0.1);
         document.getElementById('sound-icon').innerText = '🔊';
         document.getElementById('sound-text').innerText = 'SOUND: ON';
-        toggleBtn.style.borderColor = 'rgba(0, 210, 255, 0.15)';
+        toggleBtn.style.borderColor = 'rgba(255, 170, 0, 0.15)';
       } else {
         masterGain.gain.setTargetAtTime(0.0, audioCtx.currentTime, 0.1);
         document.getElementById('sound-icon').innerText = '🔇';
@@ -550,10 +630,10 @@
     });
 
 
-    // --- 2. THREE.JS VISUALS (地球、4Dテセラクト、11次元超弦、重力レンズ光輪) ---
+    // --- 2. THREE.JS VISUALS (アンバーテセラクト、超弦、多層星野、浮遊ゴールドキューブ) ---
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x020409, 0.02); // 上品な青みがかった深いフォグ
+    scene.fog = new THREE.FogExp2(0x000104, 0.025); // 深く澄んだ宇宙
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.set(0, 0, 5.8);
@@ -577,7 +657,7 @@
       const ctx = canvas.getContext('2d');
       const gradient = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
       gradient.addColorStop(0, 'rgba(255,255,255,1)');
-      gradient.addColorStop(0.2, 'rgba(0,180,255,0.7)');
+      gradient.addColorStop(0.2, 'rgba(255,170,0,0.8)'); // 暖かみのあるオレンジ発光
       gradient.addColorStop(1, 'rgba(0,0,0,0)');
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, 16, 16);
@@ -628,10 +708,11 @@
       return new THREE.Vector3(v.x * factor * 1.3, v.y * factor * 1.3, v.z * factor * 1.3);
     }
 
+    // 4Dテセラクト
     const lineGeometry = new THREE.BufferGeometry();
     const linePositions = new Float32Array(edges.length * 2 * 3);
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00d2ff, transparent: true, opacity: 0.45, blending: THREE.AdditiveBlending });
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.55, blending: THREE.AdditiveBlending });
     const tesseractLines = new THREE.LineSegments(lineGeometry, lineMaterial);
     scene.add(tesseractLines);
 
@@ -641,10 +722,10 @@
     const tesseractPoints = new THREE.Points(pointGeometry, new THREE.PointsMaterial({ size: 0.28, map: glowTexture, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
     scene.add(tesseractPoints);
 
-    // 地球
+    // 地球（中心にそっと置く上品な青ワイヤー）
     const earthGroup = new THREE.Group();
     scene.add(earthGroup);
-    const ocean = new THREE.Mesh(new THREE.SphereGeometry(0.38, 18, 18), new THREE.MeshBasicMaterial({ color: 0x0055ff, wireframe: true, transparent: true, opacity: 0.18, blending: THREE.AdditiveBlending }));
+    const ocean = new THREE.Mesh(new THREE.SphereGeometry(0.38, 18, 18), new THREE.MeshBasicMaterial({ color: 0x0044ff, wireframe: true, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending }));
     earthGroup.add(ocean);
     const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(0.40, 16, 16), new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true, transparent: true, opacity: 0.08, blending: THREE.AdditiveBlending }));
     earthGroup.add(atmosphere);
@@ -652,7 +733,7 @@
     // 重力レンズリング (光輪)
     const gravityRing = new THREE.Mesh(
       new THREE.RingGeometry(1.5, 1.515, 64),
-      new THREE.MeshBasicMaterial({ color: 0x00aaff, side: THREE.DoubleSide, transparent: true, opacity: 0.12, blending: THREE.AdditiveBlending })
+      new THREE.MeshBasicMaterial({ color: 0xff9900, side: THREE.DoubleSide, transparent: true, opacity: 0.12, blending: THREE.AdditiveBlending })
     );
     gravityRing.rotation.x = Math.PI / 3;
     scene.add(gravityRing);
@@ -667,7 +748,7 @@
       }
       const curve = new THREE.CatmullRomCurve3(points);
       const strGeo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(50));
-      const strMat = new THREE.LineBasicMaterial({ color: s % 2 === 0 ? 0x00ffff : 0xaa00ff, transparent: true, opacity: 0.06, blending: THREE.AdditiveBlending });
+      const strMat = new THREE.LineBasicMaterial({ color: s % 2 === 0 ? 0xffaa00 : 0xff3300, transparent: true, opacity: 0.06, blending: THREE.AdditiveBlending });
       const line = new THREE.Line(strGeo, strMat);
       scene.add(line);
       cosmicStrings.push({ 
@@ -679,21 +760,69 @@
       });
     }
 
-    // 星空背景
-    const starCount = 1000;
-    const starPositions = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCount * 3; i += 3) {
-      const radius = 25 + Math.random() * 30;
-      const theta = Math.random() * 2.0 * Math.PI;
-      const phi = Math.acos(2.0 * Math.random() - 1.0);
-      starPositions[i] = radius * Math.sin(phi) * Math.cos(theta);
-      starPositions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
-      starPositions[i + 2] = radius * Math.cos(phi);
+    // 多層構造星野（大小さまざまなリアルな煌めき）
+    const layerCount = 3;
+    const starCounts = [500, 400, 300];
+    const starSizes = [0.03, 0.07, 0.15];
+    const starColors = [0xffffff, 0xffeebb, 0xbbddff];
+
+    starCounts.forEach((count, sLayer) => {
+      const starPositions = new Float32Array(count * 3);
+      for (let i = 0; i < count * 3; i += 3) {
+        const radius = 22 + Math.random() * 32;
+        const theta = Math.random() * 2.0 * Math.PI;
+        const phi = Math.acos(2.0 * Math.random() - 1.0);
+        starPositions[i] = radius * Math.sin(phi) * Math.cos(theta);
+        starPositions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
+        starPositions[i + 2] = radius * Math.cos(phi);
+      }
+      const starGeometry = new THREE.BufferGeometry();
+      starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+      
+      const starMat = new THREE.PointsMaterial({
+        size: starSizes[sLayer],
+        color: starColors[sLayer],
+        transparent: true,
+        opacity: sLayer === 2 ? 0.6 : 0.4,
+        map: sLayer === 2 ? glowTexture : null,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      const stars = new THREE.Points(starGeometry, starMat);
+      scene.add(stars);
+    });
+
+    const starField = new THREE.Group(); // 全体用ラッパー
+
+    // -- 新規：上品な浮遊ゴールドキューブシステム (画像5参考) --
+    const debrisGroup = new THREE.Group();
+    scene.add(debrisGroup);
+    const debris = [];
+    for (let i = 0; i < 8; i++) {
+      const size = 0.05 + Math.random() * 0.08;
+      const geo = new THREE.BoxGeometry(size, size, size);
+      const mat = new THREE.MeshBasicMaterial({
+        color: 0xffaa00,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.28,
+        blending: THREE.AdditiveBlending
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.set(
+        (Math.random() - 0.5) * 6,
+        (Math.random() - 0.5) * 6,
+        (Math.random() - 0.5) * 6
+      );
+      debrisGroup.add(mesh);
+      debris.push({
+        mesh: mesh,
+        rotSpeedX: (Math.random() - 0.5) * 0.015,
+        rotSpeedY: (Math.random() - 0.5) * 0.015,
+        driftSpeed: 0.001 + Math.random() * 0.0015,
+        driftDir: new THREE.Vector3((Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.1).normalize()
+      });
     }
-    const starGeometry = new THREE.BufferGeometry();
-    starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-    const starField = new THREE.Points(starGeometry, new THREE.PointsMaterial({ size: 0.06, color: 0xffffff, transparent: true, opacity: 0.35, depthWrite: false }));
-    scene.add(starField);
 
     const satelliteGroup = new THREE.Group();
     scene.add(satelliteGroup);
@@ -712,7 +841,6 @@
         ghostSatellite = null;
       }
       
-      // ブロック容量（Weight）に比例した大きさの設定
       const vSizeMb = weight ? (weight / 4 / 1000000) : 1.0;
       const size = 0.03 + Math.min(1.2, vSizeMb) * 0.08;
 
@@ -743,11 +871,11 @@
         
         // 実際の仮想サイズ（vMB：最大1.00vMB基準）に比例した立方体のスケール決定
         const vSizeMb = block.weight ? (block.weight / 4 / 1000000) : 1.0;
-        const size = 0.03 + Math.min(1.2, vSizeMb) * 0.08; // 実際のブロック容量が大きいほど大きくなる
+        const size = 0.03 + Math.min(1.2, vSizeMb) * 0.08; 
 
         const mesh = new THREE.Mesh(
           new THREE.BoxGeometry(size, size, size),
-          new THREE.MeshBasicMaterial({ color: index === 0 ? 0x00ffaa : 0x00aaff, wireframe: true, transparent: true, opacity: 0.8 - index * 0.12, blending: THREE.AdditiveBlending })
+          new THREE.MeshBasicMaterial({ color: index === 0 ? 0xffaa00 : 0xff5500, wireframe: true, transparent: true, opacity: 0.8 - index * 0.12, blending: THREE.AdditiveBlending })
         );
         satelliteGroup.add(mesh);
         blockSatellites.push({ 
@@ -767,9 +895,9 @@
       const holo = document.getElementById('hologram-toast');
       holo.style.display = 'block';
       holo.innerHTML = `
-        <div style="font-size:0.6rem; color:#00ffaa; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:5px;">DIMENSIONAL INTERFACE</div>
+        <div style="font-size:0.6rem; color:#ffaa00; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:5px;">DIMENSIONAL INTERFACE</div>
         <div style="font-size:1.0rem; font-weight:bold; color:#fff; letter-spacing:0.1em; margin-bottom:3px;">SECURED BLOCK #${height}</div>
-        <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-bottom:2px;">Mined by <span style="color:#00d2ff; font-weight:bold;">${pool}</span></div>
+        <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-bottom:2px;">Mined by <span style="color:#ff5500; font-weight:bold;">${pool}</span></div>
         <div style="font-size:0.65rem; color:rgba(255,255,255,0.4); font-family:monospace;">Txs: ${txs.toLocaleString()} | Size: ${vSize} vMB (${pSize} MB)</div>
       `;
       holo.style.opacity = '0';
@@ -787,17 +915,15 @@
     }
 
 
-    // --- 4. 弦を穏やかに伝う「光のパルス」システム (緑の跳ねるゴミを完全廃止) ---
+    // --- 4. 弦を穏やかに伝う「光のパルス」システム (ゴミ完全廃止) ---
     function triggerStringPulse(amount) {
-      // 11本の超弦からランダムな一本を選択
       const strIndex = Math.floor(Math.random() * numStrings);
       const targetStr = cosmicStrings[strIndex];
       
-      // 金額に比例した上品な粒子
       const pulseSize = Math.min(0.12, 0.035 + Math.log10(amount + 1) * 0.04);
-      let color = 0x00d2ff;
-      if (amount > 1.0) color = 0xffaa00; 
-      else if (amount > 0.1) color = 0x00ffaa; 
+      let color = 0xffaa00;
+      if (amount > 1.0) color = 0xff5500; 
+      else if (amount > 0.1) color = 0xffcc00; 
 
       const mesh = new THREE.Mesh(
         new THREE.SphereGeometry(pulseSize, 8, 8),
@@ -894,12 +1020,22 @@
             p.mesh.geometry.dispose();
             p.mesh.material.dispose();
             str.pulses.splice(i, 1);
-            earthPulseScale = 1.12; // 地球に穏やかな脈動波
+            earthPulseScale = 1.12; 
           } else {
             const pOnCurve = curve.getPointAt(p.progress);
             p.mesh.position.copy(pOnCurve);
-            p.mesh.material.opacity = Math.sin(p.progress * Math.PI) * 0.95; // フェード
+            p.mesh.material.opacity = Math.sin(p.progress * Math.PI) * 0.95; 
           }
+        }
+      });
+
+      // ゴールド浮遊物のアニメーション
+      debris.forEach(d => {
+        d.mesh.rotation.x += d.rotSpeedX;
+        d.mesh.rotation.y += d.rotSpeedY;
+        d.mesh.position.addScaledVector(d.driftDir, d.driftSpeed);
+        if (d.mesh.position.length() > 6) {
+          d.mesh.position.copy(d.driftDir).multiplyScalar(-5);
         }
       });
 
@@ -912,8 +1048,6 @@
       earthPulseScale += (1.0 - earthPulseScale) * 0.08;
       ocean.scale.set(earthPulseScale, earthPulseScale, earthPulseScale);
       atmosphere.scale.set(earthPulseScale, earthPulseScale, earthPulseScale);
-
-      starField.rotation.y += 0.0001;
 
       // 採掘済衛星
       blockSatellites.forEach(s => {
@@ -963,11 +1097,11 @@
     }
 
 
-    // --- 6. REAL-TIME DATA (BINANCE SOCKET ＆ MULTIPORT CONNECT) ---
-    let btcPrices = { usd: 67000, jpy: 10500000 }; 
-    let forexRates = { JPY: 156.0, EUR: 0.92, CNY: 7.24 }; // 初期為替基準
-    let latestBlockHeight = '------';
-    let ws, binanceWS;
+    // --- 6. REAL-TIME DATA (COINBASE WEBSOCKET INTEGRATION) ---
+    let btcPrices = { usd: 67000, jpy: 10500000, eur: 61000, cny: 480000 }; 
+    let forexRates = { JPY: 156.0, EUR: 0.92, CNY: 7.24 }; 
+    let latestBlockHeight = 0;
+    let ws, coinbaseWS;
     let txCount = 0;
     let totalBtc = 0;
 
@@ -982,14 +1116,14 @@
       return parseFloat(val.replace(/,/g, '')) || 0;
     }
 
-    // 相互連動マルチコンバーター（画像の整列順を完全同期）
+    // 相互連動マルチコンバーター
     function updateConverterFromBTC(btcVal, source) {
       if (isNaN(btcVal) || btcVal < 0) return;
       const sats = Math.round(btcVal * 100000000);
       const usd = btcVal * btcPrices.usd;
       const jpy = btcVal * btcPrices.jpy;
-      const eur = usd * forexRates.EUR;
-      const cny = usd * forexRates.CNY;
+      const eur = btcVal * btcPrices.eur;
+      const cny = btcVal * btcPrices.cny;
 
       if (source !== 'sats') elSats.value = sats.toLocaleString();
       if (source !== 'btc') elBtc.value = btcVal.toFixed(8);
@@ -999,7 +1133,7 @@
       if (source !== 'cny') elCny.value = cny.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    // 各フォームへのリスナーマージ
+    // インプット連動
     elSats.addEventListener('input', () => {
       const btc = cleanNum(elSats.value) / 100000000;
       updateConverterFromBTC(btc, 'sats');
@@ -1017,11 +1151,11 @@
       updateConverterFromBTC(btc, 'usd');
     });
     elEur.addEventListener('input', () => {
-      const btc = (cleanNum(elEur.value) / forexRates.EUR) / btcPrices.usd;
+      const btc = cleanNum(elEur.value) / btcPrices.eur;
       updateConverterFromBTC(btc, 'eur');
     });
     elCny.addEventListener('input', () => {
-      const btc = (cleanNum(elCny.value) / forexRates.CNY) / btcPrices.usd;
+      const btc = cleanNum(elCny.value) / btcPrices.cny;
       updateConverterFromBTC(btc, 'cny');
     });
 
@@ -1035,28 +1169,36 @@
             forexRates.CNY = data.rates.CNY || 7.24;
           }
         })
-        .catch(err => console.warn("Forex load fallback active.", err));
+        .catch(err => console.warn("Forex fallback active.", err));
     }
 
-    // Binance WebSocket 接続による「本物の取引板に連動したミリ秒単位のカタカタ更新」
-    function connectBinanceWS() {
-      if (binanceWS) {
-        try { binanceWS.close(); } catch(e){}
+    // Coinbase WebSocket による完全リアルタイム価格カタカタ連動
+    function connectCoinbaseWS() {
+      if (coinbaseWS) {
+        try { coinbaseWS.close(); } catch(e){}
       }
-      // Binanceの公式リアルタイムトレードストリーム
-      binanceWS = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt');
+      coinbaseWS = new WebSocket('wss://ws-feed.pro.coinbase.com');
 
-      binanceWS.onmessage = (event) => {
+      coinbaseWS.onopen = () => {
+        coinbaseWS.send(JSON.stringify({
+          "type": "subscribe",
+          "channels": [{ "name": "ticker", "product_ids": ["BTC-USD"] }]
+        }));
+      };
+
+      coinbaseWS.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        if (data.p) {
-          const usdPrice = parseFloat(data.p);
+        if (data.type === 'ticker' && data.price) {
+          const usdPrice = parseFloat(data.price);
           btcPrices.usd = usdPrice;
           btcPrices.jpy = usdPrice * forexRates.JPY;
+          btcPrices.eur = usdPrice * forexRates.EUR;
+          btcPrices.cny = usdPrice * forexRates.CNY;
 
           document.getElementById('price-usd').innerText = '$' + btcPrices.usd.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
           document.getElementById('price-jpy').innerText = '¥' + Math.round(btcPrices.jpy).toLocaleString();
 
-          // ユーザーが入力中でない場合のみ、Binanceの板に同期してカタカタ更新
+          // ユーザーがフォーム未フォーカスの場合のみ、ミリ秒リアルタイム同期
           if (document.activeElement !== elSats && 
               document.activeElement !== elBtc && 
               document.activeElement !== elJpy && 
@@ -1064,22 +1206,26 @@
               document.activeElement !== elEur &&
               document.activeElement !== elCny) {
             const curBtcValue = cleanNum(elBtc.value) || 1.0;
-            updateConverterFromBTC(curBtcValue, 'binance_pulse');
+            updateConverterFromBTC(curBtcValue, 'ticker_pulse');
           }
         }
       };
 
-      binanceWS.onerror = (err) => {
-        console.warn("Binance stream error, falling back to static ticker.", err);
-      };
-
-      binanceWS.onclose = () => {
-        setTimeout(connectBinanceWS, 6000);
+      coinbaseWS.onclose = () => {
+        setTimeout(connectCoinbaseWS, 5000);
       };
     }
 
+    // 最新高の巻き戻りズレを完全に防ぐ最大値制限ガード
+    function setBlockHeight(height) {
+      const h = parseInt(height);
+      if (!isNaN(h) && h > latestBlockHeight) {
+        latestBlockHeight = h;
+        document.getElementById('block-height').innerText = h;
+        document.getElementById('next-block-height').innerText = '#' + (h + 1);
+      }
+    }
 
-    // 開いた瞬間の「Loading...」固まりを解決する一括同期 REST API
     function performInitialSync() {
       fetchExchangeRate();
 
@@ -1088,44 +1234,43 @@
         .then(data => {
           btcPrices.usd = data.bitcoin.usd;
           btcPrices.jpy = data.bitcoin.jpy;
-          document.getElementById('price-usd').innerText = '$' + btcPrices.usd.toLocaleString();
-          document.getElementById('price-jpy').innerText = '¥' + btcPrices.jpy.toLocaleString();
+          btcPrices.eur = data.bitcoin.usd * forexRates.EUR;
+          btcPrices.cny = data.bitcoin.usd * forexRates.CNY;
           updateConverterFromBTC(1.0, 'init'); 
         })
         .catch(err => {
           updateConverterFromBTC(1.0, 'init');
         });
 
-      // 最新ブロック高
+      // 最新高フェッチ
       fetch('https://mempool.space/api/blocks/tip/height')
         .then(res => res.json())
         .then(height => {
-          latestBlockHeight = height;
-          document.getElementById('block-height').innerText = height;
+          setBlockHeight(height);
         })
-        .catch(err => console.warn("Height fetch issue:", err));
+        .catch(err => console.warn("Height error:", err));
 
-      // 次のmempool予測ブロック
+      // 予測ブロック
       fetch('https://mempool.space/api/v1/fees/mempool-blocks')
         .then(res => res.json())
         .then(mempoolBlocks => {
           updateNextBlockUI(mempoolBlocks);
         })
-        .catch(err => console.warn("Mempool blocks fetch issue:", err));
+        .catch(err => console.warn("Next block error:", err));
 
-      // 最近の採掘済ブロック
+      // 最近のブロック
       fetch('https://mempool.space/api/v1/blocks')
         .then(res => res.json())
         .then(blocks => {
           updateBlocksList(blocks);
         })
-        .catch(err => console.warn("Recent blocks fetch issue:", err));
+        .catch(err => console.warn("Mined blocks error:", err));
     }
 
     function updateNextBlockUI(mempoolBlocks) {
       if (mempoolBlocks && mempoolBlocks.length > 0) {
         const nextBlock = mempoolBlocks[0];
-        const nextHeight = parseInt(latestBlockHeight) ? parseInt(latestBlockHeight) + 1 : 'Pending...';
+        const nextHeight = latestBlockHeight ? (latestBlockHeight + 1) : 'Pending...';
         
         const vSizeMb = (nextBlock.blockSize / 1000000).toFixed(2); 
         
@@ -1133,25 +1278,28 @@
         document.getElementById('next-block-fee').innerText = Math.round(nextBlock.medianFee) + ' sat/vB';
         document.getElementById('next-block-size').innerText = vSizeMb + ' vMB';
         
-        // 実際の予測ブロック容量に比例した大きさでゴースト衛星を生成
         updateGhostSatellite(nextHeight, nextBlock.blockWeight);
       }
     }
 
     function updateBlocksList(blocks) {
+      // 最大高の確定
+      let maxH = 0;
+      blocks.forEach(b => { if (b.height > maxH) maxH = b.height; });
+      setBlockHeight(maxH);
+
       const container = document.getElementById('blocks-container');
       container.innerHTML = '';
 
       blocks.slice(0, 5).forEach((block, index) => {
         const poolName = block.extras?.pool?.name || "Unknown Miner";
-        
-        const vSizeMb = (block.weight / 4 / 1000000).toFixed(2); // 仮想vMB
-        const pSizeMb = (block.size / 1000000).toFixed(2); // 物理MB
+        const vSizeMb = (block.weight / 4 / 1000000).toFixed(2); 
+        const pSizeMb = (block.size / 1000000).toFixed(2); 
         const txs = block.tx_count;
 
         const card = document.createElement('div');
         card.className = 'block-card';
-        if (index === 0) card.style.borderLeftColor = '#00ffaa';
+        if (index === 0) card.style.borderLeftColor = '#ffaa00';
 
         card.addEventListener('click', () => {
           showMiningHologram(block.height, poolName, txs, vSizeMb, pSizeMb);
@@ -1180,7 +1328,7 @@
 
       ws.onopen = () => {
         document.getElementById('status').innerText = 'Synced';
-        document.getElementById('status').style.color = '#00ffaa';
+        document.getElementById('status').style.color = '#ffaa00';
         ws.send(JSON.stringify({ "action": "want", "data": ["blocks", "mempool-blocks", "stats"] }));
       };
 
@@ -1192,22 +1340,16 @@
           const fakeAmount = 0.001 + Math.random() * 0.45; 
           txCount++;
           document.getElementById('tx-count').innerText = txCount;
-          
-          // 11次元超弦を走る「微細な光のパルス」を起動 (飛び散るゴミの完全廃止)
           triggerStringPulse(fakeAmount);
+          playTxSound(fakeAmount);
         }
 
         if (res.blocks) {
           updateBlocksList(res.blocks);
-          if (res.blocks[0]) {
-            latestBlockHeight = res.blocks[0].height;
-            document.getElementById('block-height').innerText = latestBlockHeight;
-          }
         }
 
         if (res.block) {
-          latestBlockHeight = res.block.height;
-          document.getElementById('block-height').innerText = latestBlockHeight;
+          setBlockHeight(res.block.height);
           triggerBlockWave();
           
           setTimeout(() => {
@@ -1228,13 +1370,27 @@
       };
     }
 
+    // --- 7. SUPPORT PANEL ACTIONS (Wallet of Satoshi自動起動 / X Share) ---
+    function launchWalletOfSatoshi() {
+      window.location.href = 'lightning:brashridge65@walletofsatoshi.com';
+    }
+
+    document.getElementById('btn-donate').addEventListener('click', launchWalletOfSatoshi);
+    document.getElementById('btn-address-click').addEventListener('click', launchWalletOfSatoshi);
+
+    document.getElementById('btn-share').addEventListener('click', () => {
+      const text = encodeURIComponent("Aether Tesseract - A meditative 11D visualization of the Bitcoin Network. ⚡️ Mined blocks and price converter in high fidelity. @mempool");
+      const url = encodeURIComponent(window.location.href);
+      window.open(`https://x.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+    });
+
     // --- INITIALIZE ---
     performInitialSync();
-    connectBinanceWS();
+    connectCoinbaseWS();
     connectWS();
     animate();
 
-    setInterval(fetchExchangeRate, 3600000); // 1時間おきに為替アップデート
+    setInterval(fetchExchangeRate, 3600000); // 為替同期
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
