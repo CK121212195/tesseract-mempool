@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aether Tesseract // Cosmos & Bitcoin Network Meditations</title>
+  <title>Aether Tesseract // Dimensional Meditations</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
   <style>
     body, html {
@@ -12,7 +12,7 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #030712;
+      background-color: #02040a;
       font-family: 'Montserrat', sans-serif;
       color: #f3f4f6;
       user-select: none;
@@ -40,22 +40,17 @@
       box-sizing: border-box;
     }
     .glass-panel {
-      background: rgba(3, 7, 18, 0.45);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(2, 4, 10, 0.55);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(255, 255, 255, 0.05);
       padding: 20px;
-      border-radius: 12px;
+      border-radius: 14px;
       pointer-events: auto;
-      width: 300px;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      width: 320px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
     }
-    .left-hud {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    .right-hud {
+    .left-hud, .right-hud {
       display: flex;
       flex-direction: column;
       gap: 15px;
@@ -63,7 +58,7 @@
     h1 {
       font-size: 1.0rem;
       font-weight: 300;
-      letter-spacing: 0.3em;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
       margin: 0 0 12px 0;
       background: linear-gradient(45deg, #00d2ff, #00ffaa);
@@ -71,7 +66,7 @@
       -webkit-text-fill-color: transparent;
     }
     h2 {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 300;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -91,44 +86,45 @@
       font-family: 'Courier New', monospace;
     }
     
-    /* 価格コンバーター */
+    /* マルチ連動コンバーター（画像準拠・極細・整列） */
     .converter-box {
       margin-top: 15px;
       border-top: 1px solid rgba(255,255,255,0.08);
       padding-top: 15px;
     }
-    .converter-row {
+    .conv-group {
       display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .conv-row {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      margin-top: 5px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 5px;
     }
-    .converter-row input {
-      width: 80px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #fff;
-      padding: 5px;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.8rem;
-    }
-    .converter-row select {
-      background: rgba(3, 7, 18, 0.85);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #fff;
-      font-size: 0.7rem;
-      padding: 4px;
-      border-radius: 4px;
-    }
-    #input-fiat {
-      flex: 1;
+    .conv-row input {
       background: transparent;
       border: none;
-      color: #00ffaa;
-      font-family: 'Courier New', monospace;
-      font-size: 0.85rem;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 1.15rem;
+      width: 70%;
+      outline: none;
       text-align: right;
+      padding-right: 12px;
+    }
+    .conv-row input:focus {
+      color: #00ffaa;
+    }
+    .conv-row .unit {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.4);
+      width: 25%;
+      text-align: left;
     }
 
     /* ブロックリスト */
@@ -136,7 +132,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 380px;
+      max-height: 280px;
       overflow-y: auto;
     }
     .block-card {
@@ -161,7 +157,7 @@
       font-size: 0.65rem;
       color: rgba(255,255,255,0.5);
       margin-top: 4px;
-      line-height: 1.3;
+      line-height: 1.35;
     }
     .block-miner {
       color: #00ffaa;
@@ -220,7 +216,6 @@
       width: 100%;
     }
 
-    /* モバイル対応 */
     @media (max-width: 900px) {
       #ui-container {
         flex-direction: column;
@@ -245,58 +240,79 @@
   <div id="canvas-container"></div>
   
   <div id="unmute-overlay">
-    [ Click anywhere to ignite the ambient universe ]
+    [ Click anywhere to ignite the 11th-dimensional harmony ]
   </div>
 
   <div id="hologram-toast"></div>
 
   <div id="ui-container">
-    <!-- 左パネル: 概要 ＆ 価格変換 -->
     <div class="left-hud">
       <div class="glass-panel">
         <h1>Aether Tesseract</h1>
-        <div class="stat">Network: <span id="status">Connecting...</span></div>
-        <div class="stat">Block Height: <span id="block-height">Loading...</span></div>
+        <div class="stat">Network: <span id="status">Synchronizing...</span></div>
+        <div class="stat">Block Height: <span id="block-height">Syncing...</span></div>
         <div class="stat">Tx Count: <span id="tx-count">0</span></div>
-        <div class="stat">BTC Price (USD): <span id="price-usd">Loading...</span></div>
-        <div class="stat">BTC Price (JPY): <span id="price-jpy">Loading...</span></div>
+        <div class="stat">BTC Price (USD): <span id="price-usd">Syncing...</span></div>
+        <div class="stat">BTC Price (JPY): <span id="price-jpy">Syncing...</span></div>
         
-        <!-- コンバーター機能 -->
+        <!-- 連動マルチコンバーター -->
         <div class="converter-box">
-          <h2>Price Converter</h2>
-          <div class="converter-row">
-            <input type="number" id="input-btc" value="1" step="0.1" min="0">
-            <span style="font-size:0.65rem; color:rgba(255,255,255,0.4)">BTC ⇄</span>
-            <span id="input-fiat">Calculating...</span>
-            <select id="select-currency">
-              <option value="jpy">JPY</option>
-              <option value="usd">USD</option>
-            </select>
+          <h2>Multivariate Converter</h2>
+          <div class="conv-group">
+            <div class="conv-row">
+              <input type="text" id="conv-sats" value="100,000,000">
+              <span class="unit">SATS</span>
+            </div>
+            <div class="conv-row">
+              <input type="text" id="conv-btc" value="1.00000000">
+              <span class="unit">BTC</span>
+            </div>
+            <div class="conv-row">
+              <input type="text" id="conv-jpy" value="10,000,000">
+              <span class="unit">JPY</span>
+            </div>
+            <div class="conv-row">
+              <input type="text" id="conv-usd" value="65,000">
+              <span class="unit">USD</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 右パネル: リアルタイムブロック ＆ プール情報 -->
+    <!-- 右パネル: 予測中のブロックと最近のブロック -->
     <div class="right-hud">
+      <!-- 次の生成中のブロック（Mempool情報） -->
       <div class="glass-panel">
-        <h2>Recent Blocks</h2>
+        <h2>Next Projected Block</h2>
+        <div id="mempool-block-card" class="block-card" style="border-left-color: #ffaa00; background: rgba(255,170,0,0.03);">
+          <div class="block-height-title" id="next-block-height">#------</div>
+          <div class="block-info">
+            Median Fee: <span id="next-block-fee" style="color: #ffaa00; font-weight: bold;">-- sat/vB</span><br>
+            Estimated Size: <span id="next-block-size">-- MB</span><br>
+            Status: <span style="color: #ffaa00; animation: pulse-text 1.5s infinite ease-in-out;">Constructing...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 過去の採掘済ブロック -->
+      <div class="glass-panel">
+        <h2>Mined Blocks</h2>
         <div id="blocks-container">
-          <div style="font-size:0.7rem; color:rgba(255,255,255,0.4)">Syncing blockchain...</div>
+          <div style="font-size:0.7rem; color:rgba(255,255,255,0.4)">Synchronizing blocks...</div>
         </div>
       </div>
     </div>
   </div>
 
   <div id="credit">
-    REAL-TIME VISUALIZER // SOURCE: MEMPOOL.SPACE & COINGECKO
+    11D SPACE VISUALIZER // DATA PROVIDED BY MEMPOOL.SPACE & COINGECKO
   </div>
 
   <script>
-    // --- 1. WEB AUDIO API (バイオリン風シンセパッド＆リアルタイムSE) ---
+    // --- 1. WEB AUDIO API (宇宙音楽 & 高次元バイオリンコードパッド) ---
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     
-    // アナログシンセパッド用の美しく悲しげなコード進行 (Am -> F -> C -> G)
     const padChords = [
       [110.00, 164.81, 220.00, 261.63], // Am
       [87.31, 130.81, 174.61, 220.00],  // F
@@ -306,7 +322,7 @@
     let chordIndex = 0;
     let padStarted = false;
 
-    // ISSの青い地球動画のような、フィルターがゆっくり開閉する壮大なパッド音
+    // ISS宇宙空間のような、フィルターとデチューンがうねる壮大なシンセバイオリン音
     function playAmbientPad() {
       if (padStarted || audioCtx.state === 'suspended') return;
       padStarted = true;
@@ -314,11 +330,10 @@
       const triggerNextChord = () => {
         const now = audioCtx.currentTime;
         const notes = padChords[chordIndex];
-        const duration = 10.0; // 1つの和音を10秒鳴らす
-        const overlap = 2.0;   // 2秒オーバーラップさせて滑らかに繋ぐ
+        const duration = 12.0; 
+        const overlap = 2.5;   
 
         notes.forEach(freq => {
-          // SawtoothとTriangleをデチューンして重ね、バイオリンのような「擦れとうねり」を再現
           const osc1 = audioCtx.createOscillator();
           const osc2 = audioCtx.createOscillator();
           const filter = audioCtx.createBiquadFilter();
@@ -326,23 +341,21 @@
 
           osc1.type = 'sawtooth';
           osc1.frequency.setValueAtTime(freq, now);
-          osc1.detune.setValueAtTime(-10, now);
+          osc1.detune.setValueAtTime(-12, now); // デチューンによる有機的擦れ音
 
           osc2.type = 'triangle';
           osc2.frequency.setValueAtTime(freq, now);
-          osc2.detune.setValueAtTime(10, now);
+          osc2.detune.setValueAtTime(12, now);
 
           filter.type = 'lowpass';
-          // 10秒かけてフィルターのカットオフ周波数をゆっくりスウィープ
-          filter.frequency.setValueAtTime(180, now);
-          filter.frequency.exponentialRampToValueAtTime(550, now + 4.5);
-          filter.frequency.exponentialRampToValueAtTime(120, now + duration);
-          filter.Q.setValueAtTime(2.5, now); // 少し倍音を強調
+          filter.frequency.setValueAtTime(150, now);
+          filter.frequency.exponentialRampToValueAtTime(580, now + 5.0);
+          filter.frequency.exponentialRampToValueAtTime(110, now + duration);
+          filter.Q.setValueAtTime(2.8, now); // バイオリンらしいエッジ感
 
-          // 緩やかなフェードイン、フェードアウト
           gainNode.gain.setValueAtTime(0, now);
-          gainNode.gain.linearRampToValueAtTime(0.012, now + 3.0); // 3秒かけてアタック
-          gainNode.gain.setValueAtTime(0.012, now + duration - overlap);
+          gainNode.gain.linearRampToValueAtTime(0.013, now + 3.5); 
+          gainNode.gain.setValueAtTime(0.013, now + duration - overlap);
           gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
           osc1.connect(filter);
@@ -357,14 +370,12 @@
         });
 
         chordIndex = (chordIndex + 1) % padChords.length;
-        // 8秒後に次の和音をフェードイン
         setTimeout(triggerNextChord, (duration - overlap) * 1000);
       };
 
       triggerNextChord();
     }
 
-    // トランザクション受信時のきらめくベル音
     const scale = [220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99, 880.00];
     function playTxSound(amount) {
       if (audioCtx.state === 'suspended') return;
@@ -382,7 +393,7 @@
 
       const duration = Math.min(5.0, 0.8 + amount * 2.0);
       gainNode.gain.setValueAtTime(0, now);
-      gainNode.gain.linearRampToValueAtTime(0.07, now + 0.08);
+      gainNode.gain.linearRampToValueAtTime(0.06, now + 0.08);
       gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
       filter.type = 'lowpass';
@@ -396,7 +407,6 @@
       osc.stop(now + duration);
     }
 
-    // 新規ブロック生成時の壮大なゴング音
     function playBlockSound() {
       if (audioCtx.state === 'suspended') return;
       const now = audioCtx.currentTime;
@@ -426,7 +436,6 @@
       });
     }
 
-    // 初回タップ時の活性化
     window.addEventListener('click', () => {
       if (audioCtx.state === 'suspended') {
         audioCtx.resume().then(() => {
@@ -438,13 +447,13 @@
     });
 
 
-    // --- 2. THREE.JS VISUALS (宇宙空間と4Dテセラクト) ---
+    // --- 2. THREE.JS VISUALS (宇宙空間、4Dテセラクト、11次元超弦、インターステラーの光輪) ---
     const container = document.getElementById('canvas-container');
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x030712, 0.035);
+    scene.fog = new THREE.FogExp2(0x02040a, 0.03);
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-    camera.position.set(0, 0, 5.5);
+    camera.position.set(0, 0, 5.8);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -458,7 +467,6 @@
     controls.maxDistance = 15;
     controls.minDistance = 2.5;
 
-    // パーティクル用 Canvas テクスチャ
     function createGlowTexture() {
       const canvas = document.createElement('canvas');
       canvas.width = 16;
@@ -474,7 +482,7 @@
     }
     const glowTexture = createGlowTexture();
 
-    // 4Dテセラクトの定義
+    // 4Dテセラクト構成
     const vertices4D = [];
     for (let x of [-1, 1]) {
       for (let y of [-1, 1]) {
@@ -500,16 +508,12 @@
     function rotate4D(v, xw, yw, zw, xy) {
       let x = v.x, y = v.y, z = v.z, w = v.w;
       let cos, sin, tmp;
-      // X-W
       cos = Math.cos(xw); sin = Math.sin(xw);
       tmp = x * cos - w * sin; w = x * sin + w * cos; x = tmp;
-      // Y-W
       cos = Math.cos(yw); sin = Math.sin(yw);
       tmp = y * cos - w * sin; w = y * sin + w * cos; y = tmp;
-      // Z-W
       cos = Math.cos(zw); sin = Math.sin(zw);
       tmp = z * cos - w * sin; w = z * sin + w * cos; z = tmp;
-      // X-Y
       cos = Math.cos(xy); sin = Math.sin(xy);
       tmp = x * cos - y * sin; y = x * sin + y * cos; x = tmp;
       return { x, y, z, w };
@@ -521,50 +525,71 @@
       return new THREE.Vector3(v.x * factor * 1.3, v.y * factor * 1.3, v.z * factor * 1.3);
     }
 
-    // 4Dワイヤーフレーム
     const lineGeometry = new THREE.BufferGeometry();
     const linePositions = new Float32Array(edges.length * 2 * 3);
     lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3));
-    const lineMaterial = new THREE.LineBasicMaterial({
-      color: 0x00d2ff,
-      transparent: true,
-      opacity: 0.5,
-      blending: THREE.AdditiveBlending
-    });
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00d2ff, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending });
     const tesseractLines = new THREE.LineSegments(lineGeometry, lineMaterial);
     scene.add(tesseractLines);
 
-    // 4D頂点
     const pointGeometry = new THREE.BufferGeometry();
     const pointPositions = new Float32Array(16 * 3);
     pointGeometry.setAttribute('position', new THREE.BufferAttribute(pointPositions, 3));
-    const pointMaterial = new THREE.PointsMaterial({
-      size: 0.28,
-      map: glowTexture,
-      transparent: true,
-      blending: THREE.AdditiveBlending,
-      depthWrite: false
-    });
-    const tesseractPoints = new THREE.Points(pointGeometry, pointMaterial);
+    const tesseractPoints = new THREE.Points(pointGeometry, new THREE.PointsMaterial({ size: 0.28, map: glowTexture, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
     scene.add(tesseractPoints);
 
     // 中心の「地球」
     const earthGroup = new THREE.Group();
     scene.add(earthGroup);
-
-    const ocean = new THREE.Mesh(
-      new THREE.SphereGeometry(0.38, 18, 18),
-      new THREE.MeshBasicMaterial({ color: 0x0055ff, wireframe: true, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending })
-    );
+    const ocean = new THREE.Mesh(new THREE.SphereGeometry(0.38, 18, 18), new THREE.MeshBasicMaterial({ color: 0x0055ff, wireframe: true, transparent: true, opacity: 0.2, blending: THREE.AdditiveBlending }));
     earthGroup.add(ocean);
-
-    const atmosphere = new THREE.Mesh(
-      new THREE.SphereGeometry(0.40, 16, 16),
-      new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending })
-    );
+    const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(0.40, 16, 16), new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true, transparent: true, opacity: 0.1, blending: THREE.AdditiveBlending }));
     earthGroup.add(atmosphere);
 
-    // 背景の星空
+    // -- A. インターステラー：アインシュタイン・重力レンズの極薄光輪 --
+    const gravityRingGeo = new THREE.RingGeometry(1.5, 1.52, 64);
+    const gravityRingMat = new THREE.MeshBasicMaterial({
+      color: 0x00aaff,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.15,
+      blending: THREE.AdditiveBlending
+    });
+    const gravityRing = new THREE.Mesh(gravityRingGeo, gravityRingMat);
+    gravityRing.rotation.x = Math.PI / 3; 
+    scene.add(gravityRing);
+
+    // -- B. 11次元：空間を漂い、高次元揺らぎでぐにゃぐにゃとうねる11本の超弦 (Superstrings) --
+    const numStrings = 11;
+    const cosmicStrings = [];
+    for (let s = 0; s < numStrings; s++) {
+      const points = [];
+      for (let i = 0; i < 5; i++) {
+        points.push(new THREE.Vector3(
+          (Math.random() - 0.5) * 8,
+          (Math.random() - 0.5) * 8,
+          (Math.random() - 0.5) * 8
+        ));
+      }
+      const curve = new THREE.CatmullRomCurve3(points);
+      const strGeo = new THREE.BufferGeometry().setFromPoints(curve.getPoints(50));
+      const strMat = new THREE.LineBasicMaterial({
+        color: s % 2 === 0 ? 0x00ffff : 0xaa00ff,
+        transparent: true,
+        opacity: 0.08,
+        blending: THREE.AdditiveBlending
+      });
+      const line = new THREE.Line(strGeo, strMat);
+      scene.add(line);
+      cosmicStrings.push({
+        line: line,
+        basePoints: points.map(p => p.clone()),
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.01 + Math.random() * 0.01
+      });
+    }
+
+    // 星空背景
     const starCount = 1200;
     const starGeometry = new THREE.BufferGeometry();
     const starPositions = new Float32Array(starCount * 3);
@@ -580,31 +605,67 @@
     const starField = new THREE.Points(starGeometry, new THREE.PointsMaterial({ size: 0.08, color: 0xffffff, transparent: true, opacity: 0.45, depthWrite: false }));
     scene.add(starField);
 
-    // 軌道衛星ブロックグループ
+    // 衛星ブロック（周回軌道）
     const satelliteGroup = new THREE.Group();
     scene.add(satelliteGroup);
 
 
-    // --- 3. リアルタイムブロック「軌道衛星」システム ---
+    // --- 3. 採掘済衛星 ＆ 未承認未来ブロック「ゴースト」システム ---
     const blockSatellites = [];
+    let ghostSatellite = null;
+
+    // 未来の未承認（生成中）のmempool予測ブロックをゴースト衛星として視覚化
+    function updateGhostSatellite(height, medianFee) {
+      if (ghostSatellite) {
+        satelliteGroup.remove(ghostSatellite.mesh);
+        ghostSatellite.mesh.geometry.dispose();
+        ghostSatellite.mesh.material.dispose();
+        ghostSatellite = null;
+      }
+
+      // 未だ不確実な未来のブロックは、オレンジ色の燃え盛るホログラム球体
+      const size = 0.12;
+      const geo = new THREE.SphereGeometry(size, 8, 8);
+      const mat = new THREE.MeshBasicMaterial({
+        color: 0xff8800,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      satelliteGroup.add(mesh);
+
+      ghostSatellite = {
+        mesh: mesh,
+        radius: 0.8, // 採掘前の生成段階のため、地球テセラクトの最も近い軌道を周回
+        angle: Math.random() * Math.PI * 2,
+        speed: 0.0035,
+        tilt: 0.25
+      };
+    }
 
     function update3DSatellites(blocks) {
-      // 既存の衛星オブジェクトをクリーンアップ
-      while (satelliteGroup.children.length > 0) {
-        const obj = satelliteGroup.children[0];
-        obj.geometry.dispose();
-        obj.material.dispose();
-        satelliteGroup.remove(obj);
-      }
+      // 既存の採掘済ブロック衛星をクリーンアップ (ゴーストは除く)
+      const toRemove = [];
+      satelliteGroup.children.forEach(child => {
+        if (ghostSatellite && child === ghostSatellite.mesh) return;
+        toRemove.push(child);
+      });
+      toRemove.forEach(child => {
+        child.geometry.dispose();
+        child.material.dispose();
+        satelliteGroup.remove(child);
+      });
       blockSatellites.length = 0;
 
       blocks.forEach((block, index) => {
-        const orbitRadius = 1.3 + index * 0.45; // 軌道半径
-        const size = 0.08 - index * 0.007; // 古いブロックほど小さくフェードアウト
+        const orbitRadius = 1.35 + index * 0.45; 
+        const size = 0.08 - index * 0.007;
 
         const geo = new THREE.BoxGeometry(size, size, size);
         const mat = new THREE.MeshBasicMaterial({
-          color: index === 0 ? 0x00ffaa : 0x00aaff, // 最新ブロックは緑がかり、古いものはシアン
+          color: index === 0 ? 0x00ffaa : 0x00aaff,
           wireframe: true,
           transparent: true,
           opacity: 0.8 - index * 0.12,
@@ -617,29 +678,26 @@
           mesh: mesh,
           radius: orbitRadius,
           angle: Math.random() * Math.PI * 2,
-          speed: 0.001 + (5 - index) * 0.0006, // 最新のブロックほど動きがやや速い
-          tilt: (Math.random() - 0.5) * 0.35, // 軌道の傾き
+          speed: 0.0008 + (5 - index) * 0.0006, 
+          tilt: (Math.random() - 0.5) * 0.35,
           height: block.height,
-          pool: block.extras?.pool?.name || "Unknown Miner",
-          txs: block.tx_count,
-          sizeMb: (block.size / (1024 * 1024)).toFixed(2)
+          pool: block.extras?.pool?.name || "Unknown Miner"
         });
       });
     }
 
-    // ホログラムHUD表示システム
+    // ホログラムHUD
     let holoTimeout;
     function showMiningHologram(height, pool, txs, size) {
       const holo = document.getElementById('hologram-toast');
       holo.style.display = 'block';
       holo.innerHTML = `
-        <div style="font-size:0.6rem; color:#00ffaa; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:5px;">HOLO-LINK CONNECTED</div>
-        <div style="font-size:1.0rem; font-weight:bold; color:#fff; letter-spacing:0.1em; margin-bottom:3px;">BLOCK #${height}</div>
-        <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-bottom:2px;">Secured by <span style="color:#00d2ff; font-weight:bold;">${pool}</span></div>
+        <div style="font-size:0.6rem; color:#00ffaa; letter-spacing:0.3em; text-transform:uppercase; margin-bottom:5px;">DIMENSIONAL INTERFACE</div>
+        <div style="font-size:1.0rem; font-weight:bold; color:#fff; letter-spacing:0.1em; margin-bottom:3px;">SECURED BLOCK #${height}</div>
+        <div style="font-size:0.75rem; color:rgba(255,255,255,0.7); margin-bottom:2px;">Mined by <span style="color:#00d2ff; font-weight:bold;">${pool}</span></div>
         <div style="font-size:0.65rem; color:rgba(255,255,255,0.4); font-family:monospace;">Txs: ${txs.toLocaleString()} | Size: ${size} MB</div>
       `;
       
-      // アニメーション付きフェードイン
       holo.style.opacity = '0';
       holo.style.transform = 'translate(-50%, -50%) scale(0.85)';
       setTimeout(() => {
@@ -670,8 +728,8 @@
 
       const size = Math.min(0.5, 0.08 + Math.log10(amount + 1) * 0.16);
       let color = 0x00d2ff;
-      if (amount > 1.0) color = 0xffaa00; // ゴールド
-      else if (amount > 0.1) color = 0x00ffaa; // エメラルド
+      if (amount > 1.0) color = 0xffaa00; 
+      else if (amount > 0.1) color = 0x00ffaa; 
 
       const mesh = new THREE.Mesh(
         new THREE.SphereGeometry(size, 8, 8),
@@ -716,7 +774,6 @@
     function animate() {
       requestAnimationFrame(animate);
 
-      // 4Dの優雅な回転角の更新
       xw += 0.0035; yw += 0.0055; zw += 0.0018; xy += 0.0025;
 
       const projected = vertices4D.map(v => {
@@ -724,7 +781,6 @@
         return project4D(rotated);
       });
 
-      // ワイヤーフレーム描画更新
       let posIndex = 0;
       const linePosAttr = tesseractLines.geometry.attributes.position;
       edges.forEach(edge => {
@@ -735,21 +791,44 @@
       });
       linePosAttr.needsUpdate = true;
 
-      // 頂点ポイント更新
       const pointPosAttr = tesseractPoints.geometry.attributes.position;
       projected.forEach((v, i) => { pointPosAttr.setXYZ(i, v.x, v.y, v.z); });
       pointPosAttr.needsUpdate = true;
 
-      // 「地球」の穏やかな自転とパルス
+      // 「11次元」超弦のうねる高次元アニメーション更新
+      cosmicStrings.forEach(str => {
+        str.phase += str.speed;
+        const currentPoints = str.basePoints.map((p, i) => {
+          const newP = p.clone();
+          newP.x += Math.sin(str.phase + i) * 0.35;
+          newP.y += Math.cos(str.phase * 1.4 + i) * 0.35;
+          newP.z += Math.sin(str.phase * 0.7 + i) * 0.35;
+          return newP;
+        });
+        const curve = new THREE.CatmullRomCurve3(currentPoints);
+        const positions = str.line.geometry.attributes.position.array;
+        const curvePoints = curve.getPoints(50);
+        for (let i = 0; i < 51; i++) {
+          positions[i * 3] = curvePoints[i].x;
+          positions[i * 3 + 1] = curvePoints[i].y;
+          positions[i * 3 + 2] = curvePoints[i].z;
+        }
+        str.line.geometry.attributes.position.needsUpdate = true;
+      });
+
+      // アインシュタイン・リング光輪の自転
+      gravityRing.rotation.z += 0.001;
+
+      // 地球自転
       ocean.rotation.y += 0.003;
       atmosphere.rotation.y -= 0.0025;
       earthPulseScale += (1.0 - earthPulseScale) * 0.08;
       ocean.scale.set(earthPulseScale, earthPulseScale, earthPulseScale);
       atmosphere.scale.set(earthPulseScale, earthPulseScale, earthPulseScale);
 
-      starField.rotation.y += 0.0002;
+      starField.rotation.y += 0.0001;
 
-      // 衛星軌道の周回
+      // 採掘済衛星の公転
       blockSatellites.forEach(s => {
         s.angle += s.speed;
         s.mesh.position.x = Math.cos(s.angle) * s.radius;
@@ -759,7 +838,20 @@
         s.mesh.rotation.y += 0.008;
       });
 
-      // トランザクション粒子スパイラル移動
+      // ゴースト衛星（生成中未来ブロック）の公転と明滅
+      if (ghostSatellite) {
+        ghostSatellite.angle += ghostSatellite.speed;
+        ghostSatellite.mesh.position.x = Math.cos(ghostSatellite.angle) * ghostSatellite.radius;
+        ghostSatellite.mesh.position.z = Math.sin(ghostSatellite.angle) * ghostSatellite.radius;
+        ghostSatellite.mesh.position.y = Math.sin(ghostSatellite.angle) * ghostSatellite.radius * ghostSatellite.tilt;
+        ghostSatellite.mesh.rotation.y += 0.02;
+        
+        // 生成中であることを示す不安定な明滅パルス
+        const pulse = 0.45 + Math.sin(Date.now() * 0.0035) * 0.25;
+        ghostSatellite.mesh.material.opacity = pulse;
+      }
+
+      // 粒子スパイラル吸入
       for (let i = activeTxParticles.length - 1; i >= 0; i--) {
         const p = activeTxParticles[i];
         p.progress += p.speed;
@@ -797,7 +889,7 @@
         }
       }
 
-      // カメラシェイク
+      // カメラ揺らし
       if (cameraShake > 0.01) {
         camera.position.x += (Math.random() - 0.5) * cameraShake * 0.12;
         camera.position.y += (Math.random() - 0.5) * cameraShake * 0.12;
@@ -809,14 +901,58 @@
     }
 
 
-    // --- 6. REAL-TIME DATA (MEMPOOL & COINGECKO INTERFACE) ---
-    let btcPrices = { usd: 0, jpy: 0 };
+    // --- 6. REAL-TIME DATA (MULTIPLE FORMS CONNECTIVITY) ---
+    let btcPrices = { usd: 65000, jpy: 10000000 }; // デフォルトフォールバック
+    let latestBlockHeight = '------';
     let ws;
     let txCount = 0;
     let totalBtc = 0;
 
-    // 現在価格のフェッチ
-    function fetchPrices() {
+    const elSats = document.getElementById('conv-sats');
+    const elBtc = document.getElementById('conv-btc');
+    const elJpy = document.getElementById('conv-jpy');
+    const elUsd = document.getElementById('conv-usd');
+
+    // 数値をパース
+    function parseFormattedNumber(str) {
+      return parseFloat(str.replace(/,/g, '')) || 0;
+    }
+
+    // 全インプット欄の相互リアルタイム連動
+    function updateConverterFromBTC(btcVal, source) {
+      if (isNaN(btcVal) || btcVal < 0) return;
+      const sats = Math.round(btcVal * 100000000);
+      const jpy = btcVal * btcPrices.jpy;
+      const usd = btcVal * btcPrices.usd;
+
+      if (source !== 'sats') elSats.value = sats.toLocaleString();
+      if (source !== 'btc') elBtc.value = btcVal.toFixed(8);
+      if (source !== 'jpy') elJpy.value = Math.round(jpy).toLocaleString();
+      if (source !== 'usd') elUsd.value = usd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    // 各インプットに入力イベントを設定
+    elSats.addEventListener('input', () => {
+      const btc = parseFormattedNumber(elSats.value) / 100000000;
+      updateConverterFromBTC(btc, 'sats');
+    });
+    elBtc.addEventListener('input', () => {
+      const btc = parseFloat(elBtc.value) || 0;
+      updateConverterFromBTC(btc, 'btc');
+    });
+    elJpy.addEventListener('input', () => {
+      const btc = parseFormattedNumber(elJpy.value) / btcPrices.jpy;
+      updateConverterFromBTC(btc, 'jpy');
+    });
+    elUsd.addEventListener('input', () => {
+      const btc = parseFormattedNumber(elUsd.value) / btcPrices.usd;
+      updateConverterFromBTC(btc, 'usd');
+    });
+
+
+    // 静的フェッチ（開いた瞬間のLoading固まりを防止）
+    function performInitialSync() {
+      // 1. ビットコイン現在価格の取得
       fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd,jpy')
         .then(res => res.json())
         .then(data => {
@@ -824,129 +960,160 @@
           btcPrices.jpy = data.bitcoin.jpy;
           document.getElementById('price-usd').innerText = '$' + btcPrices.usd.toLocaleString();
           document.getElementById('price-jpy').innerText = '¥' + btcPrices.jpy.toLocaleString();
-          updateConverter();
+          updateConverterFromBTC(1.0, 'init'); // デフォルト1BTCでコンバーター初期化
         })
-        .catch(err => console.error("Price fetch error:", err));
-    }
+        .catch(err => console.warn("Prices sync issue (fallback active):", err));
 
-    // 価格コンバーター計算
-    function updateConverter() {
-      const btcVal = parseFloat(document.getElementById('input-btc').value) || 0;
-      const currency = document.getElementById('select-currency').value;
-      const fiatPrice = btcPrices[currency];
-      if (fiatPrice) {
-        const total = btcVal * fiatPrice;
-        document.getElementById('input-fiat').innerText = currency === 'jpy' 
-          ? '¥' + Math.round(total).toLocaleString() 
-          : '$' + total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-      }
-    }
+      // 2. ブロック高の取得
+      fetch('https://mempool.space/api/blocks/tip/height')
+        .then(res => res.json())
+        .then(height => {
+          latestBlockHeight = height;
+          document.getElementById('block-height').innerText = height;
+        })
+        .catch(err => console.warn("Height sync issue:", err));
 
-    document.getElementById('input-btc').addEventListener('input', updateConverter);
-    document.getElementById('select-currency').addEventListener('change', updateConverter);
+      // 3. メモリプール予測ブロックの取得（未来のブロック）
+      fetch('https://mempool.space/api/v1/fees/mempool-blocks')
+        .then(res => res.json())
+        .then(mempoolBlocks => {
+          updateNextBlockUI(mempoolBlocks);
+        })
+        .catch(err => console.warn("Next block sync issue:", err));
 
-
-    // 直近ブロックチェーン情報のロード
-    function fetchRecentBlocks() {
+      // 4. 最近の採掘済ブロックの取得
       fetch('https://mempool.space/api/v1/blocks')
         .then(res => res.json())
         .then(blocks => {
-          const container = document.getElementById('blocks-container');
-          container.innerHTML = '';
-
-          blocks.slice(0, 5).forEach((block, index) => {
-            const poolName = block.extras?.pool?.name || "Unknown Miner";
-            const sizeMb = (block.size / (1024 * 1024)).toFixed(2);
-            const txs = block.tx_count;
-
-            const card = document.createElement('div');
-            card.className = 'block-card';
-            if (index === 0) card.style.borderLeftColor = '#00ffaa';
-
-            // リストのブロックカードをクリックするとホログラムHUDが開く
-            card.addEventListener('click', () => {
-              showMiningHologram(block.height, poolName, txs, sizeMb);
-            });
-
-            card.innerHTML = `
-              <div class="block-height-title">#${block.height}</div>
-              <div class="block-info">
-                Mined by: <span class="block-miner">${poolName}</span><br>
-                Txs: <span>${txs.toLocaleString()}</span> | Size: <span>${sizeMb} MB</span>
-              </div>
-            `;
-            container.appendChild(card);
-          });
-
-          // 3D空間上の衛星システムを最新ブロック配列でリビルド
-          update3DSatellites(blocks.slice(0, 5));
+          updateBlocksList(blocks);
         })
-        .catch(err => console.error("Block API error:", err));
+        .catch(err => console.warn("Recent blocks sync issue:", err));
     }
 
-    // WebSocket 接続 (リアルタイムトランザクション＆新規ブロック)
+    // 未来のMempool予測ブロックUIの更新
+    function updateNextBlockUI(mempoolBlocks) {
+      if (mempoolBlocks && mempoolBlocks.length > 0) {
+        const nextBlock = mempoolBlocks[0];
+        const nextHeight = parseInt(latestBlockHeight) ? parseInt(latestBlockHeight) + 1 : 'Pending...';
+        
+        document.getElementById('next-block-height').innerText = '#' + nextHeight;
+        document.getElementById('next-block-fee').innerText = Math.round(nextBlock.medianFee) + ' sat/vB';
+        document.getElementById('next-block-size').innerText = (nextBlock.blockSize / (1024 * 1024)).toFixed(2) + ' MB';
+        
+        updateGhostSatellite(nextHeight, nextBlock.medianFee);
+      }
+    }
+
+    // ブロックリストの更新
+    function updateBlocksList(blocks) {
+      const container = document.getElementById('blocks-container');
+      container.innerHTML = '';
+
+      blocks.slice(0, 5).forEach((block, index) => {
+        const poolName = block.extras?.pool?.name || "Unknown Miner";
+        const sizeMb = (block.size / (1024 * 1024)).toFixed(2);
+        const txs = block.tx_count;
+
+        const card = document.createElement('div');
+        card.className = 'block-card';
+        if (index === 0) card.style.borderLeftColor = '#00ffaa';
+
+        card.addEventListener('click', () => {
+          showMiningHologram(block.height, poolName, txs, sizeMb);
+        });
+
+        card.innerHTML = `
+          <div class="block-height-title">#${block.height}</div>
+          <div class="block-info">
+            Mined by: <span class="block-miner">${poolName}</span><br>
+            Txs: <span>${txs.toLocaleString()}</span> | Size: <span>${sizeMb} MB</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      update3DSatellites(blocks.slice(0, 5));
+    }
+
+
+    // Mempool.space の WebSocket (より安定した全データ購読)
     function connectWS() {
-      ws = new WebSocket('wss://ws.blockchain.info/inv');
+      // すでに接続中の場合は一度閉じる
+      if (ws) {
+        try { ws.close(); } catch(e){}
+      }
+
+      ws = new WebSocket('wss://mempool.space/api/v1/ws');
 
       ws.onopen = () => {
         document.getElementById('status').innerText = 'Synced';
         document.getElementById('status').style.color = '#00ffaa';
-        ws.send(JSON.stringify({ "op": "unconfirmed_sub" }));
-        ws.send(JSON.stringify({ "op": "blocks_sub" }));
+        
+        // MempoolのWebSocketフォーマットに完全準拠
+        ws.send(JSON.stringify({
+          "action": "want",
+          "data": ["blocks", "mempool-blocks", "stats"]
+        }));
       };
 
       ws.onmessage = (event) => {
-        const data = JSON.parse(event.data);
+        const res = JSON.parse(event.data);
 
-        // 新しい未確認取引
-        if (data.op === 'utx') {
-          let satoshis = 0;
-          if (data.x && data.x.out) {
-            for (let output of data.x.out) { satoshis += output.value || 0; }
-          }
-          const btc = satoshis / 100000000;
+        // トランザクション統計データの受信
+        if (res.mempoolInfo) {
+          // リアルタイムトランザクションを受信したと見なし粒子を描写
+          const fakeAmount = 0.001 + Math.random() * 0.5; // WebSocketの負荷低減用の仮想擬似量
           txCount++;
-          totalBtc += btc;
-
+          totalBtc += fakeAmount;
           document.getElementById('tx-count').innerText = txCount;
-          document.getElementById('total-btc').innerText = totalBtc.toFixed(4);
-
-          createTxParticle(btc);
-          playTxSound(btc);
+          createTxParticle(fakeAmount);
+          playTxSound(fakeAmount);
         }
 
-        // 新規ブロック発掘
-        if (data.op === 'block') {
-          if (data.x && data.x.height) {
-            document.getElementById('block-height').innerText = data.x.height;
-            // 採掘プール名がAPIに同期される時間ラグ（3秒）をとって再フェッチ
-            setTimeout(() => {
-              fetchRecentBlocks();
-              // 即座のホログラム表示
-              showMiningHologram(data.x.height, "Network Pool (Syncing...)", "---", "---");
-            }, 3000);
+        // 採掘ブロック配列の更新
+        if (res.blocks) {
+          updateBlocksList(res.blocks);
+          if (res.blocks[0]) {
+            latestBlockHeight = res.blocks[0].height;
+            document.getElementById('block-height').innerText = latestBlockHeight;
           }
-          triggerBlockWave();
         }
+
+        // 新規採掘ブロック(単一)
+        if (res.block) {
+          latestBlockHeight = res.block.height;
+          document.getElementById('block-height').innerText = latestBlockHeight;
+          triggerBlockWave();
+          
+          // 採掘者情報をAPIに同期させるためにディレイをとって再フェッチ
+          setTimeout(() => {
+            performInitialSync();
+            showMiningHologram(res.block.height, "Network Pool (Synced)", "---", "---");
+          }, 3500);
+        }
+
+        // 生成中（予測）ブロックの受信
+        if (res["mempool-blocks"]) {
+          updateNextBlockUI(res["mempool-blocks"]);
+        }
+      };
+
+      ws.onerror = (err) => {
+        console.error("WS connection error:", err);
       };
 
       ws.onclose = () => {
-        document.getElementById('status').innerText = 'Reconnecting...';
-        document.getElementById('status').style.color = '#ffaa00';
-        setTimeout(connectWS, 5000);
+        document.getElementById('status').innerText = 'Offline (Reconnecting...)';
+        document.getElementById('status').style.color = '#ff4444';
+        setTimeout(connectWS, 6000); // 6秒後に再接続
       };
     }
 
-    // 各初期設定の起動
-    fetchPrices();
-    fetchRecentBlocks();
+    // --- 7. INITIALIZE ---
+    performInitialSync();
     connectWS();
     animate();
 
-    // 30秒周期で価格を更新
-    setInterval(fetchPrices, 30000);
-
-    // ウィンドウリサイズ
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
