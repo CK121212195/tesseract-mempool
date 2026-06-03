@@ -22,7 +22,6 @@
   <!-- OGP Meta Tags -->
   <meta property="og:title" content="Aether Tesseract // Twilight of the 11th Dimension">
   <meta property="og:description" content="A meditative 11D visualization of the Bitcoin Network. Synchronized mined blocks and real-time prices in high fidelity.">
-  <meta property="og:url" content="https://YOUR-GITHUB-USERNAME.github.io/YOUR-REPO-NAME/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="ogp-image.jpg">
 
@@ -300,9 +299,100 @@
       border-color: #00ffaa;
     }
 
-    /* 3. モバイル専用ボトムナビゲーション＆レスポンシブUI設定 */
+    #unmute-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(1, 3, 7, 0.95);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      cursor: pointer;
+      color: #00ffaa;
+    }
+
+    /* スマホ用ナビ */
     #mobile-nav {
-      display: none; /* デスクトップでは非表示 */
+      display: none;
+    }
+
+    /* プロジェクター追加UI */
+    #proj-txid {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 6px;
+      width: 70%;
+      outline: none;
+      font-family: monospace;
+    }
+    #btn-project {
+      background: #00d2ff;
+      border: none;
+      color: #010307;
+      border-radius: 6px;
+      font-size: 0.6rem;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+    }
+    #btn-project:hover {
+      background: #00ffaa;
+    }
+
+    /* 有名TXIDデモボタンのスタイル */
+    .demo-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.5);
+      border-radius: 4px;
+      font-size: 0.55rem;
+      padding: 3px 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .demo-btn:hover {
+      border-color: #00ffaa;
+      color: #fff;
+      background: rgba(0, 255, 170, 0.05);
+    }
+
+    /* 決済モーダルスタイル */
+    #payment-modal {
+      margin-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    #payment-qr {
+      display: block;
+      margin: 8px auto;
+      border: 6px solid #fff;
+      border-radius: 8px;
+      width: 140px;
+      height: 140px;
+    }
+    .payment-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      font-weight: bold;
+    }
+    .payment-btn:hover {
+      border-color: #00ffaa;
+      color: #00ffaa;
     }
 
     @media (max-width: 768px) {
@@ -311,7 +401,7 @@
         justify-content: center;
         align-items: center;
         padding: 15px;
-        height: calc(100% - 150px); /* ナビバーとフッター分の高さを確保 */
+        height: calc(100% - 150px);
         top: 10px;
         left: 0;
         width: 100%;
@@ -320,26 +410,18 @@
         width: 100%;
         max-width: 340px;
       }
-      
-      /* モバイル時はHUDパネルを初期非表示に */
       .left-hud, .right-hud {
         display: none;
         width: 100%;
         align-items: center;
       }
-      
-      /* タブ選択されたHUDのみを美しくフレックス表示 */
       .left-hud.active-tab, .right-hud.active-tab {
         display: flex !important;
       }
-      
-      /* モバイル時のみ、ブロック履歴リストに健康的なスクロール幅を制限（はみ出し防止） */
       #blocks-container {
         max-height: 190px;
         overflow-y: auto;
       }
-
-      /* フッターを中央に再配置 */
       #support-footer {
         bottom: 85px;
         right: auto;
@@ -353,11 +435,6 @@
         gap: 6px;
         box-sizing: border-box;
       }
-      #credit {
-        display: none; /* クレジットはスマホ幅では完全隠蔽して画面をスッキリ整理 */
-      }
-
-      /* アプリケーション風フローティングナビバー */
       #mobile-nav {
         display: flex;
         position: absolute;
@@ -422,7 +499,7 @@
   <div id="hologram-toast"></div>
 
   <div id="ui-container">
-    <!-- 左HUD (ID付加) -->
+    <!-- 左HUD -->
     <div class="left-hud" id="left-hud">
       <div class="glass-panel">
         <h1>Aether Tesseract</h1>
@@ -432,6 +509,40 @@
         <div class="stat">BTC Price (USD): <span id="price-usd">Syncing...</span></div>
         <div class="stat">BTC Price (JPY): <span id="price-jpy">Syncing...</span></div>
         
+        <!-- Aether Projector (デモボタン追加) -->
+        <div class="converter-box">
+          <h2>Aether Projector</h2>
+          <div style="display:flex; gap: 8px;">
+            <input type="text" id="proj-txid" placeholder="Enter TXID...">
+            <button id="btn-project">LOAD</button>
+          </div>
+          <div style="display:flex; gap: 4px; flex-wrap: wrap; margin-top: 5px;">
+            <button class="demo-btn" onclick="loadDemoTx('930a2114cdaa86e1fac46d15c74e81c09eee1d4150ff9d48e76cb0697d8e1d72')">Sassaman</button>
+            <button class="demo-btn" onclick="loadDemoTx('8bae12b5f4c088d940733dcd1455efc6a3a69cf9340e17a981286d3778615684')">Love Msg</button>
+            <button class="demo-btn" onclick="loadDemoTx('2e8fa65e90a9cf1c65f97305d233e72ca08d6c8b93910c22e03b22cf3ff1efb8')">Ordinal Art</button>
+          </div>
+          <div id="projector-status" style="font-size:0.58rem; color:rgba(255,255,255,0.4); margin-top:5px; line-height:1.2;">
+            Project a transaction's OP_RETURN or Ordinal Art into 11D space.
+          </div>
+          
+          <!-- 永久展示リンクの生成（10Sats） -->
+          <button id="btn-generate-gallery" style="display:none; width:100%; margin-top:10px; background: linear-gradient(45deg, #f5a623, #ffdd00); border:none; color:#010307; border-radius:6px; font-size:0.65rem; padding:8px; cursor:pointer; font-weight:bold; letter-spacing:0.1em; transition:all 0.2s;">
+            ⚡ CREATE SHAREABLE CANVAS (10 Sats)
+          </button>
+          
+          <!-- 決済用埋め込みUI -->
+          <div id="payment-modal" style="display:none;">
+            <div style="font-size:0.62rem; color:#f5a623; letter-spacing:0.1em;">PENDING ACTIVATION</div>
+            <img id="payment-qr" src="">
+            <div id="payment-status-text" style="font-size:0.55rem; color:#00ffaa; text-align:center;">Waiting for Lightning Payment...</div>
+            <button class="payment-btn" id="btn-copy-invoice">Copy BOLT11 Invoice</button>
+            
+            <div style="font-size:0.55rem; color:rgba(255,255,255,0.3); text-align:center; margin-top:4px;">- MANUAL PREIMAGE SECURE -</div>
+            <input type="text" id="manual-preimage" placeholder="Paste Payment Preimage (hex)" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:#fff; font-size:0.6rem; padding:6px; outline:none; text-align:center;">
+            <button class="payment-btn" id="btn-verify-preimage" style="border-color:#00ffaa; color:#00ffaa;">ACTIVATE GALLERY LINK</button>
+          </div>
+        </div>
+
         <!-- 連動マルチコンバーター -->
         <div class="converter-box">
           <h2>Multivariate Converter</h2>
@@ -465,7 +576,7 @@
       </div>
     </div>
 
-    <!-- 右HUD (ID付加) -->
+    <!-- 右HUD -->
     <div class="right-hud" id="right-hud">
       <div class="glass-panel">
         <h2>Next Projected Block</h2>
@@ -495,7 +606,7 @@
     <button id="btn-tab-blocks" class="mobile-tab-btn" onclick="switchMobileTab('blocks')">🧱 Blocks</button>
   </div>
 
-  <!-- 目立たないフッター -->
+  <!-- クレジット -->
   <div id="credit">
     11D SPACE VISUALIZER // SOURCE: MEMPOOL.SPACE ＆ COINBASE
   </div>
@@ -507,7 +618,10 @@
   </div>
 
   <script>
-    // --- 1. WEB AUDIO API (宇宙バイオリン和音) ---
+    // 🔗 実稼働用GASウェブアプリURL（ご提供いただいたもの）
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbxzWzboyxNvXWRESUB8pJOxLwB2Mkawh36sgKhUxmkzjSv0OHmxb7AbKKajXtQr01W4/exec";
+
+    // --- 1. WEB AUDIO API ---
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const masterGain = audioCtx.createGain();
     masterGain.connect(audioCtx.destination);
@@ -900,7 +1014,7 @@
     const blockSatellites = [];
     let ghostSatellite = null;
 
-    // 次の予測ブロック用ゴースト衛星の更新（実際の予測サイズ連動）
+    // 次の予測ブロック用ゴースト衛星の更新
     function updateGhostSatellite(height, weight) {
       if (ghostSatellite) {
         satelliteGroup.remove(ghostSatellite.mesh);
@@ -936,8 +1050,6 @@
 
       blocks.forEach((block, index) => {
         const orbitRadius = 1.35 + index * 0.45;
-        
-        // 実際の仮想サイズ（vMB：最大1.00vMB基準）に比例した立方体のスケール決定
         const vSizeMb = block.weight ? (block.weight / 4 / 1000000) : 1.0;
         const size = 0.03 + Math.min(1.2, vSizeMb) * 0.08; 
 
@@ -1025,6 +1137,7 @@
     // --- 5. ANIMATION LOOP ---
     let xw = 0, yw = 0, zw = 0, xy = 0;
     let earthPulseScale = 1.0;
+    let currentTextSprite = null; // ホログラムスクリーンの参照
 
     function animate() {
       requestAnimationFrame(animate);
@@ -1143,6 +1256,12 @@
         
         const pulse = 0.45 + Math.sin(Date.now() * 0.0035) * 0.25;
         ghostSatellite.mesh.material.opacity = pulse;
+      }
+
+      // 投影されたホログラムテキストをゆっくり浮遊回転させる演出
+      if (currentTextSprite) {
+        currentTextSprite.rotation.y = Math.sin(Date.now() * 0.0004) * 0.12;
+        currentTextSprite.position.y = -1.7 + Math.sin(Date.now() * 0.0008) * 0.05;
       }
 
       // 新ブロック衝撃波
@@ -1370,6 +1489,9 @@
           updateBlocksList(blocks);
         })
         .catch(err => console.warn("Mined blocks error:", err));
+      
+      // 起動パラメーター（?id=xxxx）の検出
+      checkForSharedLink();
     }
 
     function updateNextBlockUI(mempoolBlocks) {
@@ -1478,7 +1600,7 @@
       };
     }
 
-    // --- 7. SUPPORT PANEL ACTIONS (Wallet of Satoshi自動起動 / X Share) ---
+    // --- 7. SUPPORT PANEL ACTIONS ---
     function launchWalletOfSatoshi() {
       window.location.href = 'lightning:brashridge65@walletofsatoshi.com';
     }
@@ -1507,7 +1629,7 @@
       elCny.value = cny.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-    // --- 8. MOBILE NAVIGATION TAB SWITCHER (スマホ専用タブ切り替えシステム) ---
+    // --- 8. MOBILE NAVIGATION TAB SWITCHER ---
     function switchMobileTab(tabName) {
       if (window.innerWidth > 768) return;
 
@@ -1515,14 +1637,12 @@
       const rightHud = document.getElementById('right-hud');
       const supportFooter = document.getElementById('support-footer');
 
-      // アクティブな状態クラスを一旦すべて解除
       leftHud.classList.remove('active-tab');
       rightHud.classList.remove('active-tab');
       
       const buttons = document.querySelectorAll('.mobile-tab-btn');
       buttons.forEach(btn => btn.classList.remove('active'));
 
-      // 押されたタブに応じて表示を完全に切り替える
       if (tabName === 'converter') {
         leftHud.classList.add('active-tab');
         document.getElementById('btn-tab-conv').classList.add('active');
@@ -1532,11 +1652,384 @@
         document.getElementById('btn-tab-blocks').classList.add('active');
         supportFooter.style.display = 'flex';
       } else if (tabName === 'zen') {
-        // すべてを隠して、3Dと音楽だけに没頭するモード
         document.getElementById('btn-tab-zen').classList.add('active');
         supportFooter.style.display = 'none'; 
       }
     }
+
+
+    // ==========================================
+    //          新機能：AETHER PROJECTOR
+    // ==========================================
+    let currentLoadedTxid = "";
+
+    // 16進数をUTF-8文字列に変換
+    function hexToUtf8(hex) {
+      try {
+        let str = '';
+        for (let i = 0; i < hex.length; i += 2) {
+          const charCode = parseInt(hex.substr(i, 2), 16);
+          if (charCode === 10) {
+            str += '\n'; // 改行
+          } else if (charCode >= 32 && charCode <= 126) {
+            str += String.fromCharCode(charCode); 
+          }
+        }
+        return str;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // クイックデモ用ロード関数
+    function loadDemoTx(txid) {
+      document.getElementById('proj-txid').value = txid;
+      projectTransaction(txid);
+    }
+
+    // Hiro APIを利用した、Ordinals画像データの3D自動マッピング処理
+    async function tryLoadOrdinal(txid) {
+      try {
+        const response = await fetch(`https://api.hiro.so/ordinals/v1/inscriptions?genesis_id=${txid}`);
+        if (response.ok) {
+          const json = await response.json();
+          if (json.results && json.results.length > 0) {
+            const inscription = json.results[0];
+            const contentUrl = `https://api.hiro.so/ordinals/v1/inscriptions/${inscription.id}/content`;
+            const mimeType = inscription.content_type || "";
+
+            if (mimeType.startsWith("image/") || mimeType.includes("svg+xml")) {
+              renderOrdinalImage(contentUrl);
+              return true;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn("Ordinals API fallbacked.", e);
+      }
+      return false;
+    }
+
+    // Ordinalsの画像を3Dテクスチャとしてスクリーンに貼り付けてレンダリング
+    function renderOrdinalImage(imageUrl) {
+      if (currentTextSprite) {
+        scene.remove(currentTextSprite);
+        currentTextSprite.geometry.dispose();
+        currentTextSprite.material.dispose();
+        currentTextSprite = null;
+      }
+
+      const loader = new THREE.TextureLoader();
+      loader.setCrossOrigin('anonymous');
+      loader.load(imageUrl, (texture) => {
+        const material = new THREE.MeshBasicMaterial({
+          map: texture,
+          transparent: true,
+          opacity: 0.9,
+          side: THREE.DoubleSide
+        });
+        const geometry = new THREE.PlaneGeometry(1.8, 1.8);
+        const mesh = new THREE.Mesh(geometry, material);
+        mesh.position.set(0, -1.7, 0);
+        scene.add(mesh);
+        currentTextSprite = mesh;
+      }, undefined, (err) => {
+        console.warn("CORS blocked loading direct image, displaying fallback message.");
+        renderOpReturnText("[ Ordinal Art Detected ]\nGenesis Tx loaded in ledger.\nImage is secured on-chain.");
+      });
+    }
+
+    // Mempool APIを叩いてOP_RETURNを探す＆Ordinalsを検知する
+    async function projectTransaction(txid) {
+      txid = txid.trim();
+      if (!txid) return;
+      
+      const statusEl = document.getElementById('projector-status');
+      statusEl.innerText = "Connecting to Bitcoin Ledger...";
+      statusEl.style.color = "#00d2ff";
+
+      // 特別救済措置：Sassaman追悼文
+      if (txid === "930a2114cdaa86e1fac46d15c74e81c09eee1d4150ff9d48e76cb0697d8e1d72") {
+        const tributeText = `---BEGIN TRIBUTE---      =====SASSAMAN=====
+LEN "rabbi" SASSAMAN (1980-2011)
+Len was our friend. A brilliant mind,
+a kind soul, and a devious schemer.
+We dedicate this silly hack to Len,
+who would have found it hilarious.
+--Dan Kaminsky, Travis Goodspeed,
+P.S. My apologies, BitCoin people.
+---END TRIBUTE---`;
+        currentLoadedTxid = txid;
+        renderOpReturnText(tributeText);
+        statusEl.innerText = "Projected: SASSAMAN TRIBUTE";
+        statusEl.style.color = "#00ffaa";
+        document.getElementById('btn-generate-gallery').style.display = "block";
+        return;
+      }
+
+      // 1. Ordinalsの読み込みを試行
+      const isOrdinal = await tryLoadOrdinal(txid);
+      if (isOrdinal) {
+        currentLoadedTxid = txid;
+        statusEl.innerText = "Projected: Ordinal Image Art";
+        statusEl.style.color = "#00ffaa";
+        document.getElementById('btn-generate-gallery').style.display = "block";
+        return;
+      }
+
+      // 2. 一般のOP_RETURNを読み込む
+      try {
+        const response = await fetch(`https://mempool.space/api/tx/${txid}`);
+        if (!response.ok) throw new Error("Transaction not found");
+        const tx = await response.json();
+
+        let opReturnText = null;
+        for (let output of tx.vout) {
+          if (output.scriptpubkey_type === "op_return") {
+            const asm = output.scriptpubkey_asm || "";
+            const parts = asm.split(" ");
+            const hex = parts[parts.length - 1]; 
+            if (hex && /^[0-9a-fA-F]+$/.test(hex)) {
+              opReturnText = hexToUtf8(hex);
+              break;
+            }
+          }
+        }
+
+        if (opReturnText) {
+          currentLoadedTxid = txid;
+          renderOpReturnText(opReturnText);
+          statusEl.innerText = `Projected: "${opReturnText.substring(0, 15)}..."`;
+          statusEl.style.color = "#00ffaa";
+          document.getElementById('btn-generate-gallery').style.display = "block";
+        } else {
+          statusEl.innerText = "Error: No OP_RETURN or Ordinal Image found in this TX.";
+          statusEl.style.color = "#ff4444";
+          document.getElementById('btn-generate-gallery').style.display = "none";
+        }
+      } catch (err) {
+        statusEl.innerText = "Error: Invalid Transaction ID or Connection failure.";
+        statusEl.style.color = "#ff4444";
+        document.getElementById('btn-generate-gallery').style.display = "none";
+      }
+    }
+
+    // 2Dキャンバスにデコードテキストを描画して3Dマッピング
+    function renderOpReturnText(text) {
+      if (currentTextSprite) {
+        scene.remove(currentTextSprite);
+        currentTextSprite.geometry.dispose();
+        currentTextSprite.material.dispose();
+        currentTextSprite = null;
+      }
+
+      if (!text) return;
+
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = 1024;
+      canvas.height = 512;
+
+      ctx.fillStyle = 'rgba(1, 3, 7, 0.45)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.strokeStyle = 'rgba(0, 255, 170, 0.35)';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+
+      ctx.shadowColor = '#00ffaa';
+      ctx.shadowBlur = 12;
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '24px "Courier New", monospace';
+
+      const lines = text.split('\n');
+      const startY = 60;
+      lines.forEach((line, index) => {
+        ctx.fillText(line, 45, startY + (index * 32));
+      });
+
+      const texture = new THREE.CanvasTexture(canvas);
+      const material = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        opacity: 0.9,
+        side: THREE.DoubleSide,
+        blending: THREE.AdditiveBlending
+      });
+
+      const geometry = new THREE.PlaneGeometry(3, 1.5);
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(0, -1.7, 0);
+      scene.add(mesh);
+      currentTextSprite = mesh;
+    }
+
+    // LOADボタン
+    document.getElementById('btn-project').addEventListener('click', () => {
+      const txid = document.getElementById('proj-txid').value;
+      projectTransaction(txid);
+    });
+
+
+    // ==========================================
+    //          課金：SHAREABLE GALLERY LINK
+    // ==========================================
+    let currentGalleryId = "";
+    let currentInvoice = "";
+
+    async function startGalleryLinkCreation() {
+      if (!currentLoadedTxid) return;
+      if (GAS_API_URL === "") {
+        alert("システムエラー: 管理者のGASウェブアプリURLが未設定です。");
+        return;
+      }
+
+      const statusEl = document.getElementById('projector-status');
+      statusEl.innerText = "Requesting invoice from Wallet of Satoshi...";
+      statusEl.style.color = "#00d2ff";
+
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" }, 
+          body: JSON.stringify({
+            action: "create_invoice",
+            txid: currentLoadedTxid,
+            theme_color: chordIndex.toString(), 
+            ambient_preset: "default"
+          })
+        });
+
+        const data = await response.json();
+        if (data.error) throw new Error(data.error);
+
+        currentGalleryId = data.id;
+        currentInvoice = data.invoice;
+
+        const qrImg = document.getElementById('payment-qr');
+        qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=lightning:${encodeURIComponent(currentInvoice)}`;
+        qrImg.style.display = "block";
+
+        document.getElementById('payment-status-text').innerText = "Send 10 Sats to activate Gallery Link.";
+        document.getElementById('payment-modal').style.display = "flex";
+        document.getElementById('btn-generate-gallery').style.display = "none";
+
+        if (window.webln) {
+          try {
+            await window.webln.enable();
+            statusEl.innerText = "WebLN active. Prompting wallet...";
+            const result = await window.webln.sendPayment(currentInvoice);
+            if (result && result.preimage) {
+              verifyPreimageWithGAS(result.preimage);
+            }
+          } catch (weblnErr) {
+            statusEl.innerText = "WebLN prompt dismissed. Please pay manually.";
+            statusEl.style.color = "#f5a623";
+          }
+        }
+
+      } catch (err) {
+        statusEl.innerText = "Failed to fetch invoice. Check internet or GAS setup.";
+        statusEl.style.color = "#ff4444";
+      }
+    }
+
+    document.getElementById('btn-copy-invoice').addEventListener('click', () => {
+      if (!currentInvoice) return;
+      navigator.clipboard.writeText(currentInvoice);
+      alert("BOLT11 Invoice copied to clipboard!");
+    });
+
+    async function verifyPreimageWithGAS(preimage) {
+      if (!currentGalleryId || !preimage) return;
+
+      const statusText = document.getElementById('payment-status-text');
+      statusText.innerText = "Verifying cryptographic proof with Google Sheet...";
+      statusText.style.color = "#00d2ff";
+
+      try {
+        const response = await fetch(GAS_API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({
+            action: "verify_payment",
+            id: currentGalleryId,
+            preimage: preimage.trim()
+          })
+        });
+
+        const data = await response.json();
+        if (data.error) {
+          statusText.innerText = `Error: ${data.error}`;
+          statusText.style.color = "#ff4444";
+          return;
+        }
+
+        if (data.success) {
+          statusText.innerText = "SUCCESS! Gallery Link is now permanently active.";
+          statusText.style.color = "#00ffaa";
+          
+          const shareUrl = `${window.location.origin}${window.location.pathname}?id=${currentGalleryId}`;
+          const modal = document.getElementById('payment-modal');
+          modal.innerHTML = `
+            <div style="font-size:0.75rem; color:#00ffaa; font-weight:bold; letter-spacing:0.1em; text-align:center;">🌌 LINK GENERATED 🌌</div>
+            <div style="font-size:0.6rem; color:rgba(255,255,255,0.7); line-height:1.4;">Anyone who visits this link will see your exact custom 11D projection!</div>
+            <input type="text" readonly value="${shareUrl}" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:#00ffaa; font-size:0.6rem; padding:8px; text-align:center; width:calc(100% - 16px); font-family:monospace; margin-top:5px;">
+            <button class="payment-btn" id="btn-copy-share" style="background:#00ffaa; color:#010307; border:none; margin-top:5px;">COPY SHARE URL</button>
+          `;
+
+          document.getElementById('btn-copy-share').addEventListener('click', () => {
+            navigator.clipboard.writeText(shareUrl);
+            alert("Share URL copied to clipboard! Let's tweet it!");
+          });
+        }
+      } catch (err) {
+        statusText.innerText = "Error: Check your preimage or GAS connection.";
+        statusText.style.color = "#ff4444";
+      }
+    }
+
+    document.getElementById('btn-generate-gallery').addEventListener('click', startGalleryLinkCreation);
+
+    document.getElementById('btn-verify-preimage').addEventListener('click', () => {
+      const preimage = document.getElementById('manual-preimage').value;
+      if (!preimage) {
+        alert("領収書に記載されているPreimageを入力してください。");
+        return;
+      }
+      verifyPreimageWithGAS(preimage);
+    });
+
+    async function checkForSharedLink() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const sharedId = urlParams.get('id');
+      if (!sharedId) return;
+
+      const statusEl = document.getElementById('projector-status');
+      statusEl.innerText = "Connecting to Shared Dimensional Nexus...";
+      statusEl.style.color = "#00d2ff";
+
+      try {
+        const response = await fetch(`${GAS_API_URL}?id=${sharedId}`);
+        const data = await response.json();
+        if (data.error) throw new Error(data.error);
+
+        const savedTheme = parseInt(data.theme_color);
+        if (!isNaN(savedTheme)) {
+          chordIndex = savedTheme % padChords.length;
+        }
+
+        document.getElementById('proj-txid').value = data.txid;
+        projectTransaction(data.txid);
+
+        statusEl.innerText = `Loaded Shared Gallery #${sharedId}`;
+        statusEl.style.color = "#00ffaa";
+      } catch (err) {
+        statusEl.innerText = "Failed to load Shared Link. Viewing live chain.";
+        statusEl.style.color = "#ff4444";
+      }
+    }
+
 
     // --- INITIALIZE ---
     performInitialSync();
@@ -1545,12 +2038,10 @@
     connectWS();
     animate();
 
-    // 初期起動時の画面幅によるスマホ初期化
     if (window.innerWidth <= 768) {
       switchMobileTab('converter');
     }
 
-    // リサイズ時にレイアウトが崩れないよう、デスクトップ/モバイル間のスタイルを正確に強制同期
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -1561,12 +2052,10 @@
       const supportFooter = document.getElementById('support-footer');
 
       if (window.innerWidth > 768) {
-        // PCサイズに引き伸ばされたら標準レイアウトに戻す
         leftHud.style.display = 'flex';
         rightHud.style.display = 'flex';
         supportFooter.style.display = 'block';
       } else {
-        // スマホサイズになったら、現在のボタンのアクティブ状態に同期
         leftHud.removeAttribute('style');
         rightHud.removeAttribute('style');
         supportFooter.removeAttribute('style');
