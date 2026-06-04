@@ -22,14 +22,15 @@
   <!-- OGP Meta Tags -->
   <meta property="og:title" content="Aether Tesseract // Twilight of the 11th Dimension">
   <meta property="og:description" content="A meditative 11D visualization of the Bitcoin Network. Synchronized mined blocks and real-time prices in high fidelity.">
+  <meta property="og:url" content="https://ck121212195.github.io/tesseract-mempool/">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="ogp-image.jpg">
+  <meta property="og:image" content="https://ck121212195.github.io/tesseract-mempool/ogp-image.jpg">
 
   <!-- Twitter Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Aether Tesseract // Twilight of the 11th Dimension">
   <meta name="twitter:description" content="A meditative 11D visualization of the Bitcoin Network. Synchronized mined blocks and real-time prices in high fidelity.">
-  <meta name="twitter:image" content="ogp-image.jpg">
+  <meta name="twitter:image" content="https://ck121212195.github.io/tesseract-mempool/ogp-image.jpg">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
@@ -1067,7 +1068,7 @@
         const radius = 22 + Math.random() * 32;
         const theta = Math.random() * 2.0 * Math.PI;
         const phi = Math.acos(2.0 * Math.random() - 1.0);
-        starPositions[i] = radius * Math.sin(phi) * Math.cos(theta);
+        starPositions[i] = radius * Math.sin(phi) * Math.sin(theta);
         starPositions[i + 1] = radius * Math.sin(phi) * Math.sin(theta);
         starPositions[i + 2] = radius * Math.cos(phi);
       }
@@ -2424,7 +2425,7 @@ P.S. My apologies, BitCoin people.
         invoiceResponse = await fetch(invoiceUrl);
       } catch (err) {
         const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(invoiceUrl)}`;
-        response = await fetch(proxyUrl);
+        response = await fetch(invoiceUrl);
       }
       
       const invoiceData = await invoiceResponse.json();
