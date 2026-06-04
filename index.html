@@ -568,7 +568,7 @@
             <button class="demo-btn" onclick="loadDemoTx('6fb976ab49dcec017f1e201e84395983204ae1a7c2abf7ced0a85d692e442799')">Ordinal Art</button>
           </div>
           <div id="projector-status" style="font-size:0.58rem; color:rgba(255,255,255,0.4); margin-top:5px; line-height:1.2;">
-            Project a transaction's OP_RETURN or Ordinal Art into 11D space.
+            Project a transaction's OP_RETURN, P2FKH, or Ordinal Art into 11D space.
           </div>
           
           <!-- 壁紙ダウンロード機能は完全に【無料】として解放 -->
@@ -1503,7 +1503,7 @@
         }
       }
 
-      // ゴールド浮遊物のアニメーション
+      // 11次元ゴールド浮遊物のアニメーション
       debris.forEach(d => {
         d.mesh.rotation.x += d.rotSpeedX;
         d.mesh.rotation.y += d.rotSpeedY;
@@ -2018,6 +2018,34 @@
       }
     }
 
+    // Standard P2PKH scriptPubKey (76a914 <20-byte-hash> 88ac) からデータをデコードするパーサー
+    function decodeP2FKH(scriptpubkey) {
+      if (!scriptpubkey) return null;
+      const len = scriptpubkey.length;
+      if (len === 50 && scriptpubkey.startsWith("76a914") && scriptpubkey.endsWith("88ac")) {
+        const payloadHex = scriptpubkey.substring(6, 46);
+        const bytes = [];
+        for (let i = 0; i < payloadHex.length; i += 2) {
+          bytes.push(parseInt(payloadHex.substr(i, 2), 16));
+        }
+        return new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
+      }
+      return null;
+    }
+
+    // P2FKH用のチャンク判定（文字、スペース、タブ、改行などの割合が90%以上）
+    function isPrintableChunk(text) {
+      if (!text || text.length === 0) return false;
+      let printableCount = 0;
+      for (let i = 0; i < text.length; i++) {
+        const code = text.charCodeAt(i);
+        if (code === 10 || code === 13 || code === 9 || (code >= 32 && code <= 126)) {
+          printableCount++;
+        }
+      }
+      return (printableCount / text.length) >= 0.90;
+    }
+
     // vout(出力)の scriptpubkey raw データを直接デコードするパーサー（バグ修正完了）
     function decodeOpReturnHex(scriptpubkey) {
       if (!scriptpubkey || !scriptpubkey.startsWith("6a")) return null;
@@ -2061,7 +2089,7 @@
       return new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
     }
 
-    // 【超機能向上】マルチOP_RETURN自動連結スキャナー（巨大AAの復元に対応）
+    // 【超機能向上】マルチOP_RETURNおよびP2FKH自動連結スキャナー（巨大AAの復元に対応）
     function scanTxForText(tx) {
       let concatenatedText = "";
       
@@ -2074,6 +2102,22 @@
               concatenatedText += rawDecoded + "\n";
             }
           }
+        }
+      }
+      
+      // 1.5. OP_RETURNが10文字未満、または存在しない場合、P2FKH (Pay-to-Fake-Key-Hash) をスキャン
+      if (concatenatedText.trim().length <= 10 && tx.vout) {
+        let p2fkhText = "";
+        for (let output of tx.vout) {
+          if (output.scriptpubkey_type === "p2pkh" || (output.scriptpubkey && output.scriptpubkey.startsWith("76a914") && output.scriptpubkey.endsWith("88ac"))) {
+            const decoded = decodeP2FKH(output.scriptpubkey);
+            if (decoded && isPrintableChunk(decoded)) {
+              p2fkhText += decoded;
+            }
+          }
+        }
+        if (p2fkhText.trim().length > 10) {
+          concatenatedText = p2fkhText;
         }
       }
       
@@ -2129,7 +2173,7 @@
         // テキストを解析
         const text = scanTxForText(tx);
         if (!text) {
-          // OP_RETURNテキストを持たない関係のない決済チェーンに突入した場合は即ストップ
+          // OP_RETURN/P2FKHテキストを持たない関係のない決済チェーンに突入した場合は即ストップ
           break;
         }
         allTexts.push(text);
@@ -2194,7 +2238,6 @@
         if (!response.ok) return null;
         const text = await response.text();
         
-        // 【バグ修正】!text.includes("")という重大な論理ミスを削除し、HTML/テキストを正しく復旧
         if (text && text.trim().length > 0) {
           return text;
         }
@@ -2318,7 +2361,7 @@ P.S. My apologies, BitCoin people.
         }
       }
 
-      // 3. 一般トランザクションの徹底マルチOP_RETURN＆取引チェーンスキャン（巨大AA詩・ZNなどの連鎖AAの完全復元に対応）
+      // 3. 一般トランザクションの徹底マルチOP_RETURN、P2FKH＆取引チェーンスキャン（巨大AA詩・ZNなどの連鎖AAの完全復元に対応）
       statusEl.innerText = "Scanning Transaction Data & Chain...";
       try {
         const chainText = await loadTransactionChain(txid);
@@ -2330,7 +2373,7 @@ P.S. My apologies, BitCoin people.
           statusEl.style.color = "#00ffaa";
           document.getElementById('btn-generate-gallery').style.display = "block";
         } else {
-          statusEl.innerText = "Error: No OP_RETURN, Witness, or Ordinal found.";
+          statusEl.innerText = "Error: No OP_RETURN, P2FKH, Witness, or Ordinal found.";
           statusEl.style.color = "#ff4444";
           document.getElementById('btn-generate-gallery').style.display = "none";
         }
