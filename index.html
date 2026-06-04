@@ -898,13 +898,6 @@
       }
     });
 
-    // コンバーターの入力に触ったあと、他の場所をクリックしたらスピーディーにフォーカスを外す設定
-    window.addEventListener('mousedown', (e) => {
-      if (document.activeElement && document.activeElement.tagName === 'INPUT' && e.target !== document.activeElement) {
-        document.activeElement.blur();
-      }
-    });
-
 
     // --- 2. THREE.JS VISUALS ---
     const container = document.getElementById('canvas-container');
@@ -1435,7 +1428,7 @@
           // フォグカラーを元の漆黒に戻す
           scene.fog.color.setHex(0x010307);
         } else {
-          // ショックウェーブ黄金リングの急速拡大アニメーション
+          // ショックウェーブ黄金リング of 急速拡大アニメーション
           if (shockwaveRing) {
             const progress = elapsed / supernovaDuration;
             const ringScale = 1.0 + (progress * 55); // 爆速拡大
@@ -1704,6 +1697,7 @@
       }
     }
 
+    // 初期データ同期設定
     function performInitialSync() {
       fetchExchangeRates();
 
@@ -2777,6 +2771,21 @@ P.S. My apologies, BitCoin people.
     if (window.innerWidth <= 768) {
       switchMobileTab('converter');
     }
+
+    // ==========================================
+    // ★ 修正：イベントキャプチャリングによるフォーカス強制解除 ★
+    // ==========================================
+    // 3D背景（キャンバス）やその他UI部分にタップ・クリックが入った際、
+    // OrbitControlsにイベントを遮断される前に先んじて検知し、安全にフォーカスを外します。
+    document.addEventListener('pointerdown', (e) => {
+      if (document.activeElement && document.activeElement.tagName === 'INPUT') {
+        // クリックターゲットが入力フィールド以外であれば、フォーカスを外し即座にカンマを再適用
+        if (e.target.tagName !== 'INPUT') {
+          document.activeElement.blur();
+        }
+      }
+    }, { capture: true, passive: true });
+
 
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
