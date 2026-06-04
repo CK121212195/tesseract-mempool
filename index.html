@@ -46,7 +46,7 @@
       user-select: none;
     }
     
-    /* 🌟【UXバグ修正】入力ボックスがbodyのuser-select: noneに干渉されないようにテキスト選択を明示的に許可 */
+    /* 入力ボックスがbodyのuser-select: noneに干渉されないようにテキスト選択を明示的に許可 */
     input, textarea {
       user-select: text !important;
       -webkit-user-select: text !important;
@@ -104,7 +104,7 @@
       box-sizing: border-box;
     }
     
-    /* 🌟【スクロール破綻対応】HUDパネルの高さを固定し、自動で内部スクロール可能にする設計 */
+    /* HUDパネルの高さを固定し、自動で内部スクロール可能にする設計 */
     .left-hud, .right-hud {
       display: flex;
       flex-direction: column;
@@ -533,7 +533,7 @@
 
   <div id="hologram-toast"></div>
 
-  <!-- 🌟動的なHTML系Ordinalsアートを動かすサイバーパンク風インタラクティブ・ホログラム・フレーム -->
+  <!-- 動的なHTML系Ordinalsアートを動かすサイバーパンク風インタラクティブ・ホログラム・フレーム -->
   <div id="hologram-frame" style="display:none; position:absolute; bottom:6%; left:50%; transform:translate(-50%, 0) rotateX(10deg); width:320px; height:320px; border:2px solid #00ffaa; box-shadow:0 0 25px rgba(0,255,170,0.35); background:rgba(1,3,7,0.95); z-index:5; pointer-events:auto; border-radius:8px; overflow:hidden;">
     <div style="background:rgba(0,255,170,0.15); padding:6px 12px; font-size:0.6rem; color:#00ffaa; font-family:monospace; border-bottom:1px solid rgba(0,255,170,0.25); display:flex; justify-content:space-between; align-items:center;">
       <span>DYNAMIC HOLOGRAPHIC FRAME</span>
@@ -766,6 +766,9 @@
 
     const scale = [220.00, 261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25, 783.99, 880.00];
     function playTxSound(amount) {
+      // 🔊 トランザクション時の効果音を完全に無効化するためスキップします
+      return;
+
       if (audioCtx.state === 'suspended') return;
       const now = audioCtx.currentTime;
       const osc = audioCtx.createOscillator();
@@ -824,7 +827,7 @@
       });
     }
 
-    // 🌟【案A・高音質音響の極み】プロクオリティの重低音サブベース付きシンセサイザー特別和音（StereoPannerによる立体サラウンド効果）
+    // 【高音質音響の極み】プロクオリティの重低音サブベース付きシンセサイザー特別和音（StereoPannerによる立体サラウンド効果）
     function playDivineSupernovaChord() {
       if (audioCtx.state === 'suspended') return;
       const now = audioCtx.currentTime;
@@ -874,7 +877,7 @@
         osc1.connect(filter);
         osc2.connect(filter);
         
-        // 🌟ステレオ音響による超広大な音場構築
+        // ステレオ音響による超広大な音場構築
         if (panner) {
           const panVal = Math.sin(index * 2.0) * 0.7; // 左右交互に広げる
           panner.pan.setValueAtTime(panVal, now);
@@ -898,7 +901,7 @@
       if (audioCtx.state === 'suspended') {
         audioCtx.resume().then(() => {
           playAmbientPad();
-          playTxSound(0.05);
+          // playTxSound(0.05); // 🔊 消音のため呼び出しを無効化
           document.getElementById('unmute-overlay').style.display = 'none';
           document.getElementById('sound-toggle').style.display = 'flex';
         });
@@ -924,7 +927,7 @@
       }
     });
 
-    // 🌟【UXバグ修正】コンバーターの入力に触ったあと、他の場所をクリックしたらスピーディーにフォーカスを外す設定
+    // コンバーターの入力に触ったあと、他の場所をクリックしたらスピーディーにフォーカスを外す設定
     window.addEventListener('mousedown', (e) => {
       if (document.activeElement && document.activeElement.tagName === 'INPUT' && e.target !== document.activeElement) {
         document.activeElement.blur();
@@ -1278,7 +1281,7 @@
     }
 
 
-    // 🌟【案A・視覚演出3.0】スーパーノヴァ 3D多色粒子爆発 ＆ 黄金の波動リングシステム
+    // スーパーノヴァ 3D多色粒子爆発 ＆ 黄金の波動リングシステム
     let supernovaParticles = null;
     let shockwaveRing = null;
     const supernovaParticleCount = 600; // 600個に拡張
@@ -1342,7 +1345,7 @@
       
       geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       
-      // 🌟カラフルでラグジュアリーな多色ゴールドマテリアル
+      // カラフルでラグジュアリーな多色ゴールドマテリアル
       const mat = new THREE.PointsMaterial({
         size: 0.18,
         color: 0xffdd44,
@@ -1414,7 +1417,7 @@
         const currentPoints = str.basePoints.map((p, i) => {
           const newP = p.clone();
           
-          // 🌟スーパーノヴァ中は超弦（Strings）が通常時の4.5倍激しくコズミック共鳴バイブレーションする演出
+          // スーパーノヴァ中は超弦（Strings）が通常時の4.5倍激しくコズミック共鳴バイブレーションする演出
           let vibrationStrength = supernovaActive ? 1.55 : 0.35;
           newP.x += Math.sin(str.phase + i) * vibrationStrength;
           newP.y += Math.cos(str.phase * 1.4 + i) * vibrationStrength;
@@ -1675,7 +1678,7 @@
         .catch(err => console.warn("Forex fallback.", err));
     }
 
-    // 🌟【CPU負荷によるラグ修正】高速で流れてくる価格Websocket受信を1秒に1回に間引く（スロットリング）ことで、CPUを完全解放し入力遅延を完全消去
+    // 高速で流れてくる価格Websocket受信を1秒に1回に間引く（スロットリング）ことで、CPUを完全解放し入力遅延を完全消去
     let lastPriceUpdate = 0;
     const PRICE_UPDATE_THROTTLE = 1000; // 最速で1秒に1回だけ描画更新
 
@@ -1875,7 +1878,7 @@
           txCount++;
           document.getElementById('tx-count').innerText = txCount;
           triggerStringPulse(fakeAmount);
-          playTxSound(fakeAmount);
+          // playTxSound(fakeAmount); // 🔊 消音のため呼び出しを無効化
         }
 
         if (res.blocks) {
@@ -1985,7 +1988,7 @@
       }
     }
 
-    // 🌟【署名誤検知バグの修正】printableなUTF-8か厳格に判定するアルゴリズム（fatal: trueで完全に署名データを弾く）
+    // 【署名誤検知バグの修正】printableなUTF-8か厳格に判定するアルゴリズム（fatal: trueで完全に署名データを弾く）
     function hexToPrintableUtf8(hex) {
       try {
         let bytes = [];
@@ -2015,11 +2018,11 @@
       }
     }
 
-    // 🌟vout(出力)の scriptpubkey raw データを直接デコードするパーサー（バグ修正完了）
+    // vout(出力)の scriptpubkey raw データを直接デコードするパーサー（バグ修正完了）
     function decodeOpReturnHex(scriptpubkey) {
       if (!scriptpubkey || !scriptpubkey.startsWith("6a")) return null;
       
-      // 🌟【重要バグ修正】OP_PUSHDATAやプッシュ長を示すLやP等のバイトを、Bitcoinの仕様に基づいて完璧にスキップ
+      // 【重要バグ修正】OP_PUSHDATAやプッシュ長を示すLやP等のバイトを、Bitcoinの仕様に基づいて完璧にスキップ
       let pos = 2; // skip "6a" (OP_RETURN)
       if (pos >= scriptpubkey.length) return "";
       
@@ -2058,7 +2061,7 @@
       return new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
     }
 
-    // 🌟【超機能向上】マルチOP_RETURN自動連結スキャナー（巨大AAの復元に対応）
+    // 【超機能向上】マルチOP_RETURN自動連結スキャナー（巨大AAの復元に対応）
     function scanTxForText(tx) {
       let concatenatedText = "";
       
@@ -2108,7 +2111,7 @@
       return null;
     }
 
-    // 🌟【宇宙初】複数トランザクションに分断された連鎖アスキーアート（ZNなど）を再帰的にチェーン追跡して完璧にデコードするローダー
+    // 【宇宙初】複数トランザクションに分断された連鎖アスキーアート（ZNなど）を再帰的にチェーン追跡して完璧にデコードするローダー
     async function loadTransactionChain(txid, maxChainLength = 45) {
       let currentTxid = txid;
       let allTexts = [];
@@ -2157,7 +2160,7 @@
       projectTransaction(txid);
     }
 
-    // 🌟公式 ordinals.com の CORS対応URLから画像を直接テクスチャとしてロード
+    // 公式 ordinals.com の CORS対応URLから画像を直接テクスチャとしてロード
     async function tryLoadOrdinal(txid) {
       const contentUrl = `https://ordinals.com/content/${txid}i0`;
       return new Promise((resolve) => {
@@ -2177,7 +2180,7 @@
       });
     }
 
-    // 🌟テキスト（HTML, SVG, JSON含む）のOrdinalを直接ロード（CORS回避プロキシ付き）
+    // テキスト（HTML, SVG, JSON含む）のOrdinalを直接ロード（CORS回避プロキシ付き）
     async function tryLoadOrdinalText(txid) {
       const contentUrl = `https://ordinals.com/content/${txid}i0`;
       try {
@@ -2191,7 +2194,7 @@
         if (!response.ok) return null;
         const text = await response.text();
         
-        // 🌟【バグ修正】!text.includes("")という重大な論理ミスを削除し、HTML/テキストを正しく復旧
+        // 【バグ修正】!text.includes("")という重大な論理ミスを削除し、HTML/テキストを正しく復旧
         if (text && text.trim().length > 0) {
           return text;
         }
@@ -2223,7 +2226,7 @@
       currentTextSprite = mesh;
     }
 
-    // 🌟動的ホログラムフレームのクローズ関数
+    // 動的ホログラムフレームのクローズ関数
     function closeHoloFrame() {
       document.getElementById('hologram-frame').style.display = 'none';
       document.getElementById('hologram-iframe').src = '';
@@ -2288,7 +2291,7 @@ P.S. My apologies, BitCoin people.
         return;
       }
 
-      // 2. 🌟【インタラクティブ自動判定】HTML/JS で構成されたプログラムアートOrdinalsの直接ロード
+      // 2. 【インタラクティブ自動判定】HTML/JS で構成されたプログラムアートOrdinalsの直接ロード
       statusEl.innerText = "Scanning for Ordinal Text...";
       const ordinalText = await tryLoadOrdinalText(txid);
       if (ordinalText) {
@@ -2315,7 +2318,7 @@ P.S. My apologies, BitCoin people.
         }
       }
 
-      // 3. 🌟一般トランザクションの徹底マルチOP_RETURN＆取引チェーンスキャン（巨大AA詩・ZNなどの連鎖AAの完全復元に対応）
+      // 3. 一般トランザクションの徹底マルチOP_RETURN＆取引チェーンスキャン（巨大AA詩・ZNなどの連鎖AAの完全復元に対応）
       statusEl.innerText = "Scanning Transaction Data & Chain...";
       try {
         const chainText = await loadTransactionChain(txid);
@@ -2506,7 +2509,7 @@ P.S. My apologies, BitCoin people.
       return hashHex;
     }
 
-    // 🌟【高クオリティ化】撮影時の最新ブロック高・BTC価格情報を画像へ合成して保存するシステム
+    // 【高クオリティ化】撮影時の最新ブロック高・BTC価格情報を画像へ合成して保存するシステム
     function captureCleanScreenshot() {
       const uiContainer = document.getElementById('ui-container');
       const soundToggle = document.getElementById('sound-toggle');
@@ -2515,7 +2518,7 @@ P.S. My apologies, BitCoin people.
       const mobileNav = document.getElementById('mobile-nav');
       const holoFrame = document.getElementById('hologram-frame');
       
-      // 動的ホログラムフレームが開いていれば一時的に隠す
+      // 画面読み込み用の状態確認
       const wasHoloFrameOpen = holoFrame && holoFrame.style.display !== 'none';
 
       // 1. レンダリング前のHTML-UI一括非表示
@@ -2725,7 +2728,7 @@ P.S. My apologies, BitCoin people.
       verifyTipPreimage(preimage);
     });
 
-    // 🌟【信頼ベース】モバイルユーザー等のための、投げ銭自己申告クイック着火ボタン
+    // 【信頼ベース】モバイルユーザー等のための、投げ銭自己申告クイック着火ボタン
     document.getElementById('btn-trust-tip').addEventListener('click', () => {
       const statusText = document.getElementById('tip-status-text');
       statusText.innerText = "IGNITING SUPERNOVA! THANK YOU FOR THE FEED! ⚡️";
