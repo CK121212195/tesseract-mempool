@@ -96,6 +96,33 @@
       padding: 30px;
       box-sizing: border-box;
     }
+    
+    /* 🌟【スクロール破綻対応】HUDパネルの高さを固定し、自動で内部スクロール可能にする設計 */
+    .left-hud, .right-hud {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-height: calc(100vh - 60px);
+      overflow-y: auto;
+      box-sizing: border-box;
+      padding-right: 6px; /* スクロールバー用のバッファ */
+    }
+    
+    /* スクロールバーのデザインカスタマイズ */
+    .left-hud::-webkit-scrollbar, .right-hud::-webkit-scrollbar {
+      width: 4px;
+    }
+    .left-hud::-webkit-scrollbar-track, .right-hud::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0);
+    }
+    .left-hud::-webkit-scrollbar-thumb, .right-hud::-webkit-scrollbar-thumb {
+      background: rgba(0, 255, 170, 0.25);
+      border-radius: 4px;
+    }
+    .left-hud::-webkit-scrollbar-thumb:hover, .right-hud::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 255, 170, 0.60);
+    }
+
     .glass-panel {
       background: rgba(1, 3, 7, 0.6);
       backdrop-filter: blur(18px);
@@ -105,13 +132,8 @@
       border-radius: 14px;
       pointer-events: auto;
       width: 320px;
+      box-sizing: border-box;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
-    }
-    
-    .left-hud, .right-hud {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
     }
     
     h1 {
@@ -560,7 +582,7 @@
           
           <!-- 投げ銭用QR・WebLNモーダル -->
           <div id="tip-modal" style="display: none; flex-direction: column; gap: 8px; margin-top: 8px;">
-            <img id="tip-qr" src="">
+            <img id="tip-qr" src="" style="display: none; margin: 8px auto; border: 6px solid #fff; border-radius: 8px; width: 140px; height: 140px; box-sizing: border-box;">
             <div id="tip-status-text" style="font-size: 0.58rem; color: #ffd700; text-align: center; line-height: 1.3;">
               WebLN active. Prompting wallet...
             </div>
@@ -805,7 +827,7 @@
         osc1.detune.setValueAtTime(-5, now);
         
         osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(freq * 2, now); // 1オクターブ上の倍音を重ねる
+        osc2.frequency.setValueAtTime(freq * 2, now); 
         osc2.detune.setValueAtTime(5, now);
         
         filter.type = 'bandpass';
@@ -814,7 +836,6 @@
         filter.frequency.exponentialRampToValueAtTime(600, now + 4.5);
         filter.Q.setValueAtTime(1.0, now);
         
-        // 1音ずつずらして優雅に立ち上がるアルペジオアタックと、長い美しい余韻
         gainNode.gain.setValueAtTime(0, now);
         gainNode.gain.linearRampToValueAtTime(0.06, now + 0.3 + (index * 0.05));
         gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 6.0);
@@ -871,7 +892,6 @@
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.set(0, 0, 5.8);
 
-    // 壁紙ダウンロード用に preserveDrawingBuffer: true を追加
     const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -1215,15 +1235,13 @@
     const supernovaParticleCount = 400;
     let supernovaActive = false;
     let supernovaStartTime = 0;
-    const supernovaDuration = 4000; // 4秒間の演出時間
+    const supernovaDuration = 4000; 
     let particleData = [];
 
     function triggerSupernovaVisual() {
-      // 1. テセラクトを一瞬眩しい黄金にフラッシュ
       lineMaterial.color.setHex(0xffd700);
       lineMaterial.opacity = 1.0;
       
-      // 2. 物理演算を伴う黄金の火花（パーティクル）をテセラクトの中心に400個生成
       if (supernovaParticles) {
         scene.remove(supernovaParticles);
         supernovaParticles.geometry.dispose();
@@ -1235,12 +1253,10 @@
       particleData = [];
       
       for (let i = 0; i < supernovaParticleCount; i++) {
-        // 中心座標
         positions[i*3] = (Math.random() - 0.5) * 0.2;
         positions[i*3+1] = (Math.random() - 0.5) * 0.2;
         positions[i*3+2] = (Math.random() - 0.5) * 0.2;
         
-        // 全方向への初速（球面ランダム）
         const theta = Math.random() * Math.PI * 2;
         const phi = Math.acos((Math.random() * 2) - 1);
         const speed = 0.05 + Math.random() * 0.12;
@@ -1251,7 +1267,7 @@
         
         particleData.push({
           vx, vy, vz,
-          gravity: 0.001 + Math.random() * 0.0015, // 個々の粒子の落下加速度
+          gravity: 0.001 + Math.random() * 0.0015, 
         });
       }
       
@@ -1273,10 +1289,8 @@
       supernovaActive = true;
       supernovaStartTime = Date.now();
       
-      // カメラを強めにシェイク
       cameraShake = 1.5;
       
-      // 3. 美しいシンセサイザーの特別和音を奏でる
       playDivineSupernovaChord();
     }
 
@@ -1312,7 +1326,6 @@
 
       // Chroma Harmony
       const targetColor = themeColors[chordIndex];
-      // スーパーノヴァ発動中でなければゆっくり元のテーマ色にラープ
       if (!supernovaActive) {
         lineMaterial.color.lerp(new THREE.Color(targetColor.tesseract), 0.008);
       }
@@ -1376,22 +1389,18 @@
           for (let i = 0; i < supernovaParticleCount; i++) {
             const data = particleData[i];
             
-            // 速度ベクトル加算
             positions[i*3] += data.vx;
             positions[i*3+1] += data.vy;
             positions[i*3+2] += data.vz;
             
-            // 重力（Y軸落下）
             data.vy -= data.gravity;
             
-            // 減速（空気抵抗摩擦）
             data.vx *= 0.98;
             data.vy *= 0.98;
             data.vz *= 0.98;
           }
           posAttr.needsUpdate = true;
           
-          // 進捗に応じた美しいフェードアウト
           const progress = elapsed / supernovaDuration;
           supernovaParticles.material.opacity = Math.max(0, 1.0 - progress);
         }
@@ -1882,13 +1891,11 @@
         let totalCount = decoded.length;
         for (let i = 0; i < totalCount; i++) {
           let code = decoded.charCodeAt(i);
-          // 改行、TAB、標準ASCII印字可能文字のみ許容
           if (code === 10 || code === 13 || code === 9 || (code >= 32 && code <= 126)) {
             printableCount++;
           }
         }
         
-        // スペースや改行の割合をカウント（自然言語であれば一定比率スペースが存在します）
         const spaceCount = (decoded.match(/[\s\n\r]/g) || []).length;
         
         // 98%以上が印刷可能文字であり、かつ全体の4%以上がスペース・改行である場合にのみテキストとして採択
@@ -1904,14 +1911,13 @@
     // 🌟vout(出力)の scriptpubkey raw データを直接デコードするパーサー
     function decodeOpReturnHex(scriptpubkey) {
       if (!scriptpubkey || !scriptpubkey.startsWith("6a")) return null;
-      let hex = scriptpubkey.substring(2); // Strip 6a
+      let hex = scriptpubkey.substring(2); 
       const bytes = [];
       for (let i = 0; i < hex.length; i += 2) {
         bytes.push(parseInt(hex.substr(i, 2), 16));
       }
       let decoded = new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
-      // 制御コード（push opcode等）をトリミング
-      decoded = decoded.replace(/^[\x00-\x1F\x7F-\x9F\xA0]+/, '');
+      decoded = decoded.replace(/^[\x00-\x1F\x7F-\x9F\xA0\x20-\x2F]+/, ''); // 制御コードやプッシュオペコード等を確実に排除
       return decoded;
     }
 
@@ -2292,7 +2298,7 @@ P.S. My apologies, BitCoin people.
       return hashHex;
     }
 
-    // UIオーバーレイを排除した「完全クリーン」壁紙画像ダウンロード
+    // 🌟【高クオリティ化】撮影時の最新ブロック高・BTC価格情報を画像へ合成して保存するシステム
     function captureCleanScreenshot() {
       const uiContainer = document.getElementById('ui-container');
       const soundToggle = document.getElementById('sound-toggle');
@@ -2300,32 +2306,109 @@ P.S. My apologies, BitCoin people.
       const credit = document.getElementById('credit');
       const mobileNav = document.getElementById('mobile-nav');
       
-      // レンダリング前のUI一括非表示
+      // 1. レンダリング前のHTML-UI一括非表示
       if (uiContainer) uiContainer.style.display = 'none';
       if (soundToggle) soundToggle.style.display = 'none';
       if (supportFooter) supportFooter.style.display = 'none';
       if (credit) credit.style.display = 'none';
       if (mobileNav) mobileNav.style.display = 'none';
       
-      // 美しいクリーンフレームを描写
+      // 2. 美しい3Dシーンのみを描写
       renderer.render(scene, camera);
-      const dataURL = renderer.domElement.toDataURL("image/png");
+      const glCanvas = renderer.domElement;
       
-      // UI一括復元
+      // 3. データオーバーレイ描画用の2D一時キャンバスを作成
+      const tempCanvas = document.createElement('canvas');
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCanvas.width = glCanvas.width;
+      tempCanvas.height = glCanvas.height;
+      
+      // 3Dシーンをコピー
+      tempCtx.drawImage(glCanvas, 0, 0);
+      
+      // 4. データ抽出
+      const currentHeight = document.getElementById('block-height').innerText || latestBlockHeight || '---';
+      const priceUsd = document.getElementById('price-usd').innerText || `$${btcPrices.usd.toLocaleString()}`;
+      const priceJpy = document.getElementById('price-jpy').innerText || `¥${btcPrices.jpy.toLocaleString()}`;
+      
+      // スケーリング用のパディング設定
+      const padding = Math.min(tempCanvas.width, tempCanvas.height) * 0.04;
+      
+      // --- デコレーション：4隅のサイバーパンクファインダーフレーム [ ] ---
+      tempCtx.strokeStyle = 'rgba(0, 255, 170, 0.4)';
+      tempCtx.lineWidth = 2;
+      const bracketSize = 20;
+      
+      // 左上ブラケット
+      tempCtx.beginPath();
+      tempCtx.moveTo(padding + bracketSize, padding);
+      tempCtx.lineTo(padding, padding);
+      tempCtx.lineTo(padding, padding + bracketSize);
+      tempCtx.stroke();
+      
+      // 右上ブラケット
+      tempCtx.beginPath();
+      tempCtx.moveTo(tempCanvas.width - padding - bracketSize, padding);
+      tempCtx.lineTo(tempCanvas.width - padding, padding);
+      tempCtx.lineTo(tempCanvas.width - padding, padding + bracketSize);
+      tempCtx.stroke();
+      
+      // 左下ブラケット
+      tempCtx.beginPath();
+      tempCtx.moveTo(padding + bracketSize, tempCanvas.height - padding);
+      tempCtx.lineTo(padding, tempCanvas.height - padding);
+      tempCtx.lineTo(padding, tempCanvas.height - padding - bracketSize);
+      tempCtx.stroke();
+      
+      // 右下ブラケット
+      tempCtx.beginPath();
+      tempCtx.moveTo(tempCanvas.width - padding - bracketSize, tempCanvas.height - padding);
+      tempCtx.lineTo(tempCanvas.width - padding, tempCanvas.height - padding);
+      tempCtx.lineTo(tempCanvas.width - padding, tempCanvas.height - padding - bracketSize);
+      tempCtx.stroke();
+      
+      // --- テキスト情報オーバーレイ ---
+      tempCtx.fillStyle = '#ffffff';
+      tempCtx.shadowColor = '#00ffaa';
+      tempCtx.shadowBlur = 8;
+      
+      // 画面解像度に合わせて文字サイズを動的に調整
+      const fontSize = Math.max(14, Math.floor(tempCanvas.height * 0.022));
+      tempCtx.font = `300 ${fontSize}px 'Montserrat', sans-serif`;
+      tempCtx.textAlign = 'left';
+      
+      // タイトル
+      tempCtx.fillStyle = '#00ffaa';
+      tempCtx.fillText("AETHER TESSERACT // SHOT", padding + 15, padding + 25);
+      
+      // ブロック情報・BTC価格情報（左上）
+      tempCtx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      tempCtx.shadowBlur = 0;
+      tempCtx.font = `200 ${fontSize * 0.8}px monospace`;
+      tempCtx.fillText(`BLOCK HEIGHT : #${currentHeight}`, padding + 15, padding + 25 + fontSize * 1.5);
+      tempCtx.fillText(`BTC PRICE    : ${priceUsd} USD / ${priceJpy} JPY`, padding + 15, padding + 25 + fontSize * 2.7);
+      
+      // タイムスタンプ（右下）
+      tempCtx.textAlign = 'right';
+      const nowStr = new Date().toISOString().replace('T', ' ').substring(0, 19) + ' UTC';
+      tempCtx.fillText(`CAPTURED AT : ${nowStr}`, tempCanvas.width - padding - 15, tempCanvas.height - padding - 15);
+      
+      // 5. HTML-UIを一括で再表示して元に戻す
       if (uiContainer) uiContainer.style.display = 'flex';
       if (soundOn && soundToggle) soundToggle.style.display = 'flex';
       if (window.innerWidth > 768 && supportFooter) supportFooter.style.display = 'block';
       if (credit) credit.style.display = 'block';
       if (window.innerWidth <= 768 && mobileNav) mobileNav.style.display = 'flex';
       
-      // PNG保存のトリガー
+      // 6. PNG画像をブラウザに自動でダウンロードトリガー
+      const dataURL = tempCanvas.toDataURL("image/png");
       const link = document.createElement("a");
-      link.download = `aether-tesseract-${Date.now()}.png`;
+      link.download = `aether-tesseract-${currentHeight}-${Date.now()}.png`;
       link.href = dataURL;
       link.click();
     }
 
-    // 🌟ダウンロード用の無料トリガーリスナー設定
+    // ダウンロード用の無料トリガーリスナー設定
     document.getElementById('btn-generate-gallery').addEventListener('click', captureCleanScreenshot);
 
 
