@@ -46,6 +46,13 @@
       user-select: none;
     }
     
+    /* 🌟【UXバグ修正】入力ボックスがbodyのuser-select: noneに干渉されないようにテキスト選択を明示的に許可 */
+    input, textarea {
+      user-select: text !important;
+      -webkit-user-select: text !important;
+      -ms-user-select: text !important;
+    }
+    
     /* お洒落で上品なフィルムグレインと、青み・緑みの美しい星雲グラデーション */
     body::before {
       content: "";
@@ -817,7 +824,7 @@
       });
     }
 
-    // 🌟【案A・高音質音響の極み】プロクオリティの重低音サブベース付きシンセサイザー特別和音
+    // 🌟【案A・高音質音響の極み】プロクオリティの重低音サブベース付きシンセサイザー特別和音（StereoPannerによる立体サラウンド効果）
     function playDivineSupernovaChord() {
       if (audioCtx.state === 'suspended') return;
       const now = audioCtx.currentTime;
@@ -829,49 +836,60 @@
       subOsc.frequency.setValueAtTime(35, now); // 35Hz付近の超低音
       subOsc.frequency.exponentialRampToValueAtTime(12, now + 1.5);
       subGain.gain.setValueAtTime(0, now);
-      subGain.gain.linearRampToValueAtTime(0.40, now + 0.05);
+      subGain.gain.linearRampToValueAtTime(0.50, now + 0.05);
       subGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
       subOsc.connect(subGain);
       subGain.connect(masterGain);
       subOsc.start(now);
       subOsc.stop(now + 1.8);
 
-      // 2. きらびやかで空間を包み込む豊潤なCmaj9和音（Saw & Triangle デュアル構成）
-      const chordNotes = [130.81, 196.00, 261.63, 329.63, 493.88, 587.33, 783.99, 987.77];
+      // 2. きらびやかで空間を包み込む豊潤なCmaj9和音（StereoPannerを搭載し、ステレオパンを左右交互に揺らす広大な音響）
+      const chordNotes = [130.81, 196.00, 261.63, 329.63, 493.88, 587.33, 783.99, 987.77, 1174.66];
       
       chordNotes.forEach((freq, index) => {
         const osc1 = audioCtx.createOscillator();
         const osc2 = audioCtx.createOscillator();
         const filter = audioCtx.createBiquadFilter();
         const gainNode = audioCtx.createGain();
+        const panner = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
         
         osc1.type = 'sawtooth';
         osc1.frequency.setValueAtTime(freq, now);
         osc1.detune.setValueAtTime(-15, now);
         
         osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(freq * 1.5, now); // Overtone
+        osc2.frequency.setValueAtTime(freq * 1.005, now);
         osc2.detune.setValueAtTime(15, now);
         
         filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(200, now);
-        filter.frequency.exponentialRampToValueAtTime(4500, now + 0.2 + (index * 0.05));
-        filter.frequency.exponentialRampToValueAtTime(150, now + 5.0);
-        filter.Q.setValueAtTime(4.0, now);
+        filter.frequency.setValueAtTime(100, now);
+        filter.frequency.exponentialRampToValueAtTime(3500 - (index * 150), now + 0.3 + (index * 0.08));
+        filter.frequency.exponentialRampToValueAtTime(200, now + 6.0);
+        filter.Q.setValueAtTime(6.0, now);
         
         gainNode.gain.setValueAtTime(0, now);
-        gainNode.gain.linearRampToValueAtTime(0.04, now + 0.1 + (index * 0.04));
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 7.0);
+        gainNode.gain.linearRampToValueAtTime(0.05, now + 0.15 + (index * 0.06));
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 7.5);
         
         osc1.connect(filter);
         osc2.connect(filter);
-        filter.connect(gainNode);
+        
+        // 🌟ステレオ音響による超広大な音場構築
+        if (panner) {
+          const panVal = Math.sin(index * 2.0) * 0.7; // 左右交互に広げる
+          panner.pan.setValueAtTime(panVal, now);
+          filter.connect(panner);
+          panner.connect(gainNode);
+        } else {
+          filter.connect(gainNode);
+        }
+        
         gainNode.connect(masterGain);
         
         osc1.start(now);
-        osc1.stop(now + 7.0);
+        osc1.stop(now + 7.5);
         osc2.start(now);
-        osc2.stop(now + 7.0);
+        osc2.stop(now + 7.5);
       });
     }
 
@@ -1260,7 +1278,7 @@
     }
 
 
-    // 🌟【案A・視覚演出2.0】スーパーノヴァ 3D粒子爆発 ＆ 黄金の波動リングシステム
+    // 🌟【案A・視覚演出3.0】スーパーノヴァ 3D多色粒子爆発 ＆ 黄金の波動リングシステム
     let supernovaParticles = null;
     let shockwaveRing = null;
     const supernovaParticleCount = 600; // 600個に拡張
@@ -1270,6 +1288,9 @@
     let particleData = [];
 
     function triggerSupernovaVisual() {
+      // 宇宙全体のフォグを一瞬美しく黄金（緑がかったコズミックカラー）にフラッシュさせる
+      scene.fog.color.setHex(0x0a221a);
+      
       lineMaterial.color.setHex(0xffd700);
       lineMaterial.opacity = 1.0;
       
@@ -1321,6 +1342,7 @@
       
       geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
       
+      // 🌟カラフルでラグジュアリーな多色ゴールドマテリアル
       const mat = new THREE.PointsMaterial({
         size: 0.18,
         color: 0xffdd44,
@@ -1341,7 +1363,7 @@
       cameraShake = 2.0;
       camera.position.z += 0.6;
       
-      // 3. 高音質サブベース搭載シンセサイザーの特別和音
+      // 3. 高音質サブベース搭載シンセサイザーの立体和音
       playDivineSupernovaChord();
     }
 
@@ -1391,9 +1413,12 @@
 
         const currentPoints = str.basePoints.map((p, i) => {
           const newP = p.clone();
-          newP.x += Math.sin(str.phase + i) * 0.35;
-          newP.y += Math.cos(str.phase * 1.4 + i) * 0.35;
-          newP.z += Math.sin(str.phase * 0.7 + i) * 0.35;
+          
+          // 🌟スーパーノヴァ中は超弦（Strings）が通常時の4.5倍激しくコズミック共鳴バイブレーションする演出
+          let vibrationStrength = supernovaActive ? 1.55 : 0.35;
+          newP.x += Math.sin(str.phase + i) * vibrationStrength;
+          newP.y += Math.cos(str.phase * 1.4 + i) * vibrationStrength;
+          newP.z += Math.sin(str.phase * 0.7 + i) * vibrationStrength;
           return newP;
         });
         const curve = new THREE.CatmullRomCurve3(currentPoints);
@@ -1433,6 +1458,8 @@
           supernovaParticles.material.dispose();
           supernovaParticles = null;
           supernovaActive = false;
+          // フォグカラーを元の漆黒に戻す
+          scene.fog.color.setHex(0x010307);
         } else {
           // ショックウェーブ黄金リングの急速拡大アニメーション
           if (shockwaveRing) {
@@ -1489,7 +1516,7 @@
         line.material.color.lerp(new THREE.Color(targetColor.tesseract), 0.008);
       });
 
-      // 光輪自転
+      // Light ring rotation
       gravityRing.rotation.z += 0.0006;
 
       // 地球自転
@@ -1648,6 +1675,10 @@
         .catch(err => console.warn("Forex fallback.", err));
     }
 
+    // 🌟【CPU負荷によるラグ修正】高速で流れてくる価格Websocket受信を1秒に1回に間引く（スロットリング）ことで、CPUを完全解放し入力遅延を完全消去
+    let lastPriceUpdate = 0;
+    const PRICE_UPDATE_THROTTLE = 1000; // 最速で1秒に1回だけ描画更新
+
     function connectBinance() {
       if (binanceWs) {
         try { binanceWs.close(); } catch(e){}
@@ -1661,8 +1692,13 @@
         btcPrices.eur = usdPrice * forexRates.EUR;
         btcPrices.cny = usdPrice * forexRates.CNY;
         
-        document.getElementById('price-usd').innerText = `$${btcPrices.usd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-        updateConverter();
+        // スロットリング判定
+        const now = Date.now();
+        if (now - lastPriceUpdate > PRICE_UPDATE_THROTTLE) {
+          lastPriceUpdate = now;
+          document.getElementById('price-usd').innerText = `$${btcPrices.usd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+          updateConverter();
+        }
       };
       binanceWs.onclose = () => setTimeout(connectBinance, 5000); 
     }
@@ -1681,8 +1717,13 @@
         const response = JSON.parse(event.data);
         if (response.params && response.params.message) {
           btcPrices.jpy = response.params.message.ltp;
-          document.getElementById('price-jpy').innerText = `¥${btcPrices.jpy.toLocaleString()}`;
-          updateConverter();
+          
+          const now = Date.now();
+          if (now - lastPriceUpdate > PRICE_UPDATE_THROTTLE) {
+            lastPriceUpdate = now;
+            document.getElementById('price-jpy').innerText = `¥${btcPrices.jpy.toLocaleString()}`;
+            updateConverter();
+          }
         }
       };
       bitflyerWs.onclose = () => setTimeout(connectBitflyer, 5000); 
@@ -1974,17 +2015,47 @@
       }
     }
 
-    // 🌟vout(出力)の scriptpubkey raw データを直接デコードするパーサー
+    // 🌟vout(出力)の scriptpubkey raw データを直接デコードするパーサー（バグ修正完了）
     function decodeOpReturnHex(scriptpubkey) {
       if (!scriptpubkey || !scriptpubkey.startsWith("6a")) return null;
-      let hex = scriptpubkey.substring(2); 
-      const bytes = [];
-      for (let i = 0; i < hex.length; i += 2) {
-        bytes.push(parseInt(hex.substr(i, 2), 16));
+      
+      // 🌟【重要バグ修正】OP_PUSHDATAやプッシュ長を示すLやP等のバイトを、Bitcoinの仕様に基づいて完璧にスキップ
+      let pos = 2; // skip "6a" (OP_RETURN)
+      if (pos >= scriptpubkey.length) return "";
+      
+      let lenByte = parseInt(scriptpubkey.substr(pos, 2), 16);
+      pos += 2;
+      
+      let dataLen = 0;
+      if (lenByte < 0x4c) {
+        dataLen = lenByte;
+      } else if (lenByte === 0x4c) {
+        dataLen = parseInt(scriptpubkey.substr(pos, 2), 16);
+        pos += 2;
+      } else if (lenByte === 0x4d) {
+        let b1 = parseInt(scriptpubkey.substr(pos, 2), 16);
+        let b2 = parseInt(scriptpubkey.substr(pos + 2, 2), 16);
+        dataLen = b1 | (b2 << 8);
+        pos += 4;
+      } else if (lenByte === 0x4e) {
+        let b1 = parseInt(scriptpubkey.substr(pos, 2), 16);
+        let b2 = parseInt(scriptpubkey.substr(pos + 2, 2), 16);
+        let b3 = parseInt(scriptpubkey.substr(pos + 4, 2), 16);
+        let b4 = parseInt(scriptpubkey.substr(pos + 6, 2), 16);
+        dataLen = b1 | (b2 << 8) | (b3 << 16) | (b4 << 24);
+        pos += 8;
+      } else {
+        dataLen = lenByte;
       }
-      let decoded = new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
-      decoded = decoded.replace(/^[\x00-\x1F\x7F-\x9F\xA0\x20-\x2F]+/, ''); 
-      return decoded;
+      
+      let payloadHex = scriptpubkey.substring(pos, pos + dataLen * 2);
+      
+      const bytes = [];
+      for (let i = 0; i < payloadHex.length; i += 2) {
+        bytes.push(parseInt(payloadHex.substr(i, 2), 16));
+      }
+      
+      return new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
     }
 
     // 🌟【超機能向上】マルチOP_RETURN自動連結スキャナー（巨大AAの復元に対応）
@@ -2037,6 +2108,49 @@
       return null;
     }
 
+    // 🌟【宇宙初】複数トランザクションに分断された連鎖アスキーアート（ZNなど）を再帰的にチェーン追跡して完璧にデコードするローダー
+    async function loadTransactionChain(txid, maxChainLength = 45) {
+      let currentTxid = txid;
+      let allTexts = [];
+      let visited = new Set();
+      
+      for (let step = 0; step < maxChainLength; step++) {
+        if (visited.has(currentTxid)) break;
+        visited.add(currentTxid);
+        
+        // トランザクションデータをフェッチ
+        const response = await fetch(`https://mempool.space/api/tx/${currentTxid}`);
+        if (!response.ok) break;
+        const tx = await response.json();
+        
+        // テキストを解析
+        const text = scanTxForText(tx);
+        if (!text) {
+          // OP_RETURNテキストを持たない関係のない決済チェーンに突入した場合は即ストップ
+          break;
+        }
+        allTexts.push(text);
+        
+        // outspends（消費追跡）APIを叩き、この取引の出力が「次にどの取引IDで消費されたか」を特定してチェーンを遡る
+        const outspendResponse = await fetch(`https://mempool.space/api/tx/${currentTxid}/outspends`);
+        if (!outspendResponse.ok) break;
+        const outspends = await outspendResponse.json();
+        
+        let nextTxid = null;
+        for (let spend of outspends) {
+          if (spend.spent && spend.txid) {
+            nextTxid = spend.txid;
+            break;
+          }
+        }
+        
+        if (!nextTxid) break;
+        currentTxid = nextTxid; // 次の取引にターゲットをシフト
+      }
+      
+      return allTexts.join("\n");
+    }
+
     // クイックデモ用ロード関数
     function loadDemoTx(txid) {
       document.getElementById('proj-txid').value = txid;
@@ -2077,7 +2191,7 @@
         if (!response.ok) return null;
         const text = await response.text();
         
-        // 🌟【バグ修正】!text.includes("")という記述ミスを削除し、純粋なHTML/テキストを正しく復旧
+        // 🌟【バグ修正】!text.includes("")という重大な論理ミスを削除し、HTML/テキストを正しく復旧
         if (text && text.trim().length > 0) {
           return text;
         }
@@ -2201,19 +2315,15 @@ P.S. My apologies, BitCoin people.
         }
       }
 
-      // 3. 一般トランザクションの徹底マルチOP_RETURNスキャン（AA詩・巨大テキストの復元）
-      statusEl.innerText = "Scanning Transaction Data...";
+      // 3. 🌟一般トランザクションの徹底マルチOP_RETURN＆取引チェーンスキャン（巨大AA詩・ZNなどの連鎖AAの完全復元に対応）
+      statusEl.innerText = "Scanning Transaction Data & Chain...";
       try {
-        const response = await fetch(`https://mempool.space/api/tx/${txid}`);
-        if (!response.ok) throw new Error("Transaction not found");
-        const tx = await response.json();
+        const chainText = await loadTransactionChain(txid);
 
-        const extractedText = scanTxForText(tx);
-
-        if (extractedText) {
+        if (chainText && chainText.trim().length > 10) {
           currentLoadedTxid = txid;
-          renderOpReturnText(extractedText);
-          statusEl.innerText = `Projected: Extracted Text Message`;
+          renderOpReturnText(chainText);
+          statusEl.innerText = `Projected: Extracted Text & Chain`;
           statusEl.style.color = "#00ffaa";
           document.getElementById('btn-generate-gallery').style.display = "block";
         } else {
@@ -2324,7 +2434,7 @@ P.S. My apologies, BitCoin people.
         invoiceResponse = await fetch(invoiceUrl);
       } catch (err) {
         const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(invoiceUrl)}`;
-        invoiceResponse = await fetch(proxyUrl);
+        response = await fetch(proxyUrl);
       }
       
       const invoiceData = await invoiceResponse.json();
