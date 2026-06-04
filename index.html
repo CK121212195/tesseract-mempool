@@ -616,27 +616,27 @@
           <h2>Multivariate Converter</h2>
           <div class="conv-group">
             <div class="conv-row">
-              <input type="text" id="conv-sats" value="100,000,000">
+              <input type="text" inputmode="decimal" id="conv-sats" value="100,000,000">
               <span class="unit">SATS</span>
             </div>
             <div class="conv-row">
-              <input type="text" id="conv-btc" value="1.00000000">
+              <input type="text" inputmode="decimal" id="conv-btc" value="1.00000000">
               <span class="unit">BTC</span>
             </div>
             <div class="conv-row">
-              <input type="text" id="conv-jpy" value="10,591,169">
+              <input type="text" inputmode="decimal" id="conv-jpy" value="10,591,169">
               <span class="unit">JPY</span>
             </div>
             <div class="conv-row">
-              <input type="text" id="conv-usd" value="66,276">
+              <input type="text" inputmode="decimal" id="conv-usd" value="66,276">
               <span class="unit">USD</span>
             </div>
             <div class="conv-row">
-              <input type="text" id="conv-eur" value="60,000">
+              <input type="text" inputmode="decimal" id="conv-eur" value="60,000">
               <span class="unit">EUR</span>
             </div>
             <div class="conv-row">
-              <input type="text" id="conv-cny" value="470,000">
+              <input type="text" inputmode="decimal" id="conv-cny" value="470,000">
               <span class="unit">CNY</span>
             </div>
           </div>
@@ -768,34 +768,6 @@
     function playTxSound(amount) {
       // 🔊 トランザクション時の効果音を完全に無効化するためスキップします
       return;
-
-      if (audioCtx.state === 'suspended') return;
-      const now = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const filter = audioCtx.createBiquadFilter();
-      const gainNode = audioCtx.createGain();
-
-      let noteIndex = Math.floor(Math.max(0, Math.min(scale.length - 1, scale.length - 1 - Math.log10(amount * 10 + 1) * 2)));
-      if (isNaN(noteIndex)) noteIndex = Math.floor(Math.random() * scale.length);
-      const freq = scale[noteIndex];
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(freq, now);
-
-      const duration = Math.min(5.0, 0.8 + amount * 2.0);
-      gainNode.gain.setValueAtTime(0, now);
-      gainNode.gain.linearRampToValueAtTime(0.06, now + 0.08);
-      gainNode.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(freq * 1.5, now);
-
-      osc.connect(filter);
-      filter.connect(gainNode);
-      gainNode.connect(masterGain);
-
-      osc.start(now);
-      osc.stop(now + duration);
     }
 
     function playBlockSound() {
@@ -901,7 +873,6 @@
       if (audioCtx.state === 'suspended') {
         audioCtx.resume().then(() => {
           playAmbientPad();
-          // playTxSound(0.05); // 🔊 消音のため呼び出しを無効化
           document.getElementById('unmute-overlay').style.display = 'none';
           document.getElementById('sound-toggle').style.display = 'flex';
         });
@@ -1616,13 +1587,13 @@
       else if (type === 'cny') btc = value / btcPrices.cny;
 
       if (type !== 'sats') {
-        elSats.value = Math.round(btc * 100000000).toLocaleString('en-US', {maximumFractionDigits: 0});
+        elSats.value = (btc * 100000000).toLocaleString('en-US', {maximumFractionDigits: 0});
       }
       if (type !== 'btc') {
         elBtc.value = btc.toLocaleString('en-US', {maximumFractionDigits: 8});
       }
       if (type !== 'jpy') {
-        elJpy.value = Math.round(btc * btcPrices.jpy).toLocaleString('en-US', {maximumFractionDigits: 0});
+        elJpy.value = (btc * btcPrices.jpy).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
       }
       if (type !== 'usd') {
         elUsd.value = (btc * btcPrices.usd).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
@@ -1657,8 +1628,6 @@
             e.target.value = val.toLocaleString('en-US', {maximumFractionDigits: 0});
           } else if (type === 'btc') {
             e.target.value = val.toLocaleString('en-US', {maximumFractionDigits: 8});
-          } else if (type === 'jpy') {
-            e.target.value = val.toLocaleString('en-US', {maximumFractionDigits: 0});
           } else {
             e.target.value = val.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
           }
@@ -1678,10 +1647,6 @@
         .catch(err => console.warn("Forex fallback.", err));
     }
 
-    // 高速で流れてくる価格Websocket受信を1秒に1回に間引く（スロットリング）ことで、CPUを完全解放し入力遅延を完全消去
-    let lastPriceUpdate = 0;
-    const PRICE_UPDATE_THROTTLE = 1000; // 最速で1秒に1回だけ描画更新
-
     function connectBinance() {
       if (binanceWs) {
         try { binanceWs.close(); } catch(e){}
@@ -1695,13 +1660,8 @@
         btcPrices.eur = usdPrice * forexRates.EUR;
         btcPrices.cny = usdPrice * forexRates.CNY;
         
-        // スロットリング判定
-        const now = Date.now();
-        if (now - lastPriceUpdate > PRICE_UPDATE_THROTTLE) {
-          lastPriceUpdate = now;
-          document.getElementById('price-usd').innerText = `$${btcPrices.usd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-          updateConverter();
-        }
+        document.getElementById('price-usd').innerText = `$${btcPrices.usd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        updateConverter();
       };
       binanceWs.onclose = () => setTimeout(connectBinance, 5000); 
     }
@@ -1721,12 +1681,8 @@
         if (response.params && response.params.message) {
           btcPrices.jpy = response.params.message.ltp;
           
-          const now = Date.now();
-          if (now - lastPriceUpdate > PRICE_UPDATE_THROTTLE) {
-            lastPriceUpdate = now;
-            document.getElementById('price-jpy').innerText = `¥${btcPrices.jpy.toLocaleString()}`;
-            updateConverter();
-          }
+          document.getElementById('price-jpy').innerText = `¥${btcPrices.jpy.toLocaleString()}`;
+          updateConverter();
         }
       };
       bitflyerWs.onclose = () => setTimeout(connectBitflyer, 5000); 
@@ -1734,14 +1690,9 @@
 
     function updateConverter() {
       if (btcPrices.usd === 0 || btcPrices.jpy === 0) return;
-      
-      const focusedInput = document.activeElement;
-      const isInputFocused = focusedInput && focusedInput.tagName === 'INPUT' && focusedInput.id.startsWith('conv-');
-      
-      if (!isInputFocused) {
-        const curBtcValue = parseFloat(elBtc.value.replace(/,/g, '')) || 1.0;
-        calculateFrom('btc', curBtcValue);
-      }
+      const valStr = document.getElementById(`conv-${currentFocus}`).value;
+      const val = parseFloat(valStr.replace(/,/g, '')) || 0;
+      calculateFrom(currentFocus, val);
     }
 
     function setBlockHeight(height) {
@@ -1878,7 +1829,6 @@
           txCount++;
           document.getElementById('tx-count').innerText = txCount;
           triggerStringPulse(fakeAmount);
-          // playTxSound(fakeAmount); // 🔊 消音のため呼び出しを無効化
         }
 
         if (res.blocks) {
@@ -1922,18 +1872,18 @@
     // 初期起動用連動
     function updateConverterFromBTC(btcVal, source) {
       if (isNaN(btcVal) || btcVal < 0) return;
-      const sats = Math.round(btcVal * 100000000);
+      const sats = btcVal * 100000000;
       const usd = btcVal * btcPrices.usd;
       const jpy = btcVal * btcPrices.jpy;
       const eur = btcVal * btcPrices.eur;
       const cny = btcVal * btcPrices.cny;
 
-      elSats.value = sats.toLocaleString();
-      elBtc.value = btcVal.toFixed(8);
-      elJpy.value = Math.round(jpy).toLocaleString();
-      elUsd.value = usd.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      elEur.value = eur.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      elCny.value = cny.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      elSats.value = sats.toLocaleString('en-US', {maximumFractionDigits: 0});
+      elBtc.value = btcVal.toLocaleString('en-US', {maximumFractionDigits: 8});
+      elJpy.value = jpy.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      elUsd.value = usd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      elEur.value = eur.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      elCny.value = cny.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     }
 
     // --- 8. MOBILE NAVIGATION TAB SWITCHER ---
@@ -1966,7 +1916,7 @@
 
 
     // ==========================================
-    //          新機能：AETHER PROJECTOR
+    //          AETHER PROJECTOR
     // ==========================================
     let currentLoadedTxid = "";
 
