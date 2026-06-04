@@ -404,7 +404,7 @@
     @media (max-width: 768px) {
       #ui-container {
         flex-direction: column;
-        justify(content): center;
+        justify-content: center;
         align-items: center;
         padding: 15px;
         height: calc(100% - 150px);
@@ -515,7 +515,7 @@
         <div class="stat">BTC Price (USD): <span id="price-usd">Syncing...</span></div>
         <div class="stat">BTC Price (JPY): <span id="price-jpy">Syncing...</span></div>
         
-        <!-- Aether Projector (本物のデモボタン配置済み) -->
+        <!-- Aether Projector -->
         <div class="converter-box">
           <h2>Aether Projector</h2>
           <div style="display:flex; flex-direction:column; gap: 8px;">
@@ -533,21 +533,43 @@
             Project a transaction's OP_RETURN or Ordinal Art into 11D space.
           </div>
           
-          <!-- 永久展示リンクの生成（10Sats） -->
-          <button id="btn-generate-gallery" style="display:none; width:100%; margin-top:10px; background: linear-gradient(45deg, #00d2ff, #00ffaa); border:none; color:#010307; border-radius:6px; font-size:0.65rem; padding:8px; cursor:pointer; font-weight:bold; letter-spacing:0.1em; transition:all 0.2s;">
-            ⚡ DOWNLOAD CLEAN WALLPAPER (10 Sats)
+          <!-- 壁紙ダウンロード機能は完全に【無料】として解放 -->
+          <button id="btn-generate-gallery" style="display:none; width:100%; margin-top:10px; background: rgba(0, 210, 255, 0.1); border: 1px solid rgba(0, 210, 255, 0.4); color: #00d2ff; border-radius:6px; font-size:0.65rem; padding:8px; cursor:pointer; font-weight:bold; letter-spacing:0.1em; transition:all 0.2s;">
+            📷 DOWNLOAD CLEAN WALLPAPER (FREE)
           </button>
+        </div>
+
+        <!-- スーパーノヴァ投げ銭システム (AETHER FEED) -->
+        <div class="converter-box" style="border-top: 1px solid rgba(0, 255, 170, 0.25); padding-top: 15px;">
+          <h2 style="color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.4);">⚡️ AETHER FEED (SUPERNOVA)</h2>
+          <div style="font-size: 0.62rem; color: rgba(255,255,255,0.7); line-height: 1.35; margin-bottom: 8px;">
+            Support the visualization! Feeding Sats triggers a 3D Supernova and plays a divine harmonic chime in real-time.
+          </div>
           
-          <!-- 決済用埋め込みUI -->
-          <div id="payment-modal" style="display:none; flex-direction:column; gap:10px;">
-            <div style="font-size:0.65rem; color:#f5a623; letter-spacing:0.1em; font-weight:bold; text-align:center;">⚡ PREMIUM DOWNLOAD ACTIVATION ⚡</div>
-            <img id="payment-qr" src="">
-            <div id="payment-status-text" style="font-size:0.6rem; color:#00ffaa; text-align:center; line-height:1.3;">Pay 10 Sats to download a clean, gorgeous 11D wallpaper of this canvas!</div>
-            <button class="payment-btn" id="btn-copy-invoice">Copy BOLT11 Invoice</button>
+          <div style="display: flex; gap: 6px; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <select id="tip-amount" style="background: rgba(1,3,7,0.8); border: 1px solid rgba(255,215,0,0.3); color: #ffd700; font-family: monospace; font-size: 0.7rem; border-radius: 4px; padding: 4px; width: 45%;">
+              <option value="10">10 Sats</option>
+              <option value="100">100 Sats</option>
+              <option value="1000">1,000 Sats</option>
+              <option value="10000">10,000 Sats</option>
+            </select>
+            <button id="btn-tip-ignite" style="background: linear-gradient(45deg, #ffd700, #ffaa00); border: none; color: #010307; border-radius: 6px; font-size: 0.65rem; padding: 6px 12px; cursor: pointer; font-weight: bold; letter-spacing: 0.05em; width: 50%; transition: all 0.2s; box-shadow: 0 0 10px rgba(255,215,0,0.2);">
+              FEED SATS ⚡️
+            </button>
+          </div>
+          
+          <!-- 投げ銭用QR・WebLNモーダル -->
+          <div id="tip-modal" style="display: none; flex-direction: column; gap: 8px; margin-top: 8px;">
+            <img id="tip-qr" src="">
+            <div id="tip-status-text" style="font-size: 0.58rem; color: #ffd700; text-align: center; line-height: 1.3;">
+              WebLN active. Prompting wallet...
+            </div>
+            <button class="payment-btn" id="btn-copy-tip-invoice">Copy Invoice</button>
             
-            <div style="font-size:0.55rem; color:rgba(255,255,255,0.3); text-align:center; margin-top:4px;">- ENTER PAYMENT PREIMAGE / RECEIPT -</div>
-            <input type="text" id="manual-preimage" placeholder="Paste Payment Preimage (hex)" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:4px; color:#fff; font-size:0.6rem; padding:6px; outline:none; text-align:center;">
-            <button class="payment-btn" id="btn-verify-preimage" style="border-color:#00ffaa; color:#00ffaa;">VERIFY & DOWNLOAD NOW</button>
+            <div style="display: flex; gap: 4px; width: 100%;">
+              <button class="payment-btn" id="btn-verify-tip" style="flex: 1; border-color: #00ffaa; color: #00ffaa; font-size: 0.6rem; padding: 6px;">Verify Preimage</button>
+              <button class="payment-btn" id="btn-trust-tip" style="flex: 1; border-color: #ffd700; color: #ffd700; font-size: 0.6rem; padding: 6px; font-weight: bold;">I Tipped! Ignite 🚀</button>
+            </div>
           </div>
         </div>
 
@@ -761,6 +783,51 @@
 
         osc.start(now);
         osc.stop(now + 8.5);
+      });
+    }
+
+    // 🌟【案A】スーパーノヴァ投げ銭時の神聖なシンセ和音（アルペジオ遅延Cmaj9）
+    function playDivineSupernovaChord() {
+      if (audioCtx.state === 'suspended') return;
+      const now = audioCtx.currentTime;
+      
+      // 神聖で美しく透き通るCmaj9和音: C3, G3, C4, E4, B4, D5 (ハープ風)
+      const chordNotes = [130.81, 196.00, 261.63, 329.63, 493.88, 587.33];
+      
+      chordNotes.forEach((freq, index) => {
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const filter = audioCtx.createBiquadFilter();
+        const gainNode = audioCtx.createGain();
+        
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(freq, now);
+        osc1.detune.setValueAtTime(-5, now);
+        
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(freq * 2, now); // 1オクターブ上の倍音を重ねる
+        osc2.detune.setValueAtTime(5, now);
+        
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(400, now);
+        filter.frequency.exponentialRampToValueAtTime(3000, now + 1.2);
+        filter.frequency.exponentialRampToValueAtTime(600, now + 4.5);
+        filter.Q.setValueAtTime(1.0, now);
+        
+        // 1音ずつずらして優雅に立ち上がるアルペジオアタックと、長い美しい余韻
+        gainNode.gain.setValueAtTime(0, now);
+        gainNode.gain.linearRampToValueAtTime(0.06, now + 0.3 + (index * 0.05));
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 6.0);
+        
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(masterGain);
+        
+        osc1.start(now);
+        osc1.stop(now + 6.0);
+        osc2.start(now);
+        osc2.stop(now + 6.0);
       });
     }
 
@@ -1143,6 +1210,77 @@
     }
 
 
+    // 🌟【案A】スーパーノヴァ投げ銭 3Dパーティクル雨システム
+    let supernovaParticles = null;
+    const supernovaParticleCount = 400;
+    let supernovaActive = false;
+    let supernovaStartTime = 0;
+    const supernovaDuration = 4000; // 4秒間の演出時間
+    let particleData = [];
+
+    function triggerSupernovaVisual() {
+      // 1. テセラクトを一瞬眩しい黄金にフラッシュ
+      lineMaterial.color.setHex(0xffd700);
+      lineMaterial.opacity = 1.0;
+      
+      // 2. 物理演算を伴う黄金の火花（パーティクル）をテセラクトの中心に400個生成
+      if (supernovaParticles) {
+        scene.remove(supernovaParticles);
+        supernovaParticles.geometry.dispose();
+        supernovaParticles.material.dispose();
+      }
+      
+      const geo = new THREE.BufferGeometry();
+      const positions = new Float32Array(supernovaParticleCount * 3);
+      particleData = [];
+      
+      for (let i = 0; i < supernovaParticleCount; i++) {
+        // 中心座標
+        positions[i*3] = (Math.random() - 0.5) * 0.2;
+        positions[i*3+1] = (Math.random() - 0.5) * 0.2;
+        positions[i*3+2] = (Math.random() - 0.5) * 0.2;
+        
+        // 全方向への初速（球面ランダム）
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos((Math.random() * 2) - 1);
+        const speed = 0.05 + Math.random() * 0.12;
+        
+        const vx = Math.sin(phi) * Math.cos(theta) * speed;
+        const vy = Math.sin(phi) * Math.sin(theta) * speed;
+        const vz = Math.cos(phi) * speed;
+        
+        particleData.push({
+          vx, vy, vz,
+          gravity: 0.001 + Math.random() * 0.0015, // 個々の粒子の落下加速度
+        });
+      }
+      
+      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      
+      const mat = new THREE.PointsMaterial({
+        size: 0.15,
+        color: 0xffdd44,
+        transparent: true,
+        opacity: 1.0,
+        map: glowTexture,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+      
+      supernovaParticles = new THREE.Points(geo, mat);
+      scene.add(supernovaParticles);
+      
+      supernovaActive = true;
+      supernovaStartTime = Date.now();
+      
+      // カメラを強めにシェイク
+      cameraShake = 1.5;
+      
+      // 3. 美しいシンセサイザーの特別和音を奏でる
+      playDivineSupernovaChord();
+    }
+
+
     // --- 5. ANIMATION LOOP ---
     let xw = 0, yw = 0, zw = 0, xy = 0;
     let earthPulseScale = 1.0;
@@ -1174,7 +1312,10 @@
 
       // Chroma Harmony
       const targetColor = themeColors[chordIndex];
-      lineMaterial.color.lerp(new THREE.Color(targetColor.tesseract), 0.008);
+      // スーパーノヴァ発動中でなければゆっくり元のテーマ色にラープ
+      if (!supernovaActive) {
+        lineMaterial.color.lerp(new THREE.Color(targetColor.tesseract), 0.008);
+      }
       gravityRing.material.color.lerp(new THREE.Color(targetColor.tesseract), 0.008);
 
       // 11次元超弦 (Strings) の更新
@@ -1218,6 +1359,43 @@
           }
         }
       });
+
+      // スーパーノヴァ黄金パーティクルシステム物理挙動アップデート
+      if (supernovaActive && supernovaParticles) {
+        const elapsed = Date.now() - supernovaStartTime;
+        if (elapsed > supernovaDuration) {
+          scene.remove(supernovaParticles);
+          supernovaParticles.geometry.dispose();
+          supernovaParticles.material.dispose();
+          supernovaParticles = null;
+          supernovaActive = false;
+        } else {
+          const posAttr = supernovaParticles.geometry.attributes.position;
+          const positions = posAttr.array;
+          
+          for (let i = 0; i < supernovaParticleCount; i++) {
+            const data = particleData[i];
+            
+            // 速度ベクトル加算
+            positions[i*3] += data.vx;
+            positions[i*3+1] += data.vy;
+            positions[i*3+2] += data.vz;
+            
+            // 重力（Y軸落下）
+            data.vy -= data.gravity;
+            
+            // 減速（空気抵抗摩擦）
+            data.vx *= 0.98;
+            data.vy *= 0.98;
+            data.vz *= 0.98;
+          }
+          posAttr.needsUpdate = true;
+          
+          // 進捗に応じた美しいフェードアウト
+          const progress = elapsed / supernovaDuration;
+          supernovaParticles.material.opacity = Math.max(0, 1.0 - progress);
+        }
+      }
 
       // ゴールド浮遊物のアニメーション
       debris.forEach(d => {
@@ -1690,23 +1868,31 @@
       }
     }
 
-    // printableなUTF-8か判定
+    // 🌟【署名誤検知バグの修正】printableなUTF-8か厳格に判定するアルゴリズム
     function hexToPrintableUtf8(hex) {
       try {
         let bytes = [];
         for (let i = 0; i < hex.length; i += 2) {
           bytes.push(parseInt(hex.substr(i, 2), 16));
         }
-        let decoded = new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
+        // fatal: trueにして不正バイト混入時は即例外スローを強制
+        let decoded = new TextDecoder('utf-8', { fatal: true }).decode(new Uint8Array(bytes));
+        
         let printableCount = 0;
         let totalCount = decoded.length;
         for (let i = 0; i < totalCount; i++) {
           let code = decoded.charCodeAt(i);
-          if (code === 10 || code === 13 || code === 9 || (code >= 32 && code <= 126) || code >= 0x3000) {
+          // 改行、TAB、標準ASCII印字可能文字のみ許容
+          if (code === 10 || code === 13 || code === 9 || (code >= 32 && code <= 126)) {
             printableCount++;
           }
         }
-        if (totalCount > 10 && (printableCount / totalCount) > 0.85) {
+        
+        // スペースや改行の割合をカウント（自然言語であれば一定比率スペースが存在します）
+        const spaceCount = (decoded.match(/[\s\n\r]/g) || []).length;
+        
+        // 98%以上が印刷可能文字であり、かつ全体の4%以上がスペース・改行である場合にのみテキストとして採択
+        if (totalCount > 15 && (printableCount / totalCount) > 0.98 && (spaceCount / totalCount) > 0.04) {
           return decoded;
         }
         return null;
@@ -1715,23 +1901,35 @@
       }
     }
 
-    // トランザクション内の witness や scriptsig を含めテキストを徹底スキャンする
+    // 🌟vout(出力)の scriptpubkey raw データを直接デコードするパーサー
+    function decodeOpReturnHex(scriptpubkey) {
+      if (!scriptpubkey || !scriptpubkey.startsWith("6a")) return null;
+      let hex = scriptpubkey.substring(2); // Strip 6a
+      const bytes = [];
+      for (let i = 0; i < hex.length; i += 2) {
+        bytes.push(parseInt(hex.substr(i, 2), 16));
+      }
+      let decoded = new TextDecoder('utf-8', { fatal: false }).decode(new Uint8Array(bytes));
+      // 制御コード（push opcode等）をトリミング
+      decoded = decoded.replace(/^[\x00-\x1F\x7F-\x9F\xA0]+/, '');
+      return decoded;
+    }
+
+    // トランザクション内の徹底テキストスキャナー
     function scanTxForText(tx) {
+      // 1. 最優先でvout(出力)の OP_RETURN を生パース
       if (tx.vout) {
         for (let output of tx.vout) {
           if (output.scriptpubkey_type === "op_return") {
-            const asm = output.scriptpubkey_asm || "";
-            const parts = asm.split(" ");
-            const hex = parts[parts.length - 1]; 
-            if (hex && /^[0-9a-fA-F]+$/.test(hex)) {
-              const decoded = hexToUtf8(hex);
-              if (decoded && decoded.trim().length > 0) {
-                return decoded;
-              }
+            const rawDecoded = decodeOpReturnHex(output.scriptpubkey);
+            if (rawDecoded && rawDecoded.trim().length > 10) {
+              return rawDecoded;
             }
           }
         }
       }
+      
+      // 2. voutに存在しなかった場合のみ、厳格化したvinスキャナーを作動（署名データの文字化け誤読を回避）
       if (tx.vin) {
         for (let input of tx.vin) {
           if (input.witness && Array.isArray(input.witness)) {
@@ -1786,7 +1984,7 @@
       });
     }
 
-    // 🌟画像ではなくテキスト（HTML, SVG, JSON含む）のOrdinalを直接ロード（CORS回避プロキシ付き）
+    // 🌟テキスト（HTML, SVG, JSON含む）のOrdinalを直接ロード（CORS回避プロキシ付き）
     async function tryLoadOrdinalText(txid) {
       const contentUrl = `https://ordinals.com/content/${txid}i0`;
       try {
@@ -1848,7 +2046,7 @@
       let match = txid.toLowerCase().match(/[0-9a-f]{64}/);
       if (match) {
         txid = match[0];
-        document.getElementById('proj-txid').value = txid; // テキストエリアの中身をクリーンなTXIDに更新
+        document.getElementById('proj-txid').value = txid; 
       } else {
         statusEl.innerText = "Error: Invalid TXID format (64 hex characters required).";
         statusEl.style.color = "#ff4444";
@@ -1871,7 +2069,6 @@ P.S. My apologies, BitCoin people.
         statusEl.innerText = "Projected: SASSAMAN TRIBUTE";
         statusEl.style.color = "#00ffaa";
         document.getElementById('btn-generate-gallery').style.display = "block";
-        document.getElementById('payment-modal').style.display = "none";
         return;
       }
 
@@ -1885,7 +2082,6 @@ P.S. My apologies, BitCoin people.
         statusEl.innerText = "Projected: Ordinal Image Art";
         statusEl.style.color = "#00ffaa";
         document.getElementById('btn-generate-gallery').style.display = "block";
-        document.getElementById('payment-modal').style.display = "none";
         return;
       }
 
@@ -1898,11 +2094,10 @@ P.S. My apologies, BitCoin people.
         statusEl.innerText = "Projected: Ordinal Inscription Text";
         statusEl.style.color = "#00ffaa";
         document.getElementById('btn-generate-gallery').style.display = "block";
-        document.getElementById('payment-modal').style.display = "none";
         return;
       }
 
-      // 3. 一般トランザクションの徹底スキャン（witness/OP_RETURN/scriptsig）
+      // 3. 一般トランザクションの徹底スキャン
       statusEl.innerText = "Scanning Transaction Data...";
       try {
         const response = await fetch(`https://mempool.space/api/tx/${txid}`);
@@ -1917,7 +2112,6 @@ P.S. My apologies, BitCoin people.
           statusEl.innerText = `Projected: Extracted Text Message`;
           statusEl.style.color = "#00ffaa";
           document.getElementById('btn-generate-gallery').style.display = "block";
-          document.getElementById('payment-modal').style.display = "none";
         } else {
           statusEl.innerText = "Error: No OP_RETURN, Witness, or Ordinal found.";
           statusEl.style.color = "#ff4444";
@@ -1978,7 +2172,6 @@ P.S. My apologies, BitCoin people.
         blending: THREE.AdditiveBlending
       });
 
-      // アスペクト比を狂わせずに3D空間の板ポリをアジャスト
       const aspect = canvas.width / canvas.height;
       const planeWidth = 3;
       const planeHeight = planeWidth / aspect;
@@ -2003,7 +2196,7 @@ P.S. My apologies, BitCoin people.
     let currentInvoice = "";
     let targetPaymentHash = "";
 
-    // ⚡️ Wallet of SatoshiのLightning Addressからダイレクトに10SatsのBOLT11インボイスを生成
+    // Wallet of SatoshiのLightning Addressからダイレクトにインボイスを生成
     async function getLNURLInvoice(amountSats) {
       const lnAddress = "brashridge65@walletofsatoshi.com";
       const [username, domain] = lnAddress.split("@");
@@ -2068,12 +2261,12 @@ P.S. My apologies, BitCoin people.
         const words = decodeBech32(bolt11);
         if (!words || words.length < 104) return null;
         const tagsAndTimestamp = words.slice(0, words.length - 104);
-        let index = 7; // Skip timestamp
+        let index = 7; 
         while (index < tagsAndTimestamp.length) {
           const tagType = tagsAndTimestamp[index];
           const dataLength = (tagsAndTimestamp[index + 1] << 5) | tagsAndTimestamp[index + 2];
           index += 3;
-          if (tagType === 1) { // 'p' tag for payment_hash
+          if (tagType === 1) { 
             const tagWords = tagsAndTimestamp.slice(index, index + dataLength);
             const bytes = wordsToBytes(tagWords);
             const hex = bytes.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -2088,7 +2281,7 @@ P.S. My apologies, BitCoin people.
       }
     }
 
-    // クライアントサイドでの preimage に対する高速SHA-256数学判定
+    // preimage に対する高速SHA-256数学判定
     async function sha256Hex(hexString) {
       const match = hexString.match(/.{1,2}/g);
       if (!match) return null;
@@ -2099,7 +2292,7 @@ P.S. My apologies, BitCoin people.
       return hashHex;
     }
 
-    // UIオーバーレイを完全に排除した高解像度壁紙ダウンロード機能
+    // UIオーバーレイを排除した「完全クリーン」壁紙画像ダウンロード
     function captureCleanScreenshot() {
       const uiContainer = document.getElementById('ui-container');
       const soundToggle = document.getElementById('sound-toggle');
@@ -2132,67 +2325,73 @@ P.S. My apologies, BitCoin people.
       link.click();
     }
 
-    // 決済フロー起動
-    async function startPaymentFlow() {
-      if (!currentLoadedTxid) return;
-      
+    // 🌟ダウンロード用の無料トリガーリスナー設定
+    document.getElementById('btn-generate-gallery').addEventListener('click', captureCleanScreenshot);
+
+
+    // ==========================================
+    //    新仕様：スーパーノヴァ投げ銭決済フロー
+    // ==========================================
+    async function startTippingFlow() {
       const statusEl = document.getElementById('projector-status');
-      statusEl.innerText = "Generating 10-sat Invoice...";
-      statusEl.style.color = "#00d2ff";
+      const selectAmount = document.getElementById('tip-amount').value;
+      const amount = parseInt(selectAmount) || 10;
+      
+      statusEl.innerText = `Generating ${amount}-sat Invoice...`;
+      statusEl.style.color = "#ffd700";
 
       try {
-        currentInvoice = await getLNURLInvoice(10);
+        currentInvoice = await getLNURLInvoice(amount);
         if (!currentInvoice) throw new Error("Invoice generation failed");
 
         targetPaymentHash = extractPaymentHashFromBolt11(currentInvoice);
 
-        const qrImg = document.getElementById('payment-qr');
+        const qrImg = document.getElementById('tip-qr');
         qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=lightning:${encodeURIComponent(currentInvoice)}`;
         qrImg.style.display = "block";
 
-        document.getElementById('payment-status-text').innerText = "Pay 10 Sats. Clean high-res download will start instantly upon receipt!";
-        document.getElementById('payment-modal').style.display = "flex";
-        document.getElementById('btn-generate-gallery').style.display = "none";
+        document.getElementById('tip-status-text').innerText = "Scan with your Lightning Wallet! Supernova triggers automatically upon WebLN payment.";
+        document.getElementById('tip-modal').style.display = "flex";
 
-        // WebLN対応
+        // WebLN (自動決済時)
         if (window.webln) {
           try {
             await window.webln.enable();
-            statusEl.innerText = "WebLN active. Prompting wallet...";
+            statusEl.innerText = "WebLN prompt active...";
             const result = await window.webln.sendPayment(currentInvoice);
             if (result && result.preimage) {
-              verifyPreimageLocal(result.preimage);
+              verifyTipPreimage(result.preimage);
             }
           } catch (weblnErr) {
-            statusEl.innerText = "WebLN prompt dismissed. Please pay manually.";
+            statusEl.innerText = "WebLN closed. Or scan QR code manually.";
             statusEl.style.color = "#f5a623";
           }
         } else {
-          statusEl.innerText = "Invoice generated. Scan to pay!";
+          statusEl.innerText = "Scan the QR to Feed Sats!";
           statusEl.style.color = "#00ffaa";
         }
 
       } catch (err) {
         console.error(err);
-        statusEl.innerText = "Invoice failed. Wallet of Satoshi might be busy. Please try again.";
+        statusEl.innerText = "Invoice error. Wallet of Satoshi might be busy. Please try again.";
         statusEl.style.color = "#ff4444";
       }
     }
 
-    document.getElementById('btn-copy-invoice').addEventListener('click', () => {
+    document.getElementById('btn-copy-tip-invoice').addEventListener('click', () => {
       if (!currentInvoice) return;
       navigator.clipboard.writeText(currentInvoice);
-      alert("BOLT11 Invoice copied to clipboard!");
+      alert("BOLT11 Tip Invoice copied!");
     });
 
-    // 貼り付けられた Preimage に対するローカル暗号検証
-    async function verifyPreimageLocal(preimage) {
-      const statusText = document.getElementById('payment-status-text');
+    // 貼り付けられた Preimage に対するローカル検証
+    async function verifyTipPreimage(preimage) {
+      const statusText = document.getElementById('tip-status-text');
       statusText.innerText = "Verifying cryptographic proof...";
       statusText.style.color = "#00d2ff";
 
       if (!targetPaymentHash) {
-        statusText.innerText = "Error: Invoice context lost. Please regenerate invoice.";
+        statusText.innerText = "Error: Invoice lost. Please generate a new one.";
         statusText.style.color = "#ff4444";
         return;
       }
@@ -2200,42 +2399,48 @@ P.S. My apologies, BitCoin people.
       try {
         const computedHash = await sha256Hex(preimage.trim());
         if (computedHash === targetPaymentHash) {
-          statusText.innerText = "SUCCESS! Initiating your high-res clean download...";
+          statusText.innerText = "VERIFIED! Unleashing SUPERNOVA!";
           statusText.style.color = "#00ffaa";
           
-          captureCleanScreenshot();
+          triggerSupernovaVisual(); // スーパーノヴァ起動！
           
-          const modal = document.getElementById('payment-modal');
-          modal.innerHTML = `
-            <div style="font-size:0.75rem; color:#00ffaa; font-weight:bold; letter-spacing:0.1em; text-align:center;">🌌 WALLPAPER UNLOCKED 🌌</div>
-            <div style="font-size:0.6rem; color:rgba(255,255,255,0.7); line-height:1.4; text-align:center; margin-top: 5px;">Your clean, stunning 11D visual has been downloaded!</div>
-            <button class="payment-btn" id="btn-redownload" style="background:#00ffaa; color:#010307; border:none; margin-top:8px; width:100%;">DOWNLOAD AGAIN</button>
-          `;
-
-          document.getElementById('btn-redownload').addEventListener('click', () => {
-            captureCleanScreenshot();
-          });
+          setTimeout(() => {
+            document.getElementById('tip-modal').style.display = "none";
+          }, 4000);
         } else {
-          statusText.innerText = "Error: Invalid preimage. Please double check.";
+          statusText.innerText = "Error: Invalid preimage.";
           statusText.style.color = "#ff4444";
         }
       } catch (err) {
-        console.error(err);
-        statusText.innerText = "Error: Verification failed. Ensure the format is correct.";
+        statusText.innerText = "Error: Verification failed.";
         statusText.style.color = "#ff4444";
       }
     }
 
-    document.getElementById('btn-generate-gallery').addEventListener('click', startPaymentFlow);
-
-    document.getElementById('btn-verify-preimage').addEventListener('click', () => {
+    // 投げ銭の着火ボタンリスナー
+    document.getElementById('btn-tip-ignite').addEventListener('click', startTippingFlow);
+    document.getElementById('btn-verify-tip').addEventListener('click', () => {
       const preimage = document.getElementById('manual-preimage').value;
       if (!preimage) {
-        alert("領収書に記載されているPreimageを入力してください。");
+        alert("Preimageを入力してください。");
         return;
       }
-      verifyPreimageLocal(preimage);
+      verifyTipPreimage(preimage);
     });
+
+    // 🌟【信頼ベース】モバイルユーザー等のための、投げ銭自己申告クイック着火ボタン
+    document.getElementById('btn-trust-tip').addEventListener('click', () => {
+      const statusText = document.getElementById('tip-status-text');
+      statusText.innerText = "IGNITING SUPERNOVA! THANK YOU FOR THE FEED! ⚡️";
+      statusText.style.color = "#00ffaa";
+      
+      triggerSupernovaVisual(); // 即座にスーパーノヴァ発動！
+      
+      setTimeout(() => {
+        document.getElementById('tip-modal').style.display = "none";
+      }, 4000);
+    });
+
 
     // 共有リンク後方互換対応（Sheets GAS連携機能）
     async function checkForSharedLink() {
