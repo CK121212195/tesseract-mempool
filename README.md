@@ -1,80 +1,82 @@
+[日本語のREADMEはこちら](./README.ja.md)
+
 # 🌌 Aether Tesseract // Twilight of the 11th Dimension
 
-ビットコイン・ネットワークの鼓動を感じ、ブロックチェーンに刻まれた「歴史」を11次元空間に投影する、瞑想的でサイバーパンクな超弦ウェブビジュアライザーへようこそ！🚀⚡️
+Welcome to a meditative, cyberpunk, superstring-inspired web visualizer. Feel the pulse of the Bitcoin network and project the history etched into the blockchain onto an 11-dimensional space! 🚀⚡️
 
-Aether Tesseract（エーテル・テセラクト）は、リアルタイムのMempoolデータ、ビットコイン価格、そしてブロックチェーンの奥深くに埋め込まれた歴史的なメッセージやアスキーアート（AA）、Ordinalアートを、美しい3Dグラフィックスと極上のアンビエント音響で可視化する完全フロントエンド稼働のインタラクティブ・システムです。
-
----
-
-## 🌟 主な特徴 (Features)
-
-### 📟 1. 創世記から現代までを解き明かす「マルチソース・プロジェクター」
-ビットコインのブロックチェーンには、長年にわたり様々な技術的手法でテキストやアートが記録されてきました。本システムは、これら複数の歴史的技術を自動判別してデコードします。
-
-* **`OP_RETURN` 抽出**: 標準的なデータ領域からメッセージを連結して解読します。
-* **`P2FKH (Pay-to-Fake-Key-Hash)` 抽出**: 2011年〜2015年頃に流行した、送金先アドレス（Hash160）を偽装してデータを記録する古い規格に完全対応。
-  * 💡 **スマートお釣りフィルター**: 暗号署名やお釣りのための「文字化けを伴うゴミデータ（ランダムなバイナリ）」を自動で検知して弾き、純粋なメッセージ・アートのみを繋ぎ合わせて表示する独自の高精度判定アルゴリズムを搭載しています。
-* **`Witness / Ordinals` 抽出**: 2023年以降に登場したTaprootウィットネス領域内のインスクリプションデータを取得。静的テキストやJSONだけでなく、**HTMLやJavascriptで構成された動的プログラムアートのロード・実行にも対応**しています。
-
-### 🌀 2. 11次元テセラクトと連動するリアルタイム宇宙
-* **4次元超立方体（テセラクト）の投影**: 11次元超弦（コズミック・ストリング）が、トランザクションの発生量（Tx Count）に合わせて静かに、時には激しくバイブレーションを起こします。
-* **採掘ブロックの軌道衛星**: 新しく採掘された直近5つのブロックが、そのブロック重量（容量）に比例した可変サイズの軌道衛星として地球の周りを周回します。
-* **未承認未来ブロック（ゴースト星）**: メモプールで現在構成中の未承認ブロックが、平均手数料（Median Fee）に応じて輝きを変化させるゴースト衛星としてホログラフィックに待機します。
-
-### ⚡ 3. Lightning Network 投げ銭連動「スーパーノヴァ（超新星爆発）」
-* プロジェクターへのフィード（Feed Sats）ボタンを押すと、ライトニングネットワークを通じて投げ銭インボイス（BOLT11 / WebLN）が即座に生成されます。
-* 決済が成立（または自己申告着火ボタンが押される）と、3D空間で**数万光年のスケールを描く黄金の粒子爆発「スーパーノヴァ」**が発生し、宇宙全体のカラーバランスが黄金に変化。プロクオリティの重低音サブベース付き立体サラウンド和音（Cmaj9）があなたのブラウザを震わせます。
+Aether Tesseract is an interactive, browser-based visualizer. It processes real-time mempool data, Bitcoin prices, and historical messages, ASCII art, or Ordinal art embedded deep within the blockchain, presenting them through 3D graphics and custom ambient soundscapes.
 
 ---
 
-## 🎮 遊び方 (How to Play)
+## 🌟 Features
 
-### 初心者向け：クイックスタート 🔰
-1. 画面を一度クリックして、11次元の環境音楽を「点火」します🔊
-2. 入力欄の下にあるグレーのデモボタン（`Sassaman`、`Love Msg`、`Ordinal Art`）をクリックしてみましょう。
-3. 空間の底面に、歴史的なメッセージやドット絵が自動的に投影されます！
-4. 📷「**DOWNLOAD CLEAN WALLPAPER (FREE)**」ボタンをクリックすると、現在のあなたの地球やテセラクト、最新のブロック高・BTC価格データがお洒落に合成された高画質なオリジナルPC壁紙（PNG画像）をいつでも無料で保存できます。
+### 📟 1. Multi-Source Projector: Unearthing History from Genesis to the Present
+Over the years, various technical methods have been used to record text and art directly onto the Bitcoin blockchain. This system is designed to automatically detect and decode these historical data structures.
 
-### 上級者向け：Ledgerを直接プロジェクション 🧠
-お手持ちのTXID（トランザクションID）を `Aether Projector` の入力欄に貼り付けて「**LOAD**」をクリックします。
+* **`OP_RETURN` Extraction**: Reconstructs and decodes messages from standard data outputs.
+* **`P2FKH (Pay-to-Fake-Key-Hash)` Extraction**: Supports the legacy encoding method popular from 2011 to 2015, where data was embedded within fake destination addresses (Hash160).
+  * 💡 **Smart Change Filter**: Features a custom heuristic-based algorithm to detect and filter out random binary noise (such as cryptographic signatures or change outputs), ensuring only the intended messages or ASCII art are displayed.
+* **`Witness / Ordinals` Extraction**: Retrieves inscription data from the Taproot witness area introduced in 2023. Beyond static text and JSON, **it supports loading and executing dynamic programmatic art built with HTML and JavaScript**.
 
-#### 🌟 歴史的TXIDカタログ
-| プロジェクト / アート | タイプ | TXID |
+### 🌀 2. Real-Time Cosmos Linked to an 11D Tesseract
+* **Projection of a 4D Hypercube (Tesseract)**: Cosmic strings vibrate in response to real-time transaction volume (Tx Count).
+* **Mined Block Satellites**: The five most recently mined blocks orbit the globe as satellites, with their sizes scaled according to the block weight (virtual size).
+* **Unconfirmed Future Blocks (Ghost Satellites)**: Pending blocks currently being assembled in the mempool appear as holographic ghost satellites, changing their luminosity based on the median transaction fee.
+
+### ⚡ 3. Lightning Network Tip Integration: "Supernova"
+* Clicking the **Feed Sats** button instantly generates a Lightning Network invoice (BOLT11 / WebLN) to support the project.
+* Once the invoice is settled (or if the manual trigger button is pressed), a cosmic **"Supernova" particle explosion** erupts across the 3D space, shifting the universe's color palette to gold. This event is paired with a synthesized spatial soundscape and a deep sub-bass sweep (Cmaj9 chord) generated natively in your browser.
+
+---
+
+## 🎮 How to Play
+
+### For Beginners: Quick Start 🔰
+1. Click anywhere on the screen to "ignite" the 11th-dimensional ambient audio. 🔊
+2. Click any of the grey demo buttons (`Sassaman`, `Love Msg`, `Ordinal Art`) beneath the input box.
+3. Watch as historical messages or pixel art are projected onto the base of the 3D space.
+4. Click the 📷 **DOWNLOAD CLEAN WALLPAPER (FREE)** button to export a high-resolution custom desktop wallpaper (PNG) that merges your current view of the tesseract, Earth, latest block height, and BTC price data into a stylized layout.
+
+### For Advanced Users: Direct Ledger Projection 🧠
+Paste any Transaction ID (TXID) into the `Aether Projector` input field and click **LOAD**.
+
+#### 🌟 Historical TXID Catalog
+| Project / Art | Type | TXID |
 | :--- | :---: | :--- |
-| **バフェットの風刺肖像画AA**<br>2014頃 · P2FKH | P2FKH | `0fc0c50e410b62ee3a316135711116db6b4e728841c976f29ab85e2a41e0dcc3` |
-| **歴史的リックロールの歌詞**<br>Rickroll | OP_RETURN | `0b4efe49ea1454020c4d51a163a93f726a20cd75ad50bb9ed0f4623c141a8008` |
-| **初のBRC-20 $ORDI デプロイ情報**<br>Ordinal | Ordinal | `b61b0172d95e266c18aea0c624db987e971a5d6d4ebc2aaed85da4642d635735` |
+| **Warren Buffett Satirical Portrait (ASCII)**<br>Circa 2014 · P2FKH | P2FKH | `0fc0c50e410b62ee3a316135711116db6b4e728841c976f29ab85e2a41e0dcc3` |
+| **Rickroll Lyrics (Historical)**<br>Rickroll | OP_RETURN | `0b4efe49ea1454020c4d51a163a93f726a20cd75ad50bb9ed0f4623c141a8008` |
+| **First BRC-20 $ORDI Deployment**<br>Ordinal Inscription | Ordinal | `b61b0172d95e266c18aea0c624db987e971a5d6d4ebc2aaed85da4642d635735` |
 
-#### 🎨 歴史的ASCIIアート・コレクション
+#### 🎨 Historical ASCII Art Collection
 * **👤 Winklevoss Twins Portrait**
-  * **カテゴリ:** ASCII Art
-  * **年代 / ブロック:** 2014 · Block ~323xxx
-  * **説明:** ウィンクルボス兄弟の高解像度ASCIIポートレート。「*if you like it, leave a tip*」付き。
+  * **Category:** ASCII Art
+  * **Era / Block:** 2014 · Block ~323xxx
+  * **Description:** A detailed ASCII portrait of the Winklevoss twins, inscribed with the text *"if you like it, leave a tip"*.
   * **TXID:** `09a5d5aaecdce1757e6ec713cc8a2201abca9acdb6fbadc7760e831cdad3d680`
 * **🐱 Internet Cat**
-  * **カテゴリ:** ASCII Art
-  * **年代 / ブロック:** 2014 · Block 322917
-  * **説明:** 「*hello, it's the Internet*」猫のASCIIアート。cryptograffiti.info経由で刻まれたネコ。
+  * **Category:** ASCII Art
+  * **Era / Block:** 2014 · Block 322917
+  * **Description:** The iconic *"hello, it's the Internet"* cat ASCII art, originally embedded via cryptograffiti.info.
   * **TXID:** `7b537ad012439c6306dd74e13ba9c20926d68d04fc0c6da2fc81a8eb8f9ea017`
 
 ---
 
-## 🛠️ 技術スタックと設計哲学 (Technical Architecture)
+## 🛠️ Technical Architecture
 
-本プロジェクトは、ビットコインネットワークの分散化思想に基づき、**「外部サーバーに依存せず、どこでも稼働できる静的シングルページアプリケーション（SPA）」**として設計されています。データベースを必要とせず、すべてクライアントサイドのJavascriptで動作します。
+Aligned with the decentralized ethos of the Bitcoin network, this project is designed as a **serverless, client-side static Single Page Application (SPA)**. It operates entirely within the browser using client-side JavaScript, requiring no external database or centralized back-end storage.
 
-* **3D グラフィックス**: `Three.js` (OrbitControls, AdditiveBlending, FogExp2)
-* **リアルタイム通信**: `Mempool.space` / `Binance` / `bitFlyer` のWebSocket APIにダイレクト接続（価格情報は毎秒のスロットリング処理を施し、CPUパフォーマンスを100%解放してスムーズな描画と入力遅延ゼロを実現しています）。
-* **サウンド**: `Web Audio API` (リアルタイムにサイン波・ノコギリ波を合成して和音を生成。シネマティックなサブベース・スイープ音や、広大なステレオ音響を作るための `StereoPannerNode` による音場設計)。
+* **3D Graphics**: `Three.js` (utilizing OrbitControls, AdditiveBlending, and FogExp2 for rendering depth and atmosphere).
+* **Real-Time Data**: Direct WebSocket connections to `Mempool.space`, `Binance`, and `bitFlyer`. Price feeds are throttled to a steady 1-second interval to minimize CPU load, ensuring smooth rendering performance and responsive user input.
+* **Audio Synthesis**: Powered by the `Web Audio API`. It dynamically synthesizes sine and sawtooth waves to construct ambient chords in real time. It utilizes `StereoPannerNode` to build an expansive stereo field, accompanied by a cinematic sub-bass sweep.
 
 ---
 
-## 🎁 クレジットと謝辞 (Credits)
+## 🎁 Credits
 
-* **データソース**: [mempool.space](https://mempool.space/)
-* **価格情報**: CoinGecko & Coinbase
-* **3Dエンジン**: [Three.js](https://threejs.org/)
-* **インスピレーション**: Ciro Santilli (Bitcoin Inscription Museum) & Dan Kaminsky
+* **Data Source**: [mempool.space](https://mempool.space/)
+* **Price Feeds**: CoinGecko & Coinbase
+* **3D Engine**: [Three.js](https://threejs.org/)
+* **Inspiration**: Ciro Santilli (Bitcoin Inscription Museum) & Dan Kaminsky
 
 ---
 
