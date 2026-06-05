@@ -38,12 +38,24 @@ Aether Tesseract（エーテル・テセラクト）は、リアルタイムのM
 ### 上級者向け：Ledgerを直接プロジェクション 🧠
 お手持ちのTXID（トランザクションID）を `Aether Projector` の入力欄に貼り付けて「**LOAD**」をクリックします。
 
-* **バフェットの風刺肖像画AA (P2FKH)**
-  `0fc0c50e410b62ee3a316135711116db6b4e728841c976f29ab85e2a41e0dcc3`
-* **歴史的リックロールの歌詞 (OP_RETURN)**
-  `0b4efe49ea1454020c4d51a163a93f726a20cd75ad50bb9ed0f4623c141a8008`
-* **初のBRC-20 $ORDI デプロイ情報 (Ordinal)**
-  `b61b0172d95e266c18aea0c624db987e971a5d6d4ebc2aaed85da4642d635735`
+#### 🌟 歴史的TXIDカタログ
+| プロジェクト / アート | タイプ | TXID |
+| :--- | :---: | :--- |
+| **バフェットの風刺肖像画AA**<br>2014頃 · P2FKH | P2FKH | `0fc0c50e410b62ee3a316135711116db6b4e728841c976f29ab85e2a41e0dcc3` |
+| **歴史的リックロールの歌詞**<br>Rickroll | OP_RETURN | `0b4efe49ea1454020c4d51a163a93f726a20cd75ad50bb9ed0f4623c141a8008` |
+| **初のBRC-20 $ORDI デプロイ情報**<br>Ordinal | Ordinal | `b61b0172d95e266c18aea0c624db987e971a5d6d4ebc2aaed85da4642d635735` |
+
+#### 🎨 歴史的ASCIIアート・コレクション
+* **👤 Winklevoss Twins Portrait**
+  * **カテゴリ:** ASCII Art
+  * **年代 / ブロック:** 2014 · Block ~323xxx
+  * **説明:** ウィンクルボス兄弟の高解像度ASCIIポートレート。「*if you like it, leave a tip*」付き。
+  * **TXID:** `09a5d5aaecdce1757e6ec713cc8a2201abca9acdb6fbadc7760e831cdad3d680`
+* **🐱 Internet Cat**
+  * **カテゴリ:** ASCII Art
+  * **年代 / ブロック:** 2014 · Block 322917
+  * **説明:** 「*hello, it's the Internet*」猫のASCIIアート。cryptograffiti.info経由で刻まれたネコ。
+  * **TXID:** `7b537ad012439c6306dd74e13ba9c20926d68d04fc0c6da2fc81a8eb8f9ea017`
 
 ---
 
